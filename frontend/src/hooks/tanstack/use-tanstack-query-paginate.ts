@@ -79,20 +79,33 @@ const useTanstackQueryPaginate = <T>(
       return res.data;
     },
     placeholderData: keepPreviousData,
+    staleTime: Infinity,
     gcTime: Infinity,
-    enabled: !queryClient.getQueryData([
-      url.endpoint,
-      limit,
-      page,
-      sort,
-      searchTerm,
-      url.extendedParams,
-    ]),
+    enabled:
+      options?.enabled === undefined
+        ? !queryClient.getQueryData([
+            url.endpoint,
+            limit,
+            page,
+            sort,
+            searchTerm,
+            url.extendedParams,
+          ])
+        : options?.enabled &&
+          !queryClient.getQueryData([
+            url.endpoint,
+            limit,
+            page,
+            sort,
+            searchTerm,
+            url.extendedParams,
+          ]),
     ...options,
   });
 
   const refetch = () => {
     tanstackQuery.refetch();
+    queryClient.invalidateQueries({ queryKey: [url.endpoint] });
     queryClient.removeQueries({ queryKey: [url.endpoint] });
   };
 

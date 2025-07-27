@@ -1,7 +1,12 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { useDebouncedState } from '@mantine/hooks';
 import { isAxiosError } from 'axios';
-import { FaArrowsRotate, FaListUl, FaTableCellsLarge } from 'react-icons/fa6';
+import {
+  FaArrowsRotate,
+  FaFaceGrinBeamSweat,
+  FaListUl,
+  FaTableCellsLarge,
+} from 'react-icons/fa6';
 import ReactPaginate from 'react-paginate';
 import { type UseTanstackQueryPaginateReturn } from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { cn } from '@/lib/utils';
@@ -27,13 +32,14 @@ export type DataTableColumn = {
 
 type DataTableProps<T> = {
   pagination: UseTanstackQueryPaginateReturn<T>;
-  columns: DataTableColumn[];
+  columns?: DataTableColumn[];
   actions?: ReactNode;
   showViewToggle?: boolean;
   showHeader?: boolean;
   defaultView?: 'list' | 'grid';
   list?: ReactNode;
   grid?: ReactNode;
+  skeleton?: ReactNode;
   children?: ReactNode;
 };
 
@@ -46,6 +52,7 @@ const DataTable = <T,>({
   defaultView = 'list',
   list,
   grid,
+  skeleton,
   children,
 }: DataTableProps<T>) => {
   const [view, setView] = useState<'list' | 'grid'>(defaultView);
@@ -120,10 +127,10 @@ const DataTable = <T,>({
             pagination.isFetching ? 'border-primary' : '',
           )}
         >
-          {showHeader ? (
+          {showHeader && columns ? (
             <TableHeader>
               <TableRow>
-                {columns.map((column, index) =>
+                {columns?.map((column, index) =>
                   column.column ? (
                     <DataTableHead
                       key={index}
@@ -150,7 +157,7 @@ const DataTable = <T,>({
             {/* Loading */}
             {pagination.isLoading ? (
               <TableRow>
-                <TableCell className="text-center" colSpan={columns.length}>
+                <TableCell className="text-center" colSpan={columns?.length}>
                   Loading...
                 </TableCell>
               </TableRow>
@@ -159,7 +166,7 @@ const DataTable = <T,>({
             {/* Loading */}
             {pagination.isFetching && pagination.data?.records?.length === 0 ? (
               <TableRow>
-                <TableCell className="text-center" colSpan={columns.length}>
+                <TableCell className="text-center" colSpan={columns?.length}>
                   Loading...
                 </TableCell>
               </TableRow>
@@ -170,7 +177,7 @@ const DataTable = <T,>({
             !!!pagination.error &&
             pagination.data?.records?.length === 0 ? (
               <TableRow>
-                <TableCell className="text-center" colSpan={columns.length}>
+                <TableCell className="text-center" colSpan={columns?.length}>
                   No records found
                 </TableCell>
               </TableRow>
@@ -181,7 +188,7 @@ const DataTable = <T,>({
               <TableRow className="">
                 <TableCell
                   className="text-center whitespace-pre-wrap"
-                  colSpan={columns.length}
+                  colSpan={columns?.length}
                 >
                   <div className="flex flex-col">
                     <p className="font-semibold">
@@ -194,7 +201,7 @@ const DataTable = <T,>({
                       {isAxiosError(pagination.error) &&
                       pagination.error.response?.data?.error
                         ? pagination.error.response.data.error
-                        : 'An error occurred'}
+                        : 'Unknown error occurred'}
                     </p>
                   </div>
                 </TableCell>
@@ -205,7 +212,48 @@ const DataTable = <T,>({
       ) : null}
 
       {/* Grid */}
-      {view === 'grid' ? <>{grid || children}</> : null}
+      {view === 'grid' ? (
+        <div
+          className={`border-t ${pagination.isFetching ? 'border-primary' : 'border-transparent'} `}
+        >
+          {grid || children}
+          {/* Loading */}
+          {pagination.isLoading ? skeleton : null}
+
+          {/* Loading */}
+          {pagination.isFetching && pagination.data?.records?.length === 0
+            ? skeleton
+            : null}
+
+          {/* No data found */}
+          {!pagination.isFetching &&
+          !!!pagination.error &&
+          pagination.data?.records?.length === 0 ? (
+            <div className="p-layout flex flex-col items-center gap-3">
+              <FaFaceGrinBeamSweat className="text-5xl" />
+              <h4 className="text-center text-lg">No records found</h4>
+            </div>
+          ) : null}
+
+          {/* Error */}
+          {pagination.error ? (
+            <div className="p-layout flex flex-col items-center gap-3">
+              <p className="font-semibold">
+                {isAxiosError(pagination.error) &&
+                pagination.error.response?.data?.message
+                  ? pagination.error.response.data.message
+                  : 'An error occurred'}
+              </p>
+              <p>
+                {isAxiosError(pagination.error) &&
+                pagination.error.response?.data?.error
+                  ? pagination.error.response.data.error
+                  : 'Unknown error occurred'}
+              </p>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
 
       <div className="mt-layout flew-wrap flex items-center justify-between gap-4">
         <span className="text-muted-foreground text-xs">

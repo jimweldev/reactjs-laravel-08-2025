@@ -89,11 +89,11 @@ const FileDropzone = ({
 
                   return (
                     <InputGroup size="sm" key={index}>
-                      <InputGroupText className="bg-muted !px-2">
-                        <Paperclip className="size-2" />
+                      <InputGroupText className="bg-muted">
+                        <Paperclip className="size-3" />
                       </InputGroupText>
                       <Input
-                        inputSize="xs"
+                        inputSize="sm"
                         value={nameWithoutExt}
                         onChange={e =>
                           handleRename(
@@ -105,18 +105,17 @@ const FileDropzone = ({
                         }
                       />
                       <Input
-                        inputSize="xs"
-                        className="bg-muted text-muted-foreground max-w-15 !px-1"
+                        inputSize="sm"
+                        className="max-w-[50px] truncate"
                         value={extension}
                         readOnly
                       />
                       <Button
-                        className="!px-2"
                         variant="destructive"
-                        size="xs"
+                        size="sm"
                         onClick={() => onRemove?.(file)}
                       >
-                        <Trash2 className="size-2" />
+                        <Trash2 />
                       </Button>
                     </InputGroup>
                   );

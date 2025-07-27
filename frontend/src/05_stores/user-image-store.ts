@@ -5,12 +5,12 @@ import type { UserImage } from '@/04_types/user-image';
 type UserImageStoreProps = {
   selectedUserImage: UserImage | null;
   isOpenInsertImageDialog: boolean;
-  isOpenCreateUserImageDialog: boolean;
+  isOpenUploadUserImageDialog: boolean;
   isOpenUpdateUserImageDialog: boolean;
   isOpenDeleteUserImageDialog: boolean;
   setSelectedUserImage: (userImage: UserImage | null) => void;
   setIsOpenInsertImageDialog: (isOpen: boolean) => void;
-  setIsOpenCreateUserImageDialog: (isOpen: boolean) => void;
+  setIsOpenUploadUserImageDialog: (isOpen: boolean) => void;
   setIsOpenUpdateUserImageDialog: (isOpen: boolean) => void;
   setIsOpenDeleteUserImageDialog: (isOpen: boolean) => void;
   reset: () => void;
@@ -22,7 +22,7 @@ const initialState = {
   isOpenInsertImageDialog: false,
   isOpenUpdateUserImageDialog: false,
   isOpenDeleteUserImageDialog: false,
-  isOpenCreateUserImageDialog: false,
+  isOpenUploadUserImageDialog: false,
 };
 
 // Create the store
@@ -30,14 +30,14 @@ const useUserImageStore = create<UserImageStoreProps>(set => ({
   selectedUserImage: null,
   selection: null,
   isOpenInsertImageDialog: false,
-  isOpenCreateUserImageDialog: false,
+  isOpenUploadUserImageDialog: false,
   isOpenUpdateUserImageDialog: false,
   isOpenDeleteUserImageDialog: false,
   setSelectedUserImage: userImage => set({ selectedUserImage: userImage }),
   setIsOpenInsertImageDialog: isOpen =>
     set({ isOpenInsertImageDialog: isOpen }),
-  setIsOpenCreateUserImageDialog: isOpen =>
-    set({ isOpenCreateUserImageDialog: isOpen }),
+  setIsOpenUploadUserImageDialog: isOpen =>
+    set({ isOpenUploadUserImageDialog: isOpen }),
   setIsOpenUpdateUserImageDialog: isOpen =>
     set({ isOpenUpdateUserImageDialog: isOpen }),
   setIsOpenDeleteUserImageDialog: isOpen =>
