@@ -24,7 +24,6 @@ import {
 } from '@/components/ui/form';
 import { handleRejectedFiles } from '@/lib/react-dropzone/handle-rejected-files';
 import { mergeUniqueFiles } from '@/lib/react-dropzone/merge-unique-files';
-import useUserImageStore from '../../../../../05_stores/user-image-store';
 
 // Zod schema to validate the form input
 const FormSchema = z.object({
@@ -35,13 +34,13 @@ const FormSchema = z.object({
 
 // Component Props
 type UploadUserImageProps = {
+  open: boolean;
+  setOpen: (open: boolean) => void;
   refetch: () => void;
 };
 
-const UploadUserImage = ({ refetch }: UploadUserImageProps) => {
+const UploadUserImage = ({ open, setOpen, refetch }: UploadUserImageProps) => {
   // Access store values
-  const { isOpenUploadUserImageDialog, setIsOpenUploadUserImageDialog } =
-    useUserImageStore();
 
   // Initialize form with Zod resolver and default values
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -71,7 +70,7 @@ const UploadUserImage = ({ refetch }: UploadUserImageProps) => {
       success: () => {
         form.reset();
         refetch();
-        setIsOpenUploadUserImageDialog(false);
+        setOpen(false);
         return 'Success!';
       },
       error: error => {
@@ -87,10 +86,7 @@ const UploadUserImage = ({ refetch }: UploadUserImageProps) => {
   };
 
   return (
-    <Dialog
-      open={isOpenUploadUserImageDialog}
-      onOpenChange={setIsOpenUploadUserImageDialog}
-    >
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent autoFocus={true}>
         {/* Form */}
         <Form {...form}>
@@ -142,10 +138,7 @@ const UploadUserImage = ({ refetch }: UploadUserImageProps) => {
 
             {/* Dialog footer */}
             <DialogFooter className="flex justify-end gap-2">
-              <Button
-                variant="outline"
-                onClick={() => setIsOpenUploadUserImageDialog(false)}
-              >
+              <Button variant="outline" onClick={() => setOpen(false)}>
                 Close
               </Button>
               <Button type="submit" disabled={isLoadingCreateItem}>

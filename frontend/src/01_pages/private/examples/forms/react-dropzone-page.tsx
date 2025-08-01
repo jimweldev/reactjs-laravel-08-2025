@@ -130,7 +130,7 @@ const ReactDropzonePage = () => {
                     <FormControl>
                       <FileDropzone
                         isInvalid={fieldState.invalid}
-                        setFiles={files => field.onChange(files[0])}
+                        // setFiles={files => field.onChange(files[0])}
                         files={field.value}
                         onDrop={(acceptedFiles, rejectedFiles) => {
                           field.onChange(acceptedFiles[0]);

@@ -29,17 +29,65 @@ class UserController extends Controller {
         $queryParams = $request->all();
 
         try {
-            $query = User::query();
-            QueryHelper::apply($query, $queryParams);
+            $query = User::with(['rbac_user_roles' => function ($query) {
+                $query->select('id', 'user_id', 'rbac_role_id')
+                    ->with(['rbac_role' => function ($query) {
+                        $query->select('id', 'label');
+                    }]);
+            }]);
+
+            $type = 'paginate';
+            QueryHelper::apply($query, $queryParams, $type);
+
+            if (isset($queryParams['has'])) {
+                foreach (explode(',', $queryParams['has']) as $h) {
+                    $query->whereHas($h);
+                }
+            }
+
+            if (isset($queryParams['with'])) {
+                if (in_array('rbac_user_roles', explode(',', $queryParams['with']))) {
+                    $query->with(['rbac_user_roles' => function ($query) {
+                        $query->select('id', 'user_id', 'rbac_role_id')
+                            ->with(['rbac_role' => function ($query) {
+                                $query->select('id', 'label');
+                            }]);
+                    }]);
+                }
+            }
+
+            if ($request->has('search')) {
+                $search = $request->input('search');
+                $query->where(function ($query) use ($search) {
+                    $query->where('email', 'LIKE', "%$search%")
+                        ->orWhere('first_name', 'LIKE', "%$search%")
+                        ->orWhere('middle_name', 'LIKE', "%$search%")
+                        ->orWhere('last_name', 'LIKE', "%$search%")
+                        ->orWhere('suffix', 'LIKE', "%$search%")
+                        ->orWhereHas('rbac_user_roles.rbac_role', function ($query) use ($search) {
+                            $query->where('label', 'LIKE', "%$search%");
+                        });
+                });
+            }
+
+            $total = $query->count();
+            $limit = $request->input('limit', 10);
+            $page = $request->input('page', 1);
+            QueryHelper::applyLimitAndOffset($query, $limit, $page);
             $records = $query->get();
+
+            return response()->json([
+                'records' => $records,
+                'meta' => [
+                    'total_records' => $total,
+                    'total_pages' => ceil($total / $limit),
+                ],
+            ]);
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'An error occurred.',
-                'error' => $e->getMessage(),
+                'message' => 'An error occurred. Kindly check all the parameters provided. '.$e->getMessage(),
             ], 400);
         }
-
-        return response()->json($records, 200);
     }
 
     /**
@@ -171,83 +219,6 @@ class UserController extends Controller {
     }
 
     /**
-     * Paginate users with filtering, relations and search.
-     */
-    public function paginate(Request $request) {
-        $authUser = $request->user();
-
-        // check if user is an admin
-        if (!$authUser->is_admin) {
-            return response()->json([
-                'message' => 'Access denied.',
-            ], 403);
-        }
-
-        $queryParams = $request->all();
-
-        try {
-            $query = User::with(['rbac_user_roles' => function ($query) {
-                $query->select('id', 'user_id', 'rbac_role_id')
-                    ->with(['rbac_role' => function ($query) {
-                        $query->select('id', 'label');
-                    }]);
-            }]);
-
-            $type = 'paginate';
-            QueryHelper::apply($query, $queryParams, $type);
-
-            if (isset($queryParams['has'])) {
-                foreach (explode(',', $queryParams['has']) as $h) {
-                    $query->whereHas($h);
-                }
-            }
-
-            if (isset($queryParams['with'])) {
-                if (in_array('rbac_user_roles', explode(',', $queryParams['with']))) {
-                    $query->with(['rbac_user_roles' => function ($query) {
-                        $query->select('id', 'user_id', 'rbac_role_id')
-                            ->with(['rbac_role' => function ($query) {
-                                $query->select('id', 'label');
-                            }]);
-                    }]);
-                }
-            }
-
-            if ($request->has('search')) {
-                $search = $request->input('search');
-                $query->where(function ($query) use ($search) {
-                    $query->where('email', 'LIKE', "%$search%")
-                        ->orWhere('first_name', 'LIKE', "%$search%")
-                        ->orWhere('middle_name', 'LIKE', "%$search%")
-                        ->orWhere('last_name', 'LIKE', "%$search%")
-                        ->orWhere('suffix', 'LIKE', "%$search%")
-                        ->orWhereHas('rbac_user_roles.rbac_role', function ($query) use ($search) {
-                            $query->where('label', 'LIKE', "%$search%");
-                        });
-                });
-            }
-
-            $total = $query->count();
-            $limit = $request->input('limit', 10);
-            $page = $request->input('page', 1);
-            QueryHelper::applyLimitAndOffset($query, $limit, $page);
-            $records = $query->get();
-
-            return response()->json([
-                'records' => $records,
-                'info' => [
-                    'total' => $total,
-                    'pages' => ceil($total / $limit),
-                ],
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'An error occurred. Kindly check all the parameters provided. '.$e->getMessage(),
-            ], 400);
-        }
-    }
-
-    /**
      * Import a list of users from a dataset.
      */
     public function import(Request $request) {
@@ -298,6 +269,54 @@ class UserController extends Controller {
         }
     }
 
+    // getAllArchivedUsers
+    public function getAllArchivedUsers(Request $request) {
+        $authUser = $request->user();
+
+        // check if user is an admin
+        if (!$authUser->is_admin) {
+            return response()->json([
+                'message' => 'Access denied.',
+            ], 403);
+        }
+
+        $queryParams = $request->all();
+
+        try {
+            $query = User::onlyTrashed();
+
+            QueryHelper::apply($query, $queryParams, 'paginate');
+
+            if ($request->has('search')) {
+                $search = $request->input('search');
+                $query->where(function ($query) use ($search) {
+                    $query->where('email', 'LIKE', "%$search%")
+                        ->orWhere('first_name', 'LIKE', "%$search%")
+                        ->orWhere('middle_name', 'LIKE', "%$search%")
+                        ->orWhere('last_name', 'LIKE', "%$search%")
+                        ->orWhere('suffix', 'LIKE', "%$search%");
+                });
+            }
+
+            $total = $query->count();
+            $limit = $request->input('limit', 10);
+            $page = $request->input('page', 1);
+            QueryHelper::applyLimitAndOffset($query, $limit, $page);
+
+            return response()->json([
+                'records' => $query->get(),
+                'meta' => [
+                    'total_records' => $total,
+                    'total_pages' => ceil($total / $limit),
+                ],
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred. Kindly check all the parameters provided. '.$e->getMessage(),
+            ], 400);
+        }
+    }
+
     /**
      * Retrieve an archived (soft-deleted) user.
      */
@@ -343,56 +362,6 @@ class UserController extends Controller {
             return response()->json([
                 'message' => 'An error occurred.',
                 'error' => $e->getMessage(),
-            ], 400);
-        }
-    }
-
-    /**
-     * Paginate through archived users.
-     */
-    public function getAllArchivedUsersPaginate(Request $request) {
-        $authUser = $request->user();
-
-        // check if user is an admin
-        if (!$authUser->is_admin) {
-            return response()->json([
-                'message' => 'Access denied.',
-            ], 403);
-        }
-
-        $queryParams = $request->all();
-
-        try {
-            $query = User::onlyTrashed();
-
-            QueryHelper::apply($query, $queryParams, 'paginate');
-
-            if ($request->has('search')) {
-                $search = $request->input('search');
-                $query->where(function ($query) use ($search) {
-                    $query->where('email', 'LIKE', "%$search%")
-                        ->orWhere('first_name', 'LIKE', "%$search%")
-                        ->orWhere('middle_name', 'LIKE', "%$search%")
-                        ->orWhere('last_name', 'LIKE', "%$search%")
-                        ->orWhere('suffix', 'LIKE', "%$search%");
-                });
-            }
-
-            $total = $query->count();
-            $limit = $request->input('limit', 10);
-            $page = $request->input('page', 1);
-            QueryHelper::applyLimitAndOffset($query, $limit, $page);
-
-            return response()->json([
-                'records' => $query->get(),
-                'info' => [
-                    'total' => $total,
-                    'pages' => ceil($total / $limit),
-                ],
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'An error occurred. Kindly check all the parameters provided. '.$e->getMessage(),
             ], 400);
         }
     }

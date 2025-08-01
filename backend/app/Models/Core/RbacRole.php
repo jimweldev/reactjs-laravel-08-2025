@@ -22,8 +22,4 @@ class RbacRole extends Model {
     public function rbac_user_roles() {
         return $this->hasMany(RbacUserRole::class, 'rbac_role_id', 'id');
     }
-
-    // public function rbac_user_roles() {
-    //     return $this->belongsToMany(User::class, 'rbac_user_roles', 'rbac_role_id', 'user_id');
-    // }
 }

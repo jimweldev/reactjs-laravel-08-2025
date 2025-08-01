@@ -1,36 +1,29 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { FaPenToSquare, FaTrash } from 'react-icons/fa6';
 import { type Task } from '@/04_types/task';
+import useTaskStore from '@/05_stores/task-store';
 import DataTable, {
   type DataTableColumn,
 } from '@/components/data-table/data-table';
 import InputGroup from '@/components/input-group/input-group';
+import DataTableGridSkeleton from '@/components/skeleton/data-table-grid-skeleton';
 import Tooltip from '@/components/tooltip/tooltip';
 import PageHeader from '@/components/typography/page-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
-import { TableCell, TableRow } from '@/components/ui/table';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
-import { getDateTimezone } from '@/lib/date/get-date-timezone';
-import useTaskStore from '../../../../05_stores/task-store';
 import CreateTask from './_components/create-task';
 import DeleteTask from './_components/delete-task';
 import UpdateTask from './_components/update-task';
 
-const DataTablePage = () => {
+const DataTableGridPage = () => {
   // Store
-  const {
-    setSelectedTask,
-    setIsOpenCreateTaskDialog,
-    setIsOpenUpdateTaskDialog,
-    setIsOpenDeleteTaskDialog,
-    reset,
-  } = useTaskStore();
+  const { setSelectedTask } = useTaskStore();
 
-  // Reset store
-  useEffect(() => {
-    reset();
-  }, [reset]);
+  // Dialog States
+  const [openCreateTaskDialog, setOpenCreateTaskDialog] = useState(false);
+  const [openUpdateTaskDialog, setOpenUpdateTaskDialog] = useState(false);
+  const [openDeleteTaskDialog, setOpenDeleteTaskDialog] = useState(false);
 
   // Tanstack query hook for pagination
   const tasksPagination = useTanstackQueryPaginate<Task>({
@@ -47,14 +40,19 @@ const DataTablePage = () => {
 
   // Actions buttons
   const actions = (
-    <Button size="sm" onClick={() => setIsOpenCreateTaskDialog(true)}>
+    <Button
+      size="sm"
+      onClick={() => {
+        setOpenCreateTaskDialog(true);
+      }}
+    >
       Create
     </Button>
   );
 
   return (
     <>
-      <PageHeader className="mb-layout">Data Table</PageHeader>
+      <PageHeader className="mb-layout">Data Table Grid</PageHeader>
 
       {/* Card */}
       <Card>
@@ -64,59 +62,70 @@ const DataTablePage = () => {
             pagination={tasksPagination}
             columns={columns}
             actions={actions}
+            defaultView="grid"
+            skeleton={<DataTableGridSkeleton count={tasksPagination.limit} />}
           >
             {/* Render rows only if data is present */}
-            {tasksPagination.data?.records
-              ? tasksPagination.data.records.map(task => (
-                  <TableRow key={task.id}>
-                    <TableCell>{task.name}</TableCell>
-                    <TableCell>
-                      {getDateTimezone(task.created_at, 'date_time')}
-                    </TableCell>
-                    <TableCell>
+            {tasksPagination.data?.records ? (
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-2">
+                {tasksPagination.data.records.map(task => (
+                  <div className="p-layout rounded border" key={task.id}>
+                    <h4 className="mb-layout">{task.name}</h4>
+
+                    <div className="flex justify-end">
                       <InputGroup size="sm">
-                        {/* Update button */}
                         <Tooltip content="Update">
                           <Button
                             variant="info"
                             size="icon-xs"
                             onClick={() => {
                               setSelectedTask(task);
-                              setIsOpenUpdateTaskDialog(true);
+                              setOpenUpdateTaskDialog(true);
                             }}
                           >
                             <FaPenToSquare />
                           </Button>
                         </Tooltip>
-
-                        {/* Delete button */}
                         <Tooltip content="Delete">
                           <Button
                             variant="destructive"
                             size="icon-xs"
                             onClick={() => {
                               setSelectedTask(task);
-                              setIsOpenDeleteTaskDialog(true);
+                              setOpenDeleteTaskDialog(true);
                             }}
                           >
                             <FaTrash />
                           </Button>
                         </Tooltip>
                       </InputGroup>
-                    </TableCell>
-                  </TableRow>
-                ))
-              : null}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </DataTable>
         </CardBody>
       </Card>
 
       {/* Modals */}
-      <CreateTask refetch={tasksPagination.refetch} />
-      <UpdateTask refetch={tasksPagination.refetch} />
-      <DeleteTask refetch={tasksPagination.refetch} />
+      <CreateTask
+        open={openCreateTaskDialog}
+        setOpen={setOpenCreateTaskDialog}
+        refetch={tasksPagination.refetch}
+      />
+      <UpdateTask
+        open={openUpdateTaskDialog}
+        setOpen={setOpenUpdateTaskDialog}
+        refetch={tasksPagination.refetch}
+      />
+      <DeleteTask
+        open={openDeleteTaskDialog}
+        setOpen={setOpenDeleteTaskDialog}
+        refetch={tasksPagination.refetch}
+      />
     </>
   );
 };
 
-export default DataTablePage;
+export default DataTableGridPage;

@@ -1,5 +1,10 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router';
-import DataTablePage from './01_pages/private/examples/data-table/data-table-page';
+import DashboardPage from './01_pages/private/admin/dashboard/dashboard-page';
+import MailsPage from './01_pages/private/admin/mails/mails-page';
+import UsersPage from './01_pages/private/admin/users/users-page';
+import DataTableGridPage from './01_pages/private/examples/data-table/data-table-grid-page';
+import DataTableListGridPage from './01_pages/private/examples/data-table/data-table-list-grid-page';
+import DataTableListPage from './01_pages/private/examples/data-table/data-table-list-page';
 import CheckboxPage from './01_pages/private/examples/forms/checkbox-page';
 import GlobalDropdownPage from './01_pages/private/examples/forms/global-dropdown-page';
 import InputPage from './01_pages/private/examples/forms/input-page';
@@ -34,11 +39,26 @@ const App = () => {
                 children: [
                   {
                     index: true,
-                    element: <HomePage />,
+                    element: <DashboardPage />,
                   },
                   {
                     path: 'users',
-                    element: <HomePage />,
+                    children: [
+                      {
+                        index: true,
+                        element: <UsersPage />,
+                      },
+                      {
+                        path: ':userTab',
+                        element: <UsersPage />,
+                        children: [
+                          {
+                            path: ':rbacTab',
+                            element: <UsersPage />,
+                          },
+                        ],
+                      },
+                    ],
                   },
                   {
                     path: 'system',
@@ -46,7 +66,13 @@ const App = () => {
                   },
                   {
                     path: 'mails',
-                    element: <HomePage />,
+                    element: <MailsPage />,
+                    children: [
+                      {
+                        path: ':mailTab',
+                        element: <MailsPage />,
+                      },
+                    ],
                   },
                 ],
               },
@@ -111,7 +137,15 @@ const App = () => {
                     children: [
                       {
                         index: true,
-                        element: <DataTablePage />,
+                        element: <DataTableListPage />,
+                      },
+                      {
+                        path: 'grid',
+                        element: <DataTableGridPage />,
+                      },
+                      {
+                        path: 'list-grid',
+                        element: <DataTableListGridPage />,
                       },
                     ],
                   },

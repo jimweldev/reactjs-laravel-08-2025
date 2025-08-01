@@ -1,9 +1,15 @@
 import 'react-quill-new/dist/quill.snow.css';
 import { useState } from 'react';
-import { FaEllipsisVertical, FaPenToSquare, FaTrash } from 'react-icons/fa6';
+import {
+  FaEllipsisVertical,
+  FaPenToSquare,
+  FaStar,
+  FaThumbtack,
+  FaTrash,
+} from 'react-icons/fa6';
 import { toast } from 'sonner';
 import type { UserImage } from '@/04_types/user-image';
-import useUserImageStore from '@/05_stores/user-image-store';
+import { mainInstance } from '@/07_instances/main-instance';
 import DataTable from '@/components/data-table/data-table';
 import ReactImage from '@/components/image/react-image';
 import UserImagesSkeleton from '@/components/skeleton/user-images-skeleton';
@@ -25,6 +31,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { cn } from '@/lib/utils';
+import DeleteUserImage from './_components/delete-user-image';
+import RenameUserImage from './_components/rename-user-image';
 import UploadUserImage from './_components/upload-user-image';
 
 type ReactQuillEditorProps = {
@@ -38,13 +46,11 @@ const ReactQuillUserImages = ({
   setOpen,
   onSelectImage: onSelectImageHandler,
 }: ReactQuillEditorProps) => {
-  // Access store values
-  const { setIsOpenUploadUserImageDialog } = useUserImageStore();
-
   const userImagesPagination = useTanstackQueryPaginate<UserImage>(
     {
       endpoint: '/user-images',
       defaultSort: '-is_pinned,file_name',
+      defaultLimit: '24',
     },
     {
       enabled: open,
@@ -52,6 +58,13 @@ const ReactQuillUserImages = ({
   );
 
   const [selectedImage, setSelectedImage] = useState<UserImage | null>(null);
+  const [openUploadUserImage, setOpenUploadUserImage] =
+    useState<boolean>(false);
+  const [openRenameUserImage, setOpenRenameUserImage] =
+    useState<boolean>(false);
+  const [openDeleteUserImage, setOpenDeleteUserImage] =
+    useState<boolean>(false);
+
   const onSubmit = (image: UserImage) => {
     const finalImage = image || selectedImage;
     if (!finalImage) {
@@ -66,8 +79,30 @@ const ReactQuillUserImages = ({
     setOpen(false);
   };
 
+  const onTogglePin = (image: UserImage) => {
+    toast.promise(
+      mainInstance.patch(`/user-images/${image?.id}`, {
+        is_pinned: !image.is_pinned,
+      }),
+      {
+        loading: 'Loading...',
+        success: () => {
+          userImagesPagination.refetch();
+          return 'Success!';
+        },
+        error: error => {
+          return (
+            error.response?.data?.message ||
+            error.message ||
+            'An error occurred'
+          );
+        },
+      },
+    );
+  };
+
   const actions = (
-    <Button size="sm" onClick={() => setIsOpenUploadUserImageDialog(true)}>
+    <Button size="sm" onClick={() => setOpenUploadUserImage(true)}>
       Create
     </Button>
   );
@@ -86,11 +121,11 @@ const ReactQuillUserImages = ({
               pagination={userImagesPagination}
               skeleton={<UserImagesSkeleton inputCount={24} />}
             >
-              <div className="grid grid-cols-[repeat(auto-fill,minmax(70px,1fr))] gap-2">
+              <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-2">
                 {userImagesPagination.data?.records?.map(image => (
                   <div
                     className={cn(
-                      'bg-muted relative col-span-2 space-y-1 rounded-lg border-2 p-1',
+                      'bg-muted relative space-y-1 rounded-lg border-2 p-1',
                       selectedImage?.id === image.id
                         ? 'bg-primary/20 border-primary'
                         : 'bg-muted',
@@ -107,18 +142,27 @@ const ReactQuillUserImages = ({
                         <p className="truncate text-xs">{image.file_name}</p>
                       </Tooltip>
                       <DropdownMenu>
-                        <DropdownMenuTrigger>
+                        <DropdownMenuTrigger asChild>
                           <Button variant="ghost" size="icon-xs">
                             <FaEllipsisVertical />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
-                          <DropdownMenuItem>
-                            <FaPenToSquare />
+                          <DropdownMenuItem
+                            onClick={() => setOpenRenameUserImage(true)}
+                          >
+                            <FaPenToSquare className="size-3.5" />
                             Rename
                           </DropdownMenuItem>
-                          <DropdownMenuItem variant="destructive">
-                            <FaTrash />
+                          <DropdownMenuItem onClick={() => onTogglePin(image)}>
+                            <FaThumbtack className="size-3.5" />
+                            {image.is_pinned ? 'Unpin' : 'Pin'}
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            variant="destructive"
+                            onClick={() => setOpenDeleteUserImage(true)}
+                          >
+                            <FaTrash className="size-3.5" />
                             Delete
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -130,6 +174,9 @@ const ReactQuillUserImages = ({
                         src={`${import.meta.env.VITE_STORAGE_BASE_URL}/${image.file_path}`}
                         alt={image.file_name}
                       />
+                      {image.is_pinned ? (
+                        <FaStar className="text-warning absolute right-1 bottom-1 drop-shadow" />
+                      ) : null}
                     </div>
                   </div>
                 ))}
@@ -145,7 +192,23 @@ const ReactQuillUserImages = ({
         </DialogContent>
       </Dialog>
 
-      <UploadUserImage refetch={userImagesPagination.refetch} />
+      <UploadUserImage
+        open={openUploadUserImage}
+        setOpen={setOpenUploadUserImage}
+        refetch={userImagesPagination.refetch}
+      />
+      <RenameUserImage
+        open={openRenameUserImage}
+        setOpen={setOpenRenameUserImage}
+        selectedItem={selectedImage!}
+        refetch={userImagesPagination.refetch}
+      />
+      <DeleteUserImage
+        open={openDeleteUserImage}
+        setOpen={setOpenDeleteUserImage}
+        selectedItem={selectedImage!}
+        refetch={userImagesPagination.refetch}
+      />
     </>
   );
 };

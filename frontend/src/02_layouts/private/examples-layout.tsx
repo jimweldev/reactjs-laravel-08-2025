@@ -55,8 +55,19 @@ const ExamplesLayout = () => {
       sidebarLabel: 'Data Table',
       sidebarItems: [
         {
-          title: 'Data Table',
+          title: 'List',
           url: '/examples/data-table',
+          icon: FaChartArea,
+          end: true,
+        },
+        {
+          title: 'Grid',
+          url: '/examples/data-table/grid',
+          icon: FaChartArea,
+        },
+        {
+          title: 'List/Grid',
+          url: '/examples/data-table/list-grid',
           icon: FaChartArea,
         },
       ],

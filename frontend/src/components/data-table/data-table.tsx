@@ -11,9 +11,9 @@ import ReactPaginate from 'react-paginate';
 import { type UseTanstackQueryPaginateReturn } from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { cn } from '@/lib/utils';
 import InputGroup from '../input-group/input-group';
+import SearchInput from '../input/search-input';
 import Tooltip from '../tooltip/tooltip';
 import { Button } from '../ui/button';
-import { Input } from '../ui/input';
 import {
   Table,
   TableBody,
@@ -75,11 +75,13 @@ const DataTable = <T,>({
 
         <div className="flex flex-wrap justify-center gap-2">
           <div className="flex min-w-full flex-1 gap-2 @sm/main:min-w-auto">
-            <Input
+            <SearchInput
               inputSize="sm"
               placeholder="Search..."
               defaultValue={search}
-              onChange={e => setSearch(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearch(e.target.value)
+              }
             />
             <Tooltip content="Refresh">
               <Button
@@ -214,7 +216,7 @@ const DataTable = <T,>({
       {/* Grid */}
       {view === 'grid' ? (
         <div
-          className={`border-t ${pagination.isFetching ? 'border-primary' : 'border-transparent'} `}
+          className={`pt-layout border-t ${pagination.isFetching ? 'border-primary' : ''} `}
         >
           {grid || children}
           {/* Loading */}
@@ -230,8 +232,10 @@ const DataTable = <T,>({
           !!!pagination.error &&
           pagination.data?.records?.length === 0 ? (
             <div className="p-layout flex flex-col items-center gap-3">
-              <FaFaceGrinBeamSweat className="text-5xl" />
-              <h4 className="text-center text-lg">No records found</h4>
+              <FaFaceGrinBeamSweat className="text-muted-foreground text-5xl" />
+              <h4 className="text-muted-foreground text-center text-lg">
+                No records found
+              </h4>
             </div>
           ) : null}
 

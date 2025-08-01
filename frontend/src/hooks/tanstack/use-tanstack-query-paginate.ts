@@ -35,6 +35,7 @@ type Url = {
   endpoint: string;
   extendedParams?: string;
   defaultSort?: string;
+  defaultLimit?: string;
 };
 
 const useTanstackQueryPaginate = <T>(
@@ -44,7 +45,7 @@ const useTanstackQueryPaginate = <T>(
   const queryClient = useQueryClient();
 
   const [pagination, setPagination] = useState<PaginationState>({
-    limit: '10',
+    limit: url.defaultLimit || '10',
     page: 1,
     sort: url.defaultSort || '',
     searchTerm: '',
