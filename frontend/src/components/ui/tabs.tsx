@@ -82,7 +82,7 @@ const tabsTriggerVariants = cva('inline-flex gap-2 items-center', {
     },
     size: {
       default: 'px-3 py-1',
-      sm: 'px-3 py-1',
+      sm: 'px-3 py-1 -m-0.5',
       lg: 'px-5 py-2',
     },
   },

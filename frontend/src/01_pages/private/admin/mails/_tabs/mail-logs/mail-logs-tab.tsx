@@ -1,38 +1,45 @@
 import { useState } from 'react';
-import { FaPenToSquare, FaTrash } from 'react-icons/fa6';
-import { type Task } from '@/04_types/task';
-import useTaskStore from '@/05_stores/task-store';
+import { FaEye, FaSquareCheck, FaSquareXmark } from 'react-icons/fa6';
+import { type MailLog } from '@/04_types/mail-log';
+import useMailLogStore from '@/05_stores/mail-log-store';
 import DataTable, {
   type DataTableColumn,
 } from '@/components/data-table/data-table';
+import FancyboxViewer from '@/components/fancybox/fancybox-viewer';
 import InputGroup from '@/components/input-group/input-group';
 import Tooltip from '@/components/tooltip/tooltip';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
+import useFancybox from '@/hooks/fancybox/use-fancybox';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
-import CreateTask from './_components/create-task';
-import DeleteTask from './_components/delete-task';
-import UpdateTask from './_components/update-task';
+import CreateMailLog from './_components/create-mail-log';
+import ViewMailLog from './_components/view-mail-log';
 
 const MailLogsTab = () => {
+  const [fancyboxRef] = useFancybox();
+
   // Store
-  const { setSelectedTask } = useTaskStore();
+  const { setSelectedMailLog } = useMailLogStore();
 
   // Dialog States
-  const [openCreateTaskDialog, setOpenCreateTaskDialog] = useState(false);
-  const [openUpdateTaskDialog, setOpenUpdateTaskDialog] = useState(false);
-  const [openDeleteTaskDialog, setOpenDeleteTaskDialog] = useState(false);
+  const [openCreateMailLogDialog, setOpenCreateMailLogDialog] = useState(false);
+  const [openViewMailLogDialog, setOpenViewMailLogDialog] = useState(false);
 
   // Tanstack query hook for pagination
-  const tasksPagination = useTanstackQueryPaginate<Task>({
+  const mailLogsPagination = useTanstackQueryPaginate<MailLog>({
     endpoint: '/mails/logs',
     defaultSort: '-id',
   });
 
   // Define table columns
   const columns: DataTableColumn[] = [
-    { label: 'Name', column: 'name' },
+    { label: 'ID', column: 'id' },
+    { label: 'Subject', column: 'subject' },
+    { label: 'Recipient', column: 'recipient' },
+    { label: 'Status', column: 'status' },
+    { label: 'Sent', className: 'w-[50px]' },
     { label: 'Created At', column: 'created_at', className: 'w-[200px]' },
     { label: 'Actions', className: 'w-[100px]' },
   ];
@@ -42,7 +49,7 @@ const MailLogsTab = () => {
     <Button
       size="sm"
       onClick={() => {
-        setOpenCreateTaskDialog(true);
+        setOpenCreateMailLogDialog(true);
       }}
     >
       Create
@@ -51,71 +58,85 @@ const MailLogsTab = () => {
 
   return (
     <>
-      {/* Data Table */}
-      <DataTable
-        pagination={tasksPagination}
-        columns={columns}
-        actions={actions}
-      >
-        {/* Render rows only if data is present */}
-        {tasksPagination.data?.records
-          ? tasksPagination.data.records.map(task => (
-              <TableRow key={task.id}>
-                <TableCell>{task.name}</TableCell>
-                <TableCell>
-                  {getDateTimezone(task.created_at, 'date_time')}
-                </TableCell>
-                <TableCell>
-                  <InputGroup size="sm">
-                    {/* Update button */}
-                    <Tooltip content="Update">
-                      <Button
-                        variant="info"
-                        size="icon-xs"
-                        onClick={() => {
-                          setSelectedTask(task);
-                          setOpenUpdateTaskDialog(true);
-                        }}
-                      >
-                        <FaPenToSquare />
-                      </Button>
-                    </Tooltip>
-
-                    {/* Delete button */}
-                    <Tooltip content="Delete">
-                      <Button
-                        variant="destructive"
-                        size="icon-xs"
-                        onClick={() => {
-                          setSelectedTask(task);
-                          setOpenDeleteTaskDialog(true);
-                        }}
-                      >
-                        <FaTrash />
-                      </Button>
-                    </Tooltip>
-                  </InputGroup>
-                </TableCell>
-              </TableRow>
-            ))
-          : null}
-      </DataTable>
+      <div ref={fancyboxRef}>
+        {/* Data Table */}
+        <DataTable
+          pagination={mailLogsPagination}
+          columns={columns}
+          actions={actions}
+        >
+          {/* Render rows only if data is present */}
+          {mailLogsPagination.data?.records
+            ? mailLogsPagination.data.records.map(mailLog => (
+                <TableRow key={mailLog.id}>
+                  <TableCell>{mailLog.id}</TableCell>
+                  <TableCell>{mailLog.subject}</TableCell>
+                  <TableCell>{mailLog.recipient_email}</TableCell>
+                  <TableCell>
+                    {/* Render each attachment as a clickable badge */}
+                    <div className="flex flex-wrap items-center gap-1">
+                      {mailLog.mail_log_attachments?.map(attachment => {
+                        return (
+                          <FancyboxViewer
+                            baseUrl={import.meta.env.VITE_STORAGE_BASE_URL}
+                            filePath={attachment.file_path}
+                            key={attachment.id}
+                            data-fancybox={`${mailLog.id}`}
+                            data-caption={attachment.file_name}
+                          >
+                            <Badge
+                              variant="secondary"
+                              className="cursor-pointer"
+                            >
+                              {attachment.file_name}
+                            </Badge>
+                          </FancyboxViewer>
+                        );
+                      })}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {mailLog.is_sent ? (
+                      <FaSquareCheck className="text-success size-4" />
+                    ) : (
+                      <FaSquareXmark className="text-destructive size-4" />
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {getDateTimezone(mailLog.created_at, 'date_time')}
+                  </TableCell>
+                  <TableCell>
+                    <InputGroup size="sm">
+                      {/* View button */}
+                      <Tooltip content="View">
+                        <Button
+                          variant="info"
+                          size="icon-xs"
+                          onClick={() => {
+                            setSelectedMailLog(mailLog);
+                            setOpenViewMailLogDialog(true);
+                          }}
+                        >
+                          <FaEye />
+                        </Button>
+                      </Tooltip>
+                    </InputGroup>
+                  </TableCell>
+                </TableRow>
+              ))
+            : null}
+        </DataTable>
+      </div>
 
       {/* Modals */}
-      <CreateTask
-        open={openCreateTaskDialog}
-        setOpen={setOpenCreateTaskDialog}
-        refetch={tasksPagination.refetch}
+      <CreateMailLog
+        open={openCreateMailLogDialog}
+        setOpen={setOpenCreateMailLogDialog}
+        refetch={mailLogsPagination.refetch}
       />
-      <UpdateTask
-        open={openUpdateTaskDialog}
-        setOpen={setOpenUpdateTaskDialog}
-        refetch={tasksPagination.refetch}
-      />
-      <DeleteTask
-        open={openDeleteTaskDialog}
-        setOpen={setOpenDeleteTaskDialog}
-        refetch={tasksPagination.refetch}
+      <ViewMailLog
+        open={openViewMailLogDialog}
+        setOpen={setOpenViewMailLogDialog}
       />
     </>
   );

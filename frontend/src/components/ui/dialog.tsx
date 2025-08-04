@@ -105,7 +105,7 @@ function DialogContent({
               data-slot="dialog-content"
               className={cn(
                 '@container/main',
-                'bg-background relative w-full rounded-lg border',
+                'bg-card relative w-full rounded-lg border',
                 'data-[state=open]:animate-in data-[state=closed]:animate-out',
                 'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0',
                 'data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95',
@@ -114,7 +114,20 @@ function DialogContent({
                 cn(dialogVariants({ size, className })),
               )}
               onInteractOutside={e => {
+                // if the html has "with-fancybox" class, e.preventDefault
+                const htmlEl = document.documentElement;
+                if (htmlEl.classList.contains('with-fancybox')) {
+                  e.preventDefault();
+                }
+
                 if (staticBackdrop) {
+                  e.preventDefault();
+                }
+              }}
+              onEscapeKeyDown={e => {
+                // if the html has "with-fancybox" class, e.preventDefault
+                const htmlEl = document.documentElement;
+                if (htmlEl.classList.contains('with-fancybox')) {
                   e.preventDefault();
                 }
               }}

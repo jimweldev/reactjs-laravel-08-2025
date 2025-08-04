@@ -32,7 +32,7 @@ const DateRangePicker = ({
             id="date"
             variant="outline"
             className={cn(
-              'w-full justify-between text-left font-normal',
+              'w-full justify-between bg-transparent text-left font-normal hover:bg-transparent',
               !date && 'text-muted-foreground',
             )}
           >

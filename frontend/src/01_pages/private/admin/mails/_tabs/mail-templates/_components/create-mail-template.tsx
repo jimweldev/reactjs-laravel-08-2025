@@ -143,7 +143,7 @@ const CreateMailTemplate = ({
                   />
                 </div>
 
-                <div className="rounded-lg border">
+                <div className="sticky top-[calc(var(--spacing)*var(--space))] bottom-3 max-h-[calc(100vh-var(--spacing)*(var(--space)*2))] overflow-auto rounded-lg border">
                   <IframePreview htmlContent={form.watch('content')} />
                 </div>
               </div>

@@ -88,36 +88,45 @@ const FileDropzone = ({
                     lastDotIndex !== -1 ? fullName.slice(lastDotIndex + 1) : '';
 
                   return (
-                    <InputGroup size="sm" key={index}>
-                      <InputGroupText className="bg-muted">
-                        <Paperclip className="size-3" />
-                      </InputGroupText>
-                      <Input
-                        inputSize="sm"
-                        value={nameWithoutExt}
-                        onChange={e =>
-                          handleRename(
-                            index,
-                            extension
-                              ? `${e.target.value}.${extension}`
-                              : e.target.value,
-                          )
-                        }
-                      />
-                      <Input
-                        inputSize="sm"
-                        className="max-w-[50px] truncate"
-                        value={extension}
-                        readOnly
-                      />
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => onRemove?.(file)}
-                      >
-                        <Trash2 />
-                      </Button>
-                    </InputGroup>
+                    <div key={index}>
+                      <InputGroup size="sm">
+                        <InputGroupText className="bg-muted">
+                          <Paperclip className="size-3" />
+                        </InputGroupText>
+                        <Input
+                          inputSize="sm"
+                          value={nameWithoutExt}
+                          onChange={e =>
+                            handleRename(
+                              index,
+                              extension
+                                ? `${e.target.value}.${extension}`
+                                : e.target.value,
+                            )
+                          }
+                          aria-invalid={isInvalid && nameWithoutExt === ''}
+                        />
+                        <Input
+                          inputSize="sm"
+                          className="max-w-[50px] truncate"
+                          value={extension}
+                          readOnly
+                        />
+                        <Button
+                          variant="destructive"
+                          size="sm"
+                          onClick={() => onRemove?.(file)}
+                        >
+                          <Trash2 />
+                        </Button>
+                      </InputGroup>
+
+                      {isInvalid && nameWithoutExt === '' ? (
+                        <p className="text-destructive mt-1 text-xs">
+                          Invalid filename
+                        </p>
+                      ) : null}
+                    </div>
                   );
                 })}
               </div>

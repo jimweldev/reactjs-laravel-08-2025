@@ -12,7 +12,7 @@ const DashboardStatistics = () => {
   });
 
   return (
-    <div className="grid grid-cols-12 gap-3">
+    <div className="gap-layout grid grid-cols-12">
       {/* Card showing total active users */}
       <Card className="relative col-span-12 @lg/main:col-span-6 @3xl/main:col-span-3">
         <CardBody>

@@ -31,12 +31,13 @@ const ActiveUsersTab = () => {
   // Tanstack query hook for pagination
   const usersPagination = useTanstackQueryPaginate<User>({
     endpoint: '/users',
-    defaultSort: 'last_name,first_name',
+    defaultSort: 'id',
   });
 
   // Define table columns
   const columns: DataTableColumn[] = [
-    { label: 'Name', column: 'name' },
+    { label: 'ID', column: 'id', className: 'w-[80px]' },
+    { label: 'Name', column: 'last_name,first_name' },
     { label: 'Created At', column: 'created_at', className: 'w-[200px]' },
     { label: 'Actions', className: 'w-[100px]' },
   ];
@@ -63,6 +64,7 @@ const ActiveUsersTab = () => {
             {usersPagination.data?.records
               ? usersPagination.data.records.map(user => (
                   <TableRow key={user.id}>
+                    <TableCell>{user.id}</TableCell>
                     <TableCell>{user.email}</TableCell>
                     <TableCell>
                       {getDateTimezone(user.created_at, 'date_time')}

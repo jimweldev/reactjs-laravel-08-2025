@@ -9,12 +9,12 @@ const DashboardPage = () => {
       <PageHeader className="mb-layout">Dashboard</PageHeader>
 
       {/* Dashboard content area */}
-      <div className="space-y-3">
+      <div className="space-y-layout">
         {/* Statistics overview cards */}
         <DashboardStatistics />
 
         {/* Grid layout for charts */}
-        <div className="grid grid-cols-12 gap-3">
+        <div className="gap-layout grid grid-cols-12">
           {/* User registration statistics chart */}
           <DashboardUserRegistrationStats />
 

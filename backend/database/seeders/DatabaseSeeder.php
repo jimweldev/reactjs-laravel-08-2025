@@ -25,8 +25,8 @@ class DatabaseSeeder extends Seeder {
         User::factory(500)->create();
 
         // Run the database seeds
-        // $this->call([
-        //     MailTemplateSeeder::class,
-        // ]);
+        $this->call([
+            MailTemplateSeeder::class,
+        ]);
     }
 }

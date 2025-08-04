@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import useMailTemplateStore from '@/05_stores/mail-template-store';
 import { mainInstance } from '@/07_instances/main-instance';
+import IframePreview from '@/components/iframe/iframe-preview';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -23,10 +24,14 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 
 // Zod schema to validate the form input
 const FormSchema = z.object({
   label: z.string().min(1, {
+    message: 'Required',
+  }),
+  content: z.string().min(1, {
     message: 'Required',
   }),
 });
@@ -51,6 +56,7 @@ const UpdateMailTemplate = ({
     resolver: zodResolver(FormSchema),
     defaultValues: {
       label: '',
+      content: '',
     },
   });
 
@@ -59,6 +65,7 @@ const UpdateMailTemplate = ({
     if (selectedMailTemplate) {
       form.reset({
         label: selectedMailTemplate.label || '',
+        content: selectedMailTemplate.content || '',
       });
     }
   }, [selectedMailTemplate, form]);
@@ -73,7 +80,7 @@ const UpdateMailTemplate = ({
 
     // Send PATCH request and show toast notifications
     toast.promise(
-      mainInstance.patch(`/mailTemplates/${selectedMailTemplate?.id}`, data),
+      mainInstance.patch(`/mails/templates/${selectedMailTemplate?.id}`, data),
       {
         loading: 'Loading...',
         success: () => {
@@ -98,32 +105,66 @@ const UpdateMailTemplate = ({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogContent>
+      <DialogContent size="5xl">
         {/* Form */}
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} autoComplete="off">
             {/* Dialog header */}
             <DialogHeader>
-              <DialogTitle>Update MailTemplate</DialogTitle>
+              <DialogTitle>Update Mail Template</DialogTitle>
             </DialogHeader>
 
             {/* Dialog body */}
             <DialogBody>
-              <div className="grid grid-cols-12 gap-3">
-                {/* Label field */}
-                <FormField
-                  control={form.control}
-                  name="label"
-                  render={({ field }) => (
-                    <FormItem className="col-span-12">
-                      <FormLabel>Label</FormLabel>
-                      <FormControl>
-                        <Input {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <div className="gap-layout grid grid-cols-2 items-start">
+                <div className="grid grid-cols-12 gap-3">
+                  {/* Label field */}
+                  <FormField
+                    control={form.control}
+                    name="label"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12">
+                        <FormLabel>Label</FormLabel>
+                        <FormControl>
+                          <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="content"
+                    render={({ field }) => (
+                      <FormItem className="col-span-12">
+                        <FormLabel>Content</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            {...field}
+                            placeholder={`
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Welcome Template</title>
+  </head>
+  <body>
+
+  </body>
+</html>
+                              `.trim()}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <div className="sticky top-[calc(var(--spacing)*var(--space))] bottom-3 max-h-[calc(100vh-var(--spacing)*(var(--space)*2))] overflow-auto rounded-lg border">
+                  <IframePreview htmlContent={form.watch('content')} />
+                </div>
               </div>
             </DialogBody>
 

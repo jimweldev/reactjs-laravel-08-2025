@@ -6,7 +6,9 @@ interface PageHeaderProps {
 }
 
 const PageHeader = ({ className, children }: PageHeaderProps) => {
-  return <h2 className={cx('text-2xl font-medium', className)}>{children}</h2>;
+  return (
+    <h2 className={cx('text-2xl font-semibold', className)}>{children}</h2>
+  );
 };
 
 export default PageHeader;

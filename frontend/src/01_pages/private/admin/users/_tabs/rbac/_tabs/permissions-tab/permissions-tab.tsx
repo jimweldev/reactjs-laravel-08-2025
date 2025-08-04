@@ -30,11 +30,12 @@ const PermissionsTab = () => {
   // Tanstack query hook for pagination
   const permissionsPagination = useTanstackQueryPaginate<RbacPermission>({
     endpoint: '/rbac/permissions',
-    defaultSort: 'label',
+    defaultSort: 'id',
   });
 
   // Define table columns
   const columns: DataTableColumn[] = [
+    { label: 'ID', column: 'id', className: 'w-[80px]' },
     { label: 'Label', column: 'label' },
     { label: 'Value', column: 'value' },
     { label: 'Created At', column: 'created_at', className: 'w-[200px]' },
@@ -65,6 +66,7 @@ const PermissionsTab = () => {
         {permissionsPagination.data?.records
           ? permissionsPagination.data.records.map(permission => (
               <TableRow key={permission.id}>
+                <TableCell>{permission.id}</TableCell>
                 <TableCell>{permission.label}</TableCell>
                 <TableCell>{permission.value}</TableCell>
                 <TableCell>

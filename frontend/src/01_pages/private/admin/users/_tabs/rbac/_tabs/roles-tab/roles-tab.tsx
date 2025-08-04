@@ -27,13 +27,14 @@ const RolesTab = () => {
   // Tanstack query hook for pagination
   const rolesPagination = useTanstackQueryPaginate<RbacRole>({
     endpoint: '/rbac/roles',
-    defaultSort: 'label',
+    defaultSort: 'id',
   });
 
   // Define table columns
   const columns: DataTableColumn[] = [
-    { label: 'ID', column: 'id' },
+    { label: 'ID', column: 'id', className: 'w-[80px]' },
     { label: 'Label', column: 'label' },
+    { label: 'Value', column: 'value' },
     { label: 'Created At', column: 'created_at', className: 'w-[200px]' },
     { label: 'Actions', className: 'w-[100px]' },
   ];
@@ -64,6 +65,7 @@ const RolesTab = () => {
               <TableRow key={role.id}>
                 <TableCell>{role.id}</TableCell>
                 <TableCell>{role.label}</TableCell>
+                <TableCell>{role.value}</TableCell>
                 <TableCell>
                   {getDateTimezone(role.created_at, 'date_time')}
                 </TableCell>
