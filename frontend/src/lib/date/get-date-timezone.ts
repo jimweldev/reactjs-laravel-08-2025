@@ -1,5 +1,5 @@
 import moment from 'moment-timezone';
-import useTimezoneStore from '@/05_stores/common/timezone-store';
+import useTimezoneStore from '@/05_stores/_common/timezone-store';
 
 export const getDateTimezone = (
   date: Date | string | undefined,

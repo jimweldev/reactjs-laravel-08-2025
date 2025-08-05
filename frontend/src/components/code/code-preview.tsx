@@ -5,7 +5,7 @@ import {
   docco,
   monokaiSublime,
 } from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import useThemeStore from '@/05_stores/common/theme-store';
+import useThemeStore from '@/05_stores/_common/theme-store';
 import { Button } from '../ui/button';
 import { Card, CardBody } from '../ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';

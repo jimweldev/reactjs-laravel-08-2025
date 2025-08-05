@@ -1,17 +1,17 @@
 import { Skeleton } from '../ui/skeleton';
 
 const barHeights = [
-  '10%',
-  '18%',
-  '20%',
-  '23%',
-  '24%',
-  '25%',
-  '40%',
-  '43%',
-  '63%',
-  '64%',
+  '50%',
+  '55%',
+  '60%',
+  '65%',
+  '75%',
+  '75%',
+  '75%',
   '80%',
+  '80%',
+  '80%',
+  '85%',
   '85%',
 ];
 
@@ -21,7 +21,7 @@ const BarChartSkeleton = () => {
       {barHeights.map((height, index) => (
         <div key={index} className="col-span-1 flex flex-col justify-end gap-3">
           <div className="flex flex-1 items-end">
-            <Skeleton className={`h-[${height}] w-full`} />
+            <Skeleton className="w-full" style={{ height }} />
           </div>
           <Skeleton className="h-4 w-full" />
         </div>

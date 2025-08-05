@@ -40,11 +40,6 @@ const ExamplesLayout = () => {
           icon: FaChartArea,
         },
         {
-          title: 'React Select',
-          url: '/examples/forms/react-select',
-          icon: FaChartArea,
-        },
-        {
           title: 'Global Dropdown',
           url: '/examples/forms/global-dropdown',
           icon: FaChartArea,

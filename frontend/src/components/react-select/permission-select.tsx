@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios';
 import { AsyncPaginate, type LoadOptions } from 'react-select-async-paginate';
 import { toast } from 'sonner';
-import type { ReactSelectOption } from '@/04_types/common/react-select-option';
-import { type RbacPermission } from '@/04_types/rbac-permission';
+import type { ReactSelectOption } from '@/04_types/_common/react-select-option';
+import { type RbacPermission } from '@/04_types/rbac/rbac-permission';
 import { mainInstance } from '@/07_instances/main-instance';
 
 const PermissionSelect = ({ ...props }) => {

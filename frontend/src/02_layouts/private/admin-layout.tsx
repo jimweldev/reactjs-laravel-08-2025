@@ -20,8 +20,8 @@ const AdminLayout = () => {
           icon: FaChartArea,
         },
         {
-          title: 'System',
-          url: '/admin/system',
+          title: 'Systems',
+          url: '/admin/systems',
           icon: FaChartArea,
         },
         {

@@ -8,7 +8,7 @@ import {
   FaTrash,
 } from 'react-icons/fa6';
 import { toast } from 'sonner';
-import type { UserImage } from '@/04_types/user-image';
+import type { UserImage } from '@/04_types/user/user-image';
 import { mainInstance } from '@/07_instances/main-instance';
 import DataTable from '@/components/data-table/data-table';
 import ReactImage from '@/components/image/react-image';

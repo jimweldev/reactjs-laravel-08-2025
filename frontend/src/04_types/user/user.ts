@@ -1,4 +1,4 @@
-import { type RbacUserRole } from './rbac-user-role';
+import { type RbacUserRole } from '../rbac/rbac-user-role';
 import { type UserSetting } from './user-setting';
 
 export type User = {

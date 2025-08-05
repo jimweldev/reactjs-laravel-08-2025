@@ -130,13 +130,13 @@ class RbacRoleController extends Controller {
         }
 
         try {
-            // Check if role already exists
-            $roleExists = RbacRole::where('value', $request->input('value'))->exists();
+            // Check if record already exists
+            $recordExists = RbacRole::where('value', $request->input('value'))->exists();
 
-            if ($roleExists) {
-                // Return a 400 response if the role already exists
+            if ($recordExists) {
+                // Return a 400 response if the record already exists
                 return response()->json([
-                    'message' => 'Rbac Role already exists.',
+                    'message' => 'Record already exists.',
                 ], 400);
             }
 
@@ -171,28 +171,28 @@ class RbacRoleController extends Controller {
         }
 
         try {
-            // Find the role by ID
-            $role = RbacRole::find($id);
+            // Find the record by ID
+            $record = RbacRole::find($id);
 
-            if (!$role) {
-                // Return a 404 response if the role is not found
+            if (!$record) {
+                // Return a 404 response if the record is not found
                 return response()->json([
-                    'message' => 'Role not found.',
+                    'message' => 'Record not found.',
                 ], 404);
             }
 
             // Update role fields
-            $role->update($request->all());
+            $record->update($request->all());
 
             // Sync permissions (use `rbac_permissions` instead of `rbac_role_permissions`)
             if ($request->has('permission_ids')) {
-                $role->rbac_permissions()->sync($request->input('permission_ids'));
+                $record->rbac_permissions()->sync($request->input('permission_ids'));
             }
 
             // Return the updated role
             return response()->json([
                 'message' => 'Role updated successfully',
-                'role' => $role->load('rbac_permissions'),
+                'role' => $record->load('rbac_permissions'),
             ]);
         } catch (\Exception $e) {
             // Handle exceptions and return an error response
@@ -217,21 +217,21 @@ class RbacRoleController extends Controller {
         }
 
         try {
-            // Find the role by ID
-            $role = RbacRole::find($id);
+            // Find the record by ID
+            $record = RbacRole::find($id);
 
-            if (!$role) {
-                // Return a 404 response if the role is not found
+            if (!$record) {
+                // Return a 404 response if the record is not found
                 return response()->json([
-                    'message' => 'Role not found.',
+                    'message' => 'Record not found.',
                 ], 404);
             }
 
-            // Delete the role
-            $role->delete();
+            // Delete the record
+            $record->delete();
 
-            // Return the deleted role
-            return response()->json($role, 200);
+            // Return the deleted record
+            return response()->json($record, 200);
         } catch (\Exception $e) {
             // Handle exceptions and return an error response
             return response()->json([
@@ -269,26 +269,26 @@ class RbacRoleController extends Controller {
      */
     public function addPermission(Request $request, $id) {
         try {
-            // Check if the role permission already exists
-            $rolePermissionExists = RbacRolePermission::where('rbac_role_id', $id)
+            // Check if the record already exists
+            $recordExists = RbacRolePermission::where('rbac_role_id', $id)
                 ->where('rbac_permission_id', $request->input('rbac_permission_id'))
                 ->exists();
 
-            if ($rolePermissionExists) {
-                // Return a 400 response if the role permission already exists
+            if ($recordExists) {
+                // Return a 400 response if the record already exists
                 return response()->json([
-                    'message' => 'Role Permission already exists.',
+                    'message' => 'Record already exists.',
                 ], 400);
             }
 
-            // Create a new role permission
-            $rolePermission = RbacRolePermission::create([
+            // Create a new record
+            $record = RbacRolePermission::create([
                 'rbac_role_id' => $id,
                 'rbac_permission_id' => $request->input('rbac_permission_id'),
             ]);
 
-            // Return the created role permission
-            return response()->json($rolePermission, 200);
+            // Return the created record
+            return response()->json($record, 200);
         } catch (\Exception $e) {
             // Handle exceptions and return an error response
             return response()->json([
@@ -304,20 +304,22 @@ class RbacRoleController extends Controller {
     public function removePermission($id, $permissionId) {
         try {
             // Find the role permission by role ID and permission ID
-            $rolePermission = RbacRolePermission::where('rbac_role_id', $id)
+            $record = RbacRolePermission::where('rbac_role_id', $id)
                 ->where('rbac_permission_id', $permissionId)
                 ->first();
-            if (!$rolePermission) {
+
+            if (!$record) {
                 // Return a 404 response if the role permission is not found
                 return response()->json([
                     'message' => 'Role Permission not found.',
                 ], 404);
             }
+
             // Delete the role permission
-            $rolePermission->delete();
+            $record->delete();
 
             // Return the deleted role permission
-            return response()->json($rolePermission, 200);
+            return response()->json($record, 200);
         } catch (\Exception $e) {
             // Handle exceptions and return an error response
             return response()->json([

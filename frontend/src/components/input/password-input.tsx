@@ -9,34 +9,22 @@ const PasswordInput = ({ ...props }) => {
   return (
     <div className="relative">
       <Input
-        className="pr-8"
-        type={isTypePassword ? 'password' : 'text'}
+        className={cn('pr-10', props.className)} // ensure space for icon
         {...props}
+        type={isTypePassword ? 'password' : 'text'}
       />
-      <button onClick={() => setIsTypePassword(!isTypePassword)}>
-        {isTypePassword ? (
-          <FaEye
-            className={cn(
-              'text-primary absolute top-1/2 -translate-y-1/2',
-              props.inputSize === 'sm' && 'right-3 text-xs',
-              props.inputSize === 'lg' && 'right-2.5',
-              (props.inputSize === 'default' ||
-                props.inputSize === undefined) &&
-                'right-2.5 text-sm',
-            )}
-          />
-        ) : (
-          <FaEyeSlash
-            className={cn(
-              'text-primary absolute top-1/2 -translate-y-1/2',
-              props.inputSize === 'sm' && 'right-3 text-xs',
-              props.inputSize === 'lg' && 'right-2.5',
-              (props.inputSize === 'default' ||
-                props.inputSize === undefined) &&
-                'right-2.5 text-sm',
-            )}
-          />
+      <button
+        type="button"
+        onClick={() => setIsTypePassword(!isTypePassword)}
+        className={cn(
+          'text-ring absolute top-1/2 -translate-y-1/2',
+          props.inputSize === 'sm' && 'right-3 text-xs',
+          props.inputSize === 'lg' && 'right-2.5',
+          (props.inputSize === 'default' || props.inputSize === undefined) &&
+            'right-2.5 text-sm',
         )}
+      >
+        {isTypePassword ? <FaEyeSlash /> : <FaEye />}
       </button>
     </div>
   );

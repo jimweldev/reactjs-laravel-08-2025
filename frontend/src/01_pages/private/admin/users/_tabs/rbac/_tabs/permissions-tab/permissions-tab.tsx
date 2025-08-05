@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaPenToSquare, FaTrash } from 'react-icons/fa6';
-import { type RbacPermission } from '@/04_types/rbac-permission';
-import usePermissionStore from '@/05_stores/permission-store';
+import { type RbacPermission } from '@/04_types/rbac/rbac-permission';
+import usePermissionStore from '@/05_stores/rbac/rbac-permission-store';
 import DataTable, {
   type DataTableColumn,
 } from '@/components/data-table/data-table';

@@ -22,6 +22,8 @@ import '@fontsource/inter/800.css';
 import '@fontsource/inter/800-italic.css';
 import '@fontsource/inter/900.css';
 import '@fontsource/inter/900-italic.css';
+import FontSizeProvider from './06_providers/font-size-provider.tsx';
+import ThemeProvider from './06_providers/theme-provider.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -36,6 +38,8 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <App />
+      <ThemeProvider />
+      <FontSizeProvider />
       <Toaster position="bottom-left" expand={true} duration={3000} />
     </QueryClientProvider>
   </StrictMode>,

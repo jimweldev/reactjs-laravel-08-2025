@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { RbacPermission } from '@/04_types/rbac-permission';
+import type { RbacPermission } from '@/04_types/rbac/rbac-permission';
 
 // Define the store
 type PermissionStoreProps = {

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CircleAlert } from 'lucide-react';
 import { toast } from 'sonner';
-import useUserStore from '@/05_stores/user-store';
+import useUserStore from '@/05_stores/user/user-store';
 import { mainInstance } from '@/07_instances/main-instance';
 import { Button } from '@/components/ui/button';
 import {

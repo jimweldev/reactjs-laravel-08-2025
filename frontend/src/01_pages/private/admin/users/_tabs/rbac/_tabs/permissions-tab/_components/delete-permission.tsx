@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CircleAlert } from 'lucide-react';
 import { toast } from 'sonner';
-import usePermissionStore from '@/05_stores/permission-store';
+import usePermissionStore from '@/05_stores/rbac/rbac-permission-store';
 import { mainInstance } from '@/07_instances/main-instance';
 import { Button } from '@/components/ui/button';
 import {

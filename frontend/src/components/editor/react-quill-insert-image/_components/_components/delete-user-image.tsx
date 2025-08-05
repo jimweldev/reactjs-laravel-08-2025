@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CircleAlert } from 'lucide-react';
 import { toast } from 'sonner';
-import type { UserImage } from '@/04_types/user-image';
+import type { UserImage } from '@/04_types/user/user-image';
 import { mainInstance } from '@/07_instances/main-instance';
 import { Button } from '@/components/ui/button';
 import {
@@ -68,7 +68,7 @@ const DeleteUserImage = ({
           </DialogBody>
           <DialogFooter className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setOpen(false)}>
-              Close
+              Cancel
             </Button>
 
             <Button

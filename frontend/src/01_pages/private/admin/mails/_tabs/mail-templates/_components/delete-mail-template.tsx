@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { CircleAlert } from 'lucide-react';
 import { toast } from 'sonner';
-import useMailTemplateStore from '@/05_stores/mail-template-store';
+import useMailTemplateStore from '@/05_stores/mail/mail-template-store';
 import { mainInstance } from '@/07_instances/main-instance';
 import { Button } from '@/components/ui/button';
 import {

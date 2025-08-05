@@ -1,5 +1,6 @@
 import { FaGear, FaRightFromBracket } from 'react-icons/fa6';
-import useAuthUserStore from '@/05_stores/common/auth-user-store';
+import { Link } from 'react-router';
+import useAuthUserStore from '@/05_stores/_common/auth-user-store';
 import ReactImage from '@/components/image/react-image';
 import {
   DropdownMenu,
@@ -19,8 +20,8 @@ const AppHeaderDropdown = () => {
       <DropdownMenuTrigger asChild>
         <button className="shrink-0">
           <ReactImage
-            className="ring-primary flex size-7 items-center justify-center overflow-hidden rounded-full ring-2 ring-offset-2"
-            src="asd"
+            className="outline-primary border-card flex size-7 items-center justify-center overflow-hidden rounded-full border-1 outline-2"
+            src={`${import.meta.env.VITE_STORAGE_BASE_URL}/${user?.avatar_path}`}
             fallback="/images/default-avatar.jpg"
           />
         </button>
@@ -33,10 +34,12 @@ const AppHeaderDropdown = () => {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <FaGear />
-          Settings
-        </DropdownMenuItem>
+        <Link to="/settings">
+          <DropdownMenuItem>
+            <FaGear />
+            Settings
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuItem onClick={clearAuthUser}>
           <FaRightFromBracket />
           Logout

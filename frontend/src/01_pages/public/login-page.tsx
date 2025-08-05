@@ -3,8 +3,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import useAuthUserStore from '@/05_stores/common/auth-user-store';
+import useAuthUserStore from '@/05_stores/_common/auth-user-store';
 import { publicInstance } from '@/07_instances/public-instance';
+import PasswordInput from '@/components/input/password-input';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -112,11 +113,7 @@ const LoginPage = () => {
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input
-                          type="password"
-                          {...field}
-                          autoComplete="password"
-                        />
+                        <PasswordInput {...field} autoComplete="password" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

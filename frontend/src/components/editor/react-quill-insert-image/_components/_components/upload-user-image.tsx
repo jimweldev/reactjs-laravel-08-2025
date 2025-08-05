@@ -27,9 +27,28 @@ import { mergeUniqueFiles } from '@/lib/react-dropzone/merge-unique-files';
 
 // Zod schema to validate the form input
 const FormSchema = z.object({
-  user_images: z.array(z.file()).min(1, {
-    message: 'Required',
-  }),
+  user_images: z.array(
+    z.file().refine(
+      file => {
+        // Check if file has a name
+        if (!file.name || file.name.trim() === '') {
+          return false;
+        }
+
+        const nameWithoutExt = file.name.split('.').slice(0, -1).join('.');
+
+        // Check if file filename and not extension only
+        if (nameWithoutExt === '') {
+          return false;
+        }
+
+        return true;
+      },
+      {
+        message: 'Invalid filename',
+      },
+    ),
+  ),
 });
 
 // Component Props
@@ -139,7 +158,7 @@ const UploadUserImage = ({ open, setOpen, refetch }: UploadUserImageProps) => {
             {/* Dialog footer */}
             <DialogFooter className="flex justify-end gap-2">
               <Button variant="outline" onClick={() => setOpen(false)}>
-                Close
+                Cancel
               </Button>
               <Button type="submit" disabled={isLoadingCreateItem}>
                 Submit

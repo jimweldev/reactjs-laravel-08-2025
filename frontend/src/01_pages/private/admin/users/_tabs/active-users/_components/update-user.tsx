@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import ReactSelect from 'react-select';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import useUserStore from '@/05_stores/user-store';
+import useUserStore from '@/05_stores/user/user-store';
 import { mainInstance } from '@/07_instances/main-instance';
 import { Button } from '@/components/ui/button';
 import {

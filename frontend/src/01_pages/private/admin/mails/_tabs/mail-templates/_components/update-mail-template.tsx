@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import useMailTemplateStore from '@/05_stores/mail-template-store';
+import useMailTemplateStore from '@/05_stores/mail/mail-template-store';
 import { mainInstance } from '@/07_instances/main-instance';
 import IframePreview from '@/components/iframe/iframe-preview';
 import { Button } from '@/components/ui/button';

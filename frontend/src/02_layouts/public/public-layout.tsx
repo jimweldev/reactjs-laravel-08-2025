@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router';
-import useAuthUserStore from '@/05_stores/common/auth-user-store';
+import useAuthUserStore from '@/05_stores/_common/auth-user-store';
 
 const PublicLayout = () => {
   const navigate = useNavigate();

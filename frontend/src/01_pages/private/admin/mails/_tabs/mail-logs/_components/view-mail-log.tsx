@@ -1,4 +1,4 @@
-import useMailLogStore from '@/05_stores/mail-log-store';
+import useMailLogStore from '@/05_stores/mail/mail-log-store';
 import FancyboxAttachmentViewer from '@/components/fancybox/fancybox-attachment-viewer';
 import FancyboxViewer from '@/components/fancybox/fancybox-viewer';
 import IframePreview from '@/components/iframe/iframe-preview';

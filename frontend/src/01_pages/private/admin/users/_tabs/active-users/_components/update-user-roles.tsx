@@ -3,7 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import useUserStore from '@/05_stores/user-store';
+import useUserStore from '@/05_stores/user/user-store';
 import { mainInstance } from '@/07_instances/main-instance';
 import RoleSelect from '@/components/react-select/role-select';
 import { Button } from '@/components/ui/button';

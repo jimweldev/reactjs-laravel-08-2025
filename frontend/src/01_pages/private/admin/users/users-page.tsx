@@ -5,9 +5,6 @@ import ActiveUsersTab from './_tabs/active-users/active-users-tab';
 import ArchivedUsersTab from './_tabs/archived-users/archived-users-tab';
 import RbacTab from './_tabs/rbac/rbac-tab';
 
-// import ArchivedUsersTab from './_tabs/archived-users/archived-users-tab';
-// import RbacTab from './_tabs/rbac/rbac-tab';
-
 // Main users page component with tabbed interface
 const UsersPage = () => {
   // Get current tab from URL params

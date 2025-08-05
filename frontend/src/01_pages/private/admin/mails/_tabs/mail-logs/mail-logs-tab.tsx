@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaEye, FaSquareCheck, FaSquareXmark } from 'react-icons/fa6';
-import { type MailLog } from '@/04_types/mail-log';
-import useMailLogStore from '@/05_stores/mail-log-store';
+import { type MailLog } from '@/04_types/mail/mail-log';
+import useMailLogStore from '@/05_stores/mail/mail-log-store';
 import DataTable, {
   type DataTableColumn,
 } from '@/components/data-table/data-table';
@@ -38,7 +38,7 @@ const MailLogsTab = () => {
     { label: 'ID', column: 'id' },
     { label: 'Subject', column: 'subject' },
     { label: 'Recipient', column: 'recipient' },
-    { label: 'Status', column: 'status' },
+    { label: 'Attachments' },
     { label: 'Sent', className: 'w-[50px]' },
     { label: 'Created At', column: 'created_at', className: 'w-[200px]' },
     { label: 'Actions', className: 'w-[100px]' },

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { MailLog } from '@/04_types/mail-log';
+import type { MailLog } from '@/04_types/mail/mail-log';
 
 // Define the store
 type MailLogStoreProps = {

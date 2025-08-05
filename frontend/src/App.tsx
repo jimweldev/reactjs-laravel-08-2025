@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router';
 import DashboardPage from './01_pages/private/admin/dashboard/dashboard-page';
 import MailsPage from './01_pages/private/admin/mails/mails-page';
+import SystemsPage from './01_pages/private/admin/systems/systems-page';
 import UsersPage from './01_pages/private/admin/users/users-page';
 import DataTableGridPage from './01_pages/private/examples/data-table/data-table-grid-page';
 import DataTableListGridPage from './01_pages/private/examples/data-table/data-table-list-grid-page';
@@ -11,16 +12,19 @@ import InputPage from './01_pages/private/examples/forms/input-page';
 import RadioGroupPage from './01_pages/private/examples/forms/radio-group-page';
 import ReactDropzonePage from './01_pages/private/examples/forms/react-dropzone-page';
 import ReactQuillPage from './01_pages/private/examples/forms/react-quill-page';
-import ReactSelectPage from './01_pages/private/examples/forms/react-select-page';
 import TextareaPage from './01_pages/private/examples/forms/textarea-page';
 import HomePage from './01_pages/private/home/home-page';
+import GeneralPage from './01_pages/private/settings/general-page';
+import PasswordPage from './01_pages/private/settings/password-page';
+import ProfilePage from './01_pages/private/settings/profile/profile-page';
 import LoginPage from './01_pages/public/login-page';
 import AdminLayout from './02_layouts/private/admin-layout';
 import ExamplesLayout from './02_layouts/private/examples-layout';
 import HomeLayout from './02_layouts/private/home-layout';
 import PrivateLayout from './02_layouts/private/private-layout';
+import SettingsLayout from './02_layouts/private/settings-layout';
 import PublicLayout from './02_layouts/public/public-layout';
-import useAuthUserStore from './05_stores/common/auth-user-store';
+import useAuthUserStore from './05_stores/_common/auth-user-store';
 
 const App = () => {
   const { token, user } = useAuthUserStore();
@@ -61,8 +65,14 @@ const App = () => {
                     ],
                   },
                   {
-                    path: 'system',
-                    element: <HomePage />,
+                    path: 'systems',
+                    element: <SystemsPage />,
+                    children: [
+                      {
+                        path: ':systemTab',
+                        element: <SystemsPage />,
+                      },
+                    ],
                   },
                   {
                     path: 'mails',
@@ -83,6 +93,29 @@ const App = () => {
                   {
                     path: '',
                     element: <HomePage />,
+                  },
+                ],
+              },
+              // SETTINGS LAYOUT
+              {
+                path: 'settings',
+                element: <SettingsLayout />,
+                children: [
+                  {
+                    index: true,
+                    element: <Navigate to="profile" replace />,
+                  },
+                  {
+                    path: 'profile',
+                    element: <ProfilePage />,
+                  },
+                  {
+                    path: 'password',
+                    element: <PasswordPage />,
+                  },
+                  {
+                    path: 'general',
+                    element: <GeneralPage />,
                   },
                 ],
               },
@@ -121,10 +154,6 @@ const App = () => {
                       {
                         path: 'react-quill',
                         element: <ReactQuillPage />,
-                      },
-                      {
-                        path: 'react-select',
-                        element: <ReactSelectPage />,
                       },
                       {
                         path: 'global-dropdown',

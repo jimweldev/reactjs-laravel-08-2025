@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { MailTemplate } from '@/04_types/mail-template';
+import type { MailTemplate } from '@/04_types/mail/mail-template';
 
 // Define the store
 type MailTemplateStoreProps = {

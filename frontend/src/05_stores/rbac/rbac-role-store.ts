@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { RbacRole } from '@/04_types/rbac-role';
+import type { RbacRole } from '@/04_types/rbac/rbac-role';
 
 // Define the store
 type RoleStoreProps = {

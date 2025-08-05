@@ -6,7 +6,7 @@ import {
   type UseQueryOptions,
   type UseQueryResult,
 } from '@tanstack/react-query';
-import { type PaginatedRecord } from '@/04_types/common/paginated-record';
+import { type PaginatedRecord } from '@/04_types/_common/paginated-record';
 import { mainInstance } from '@/07_instances/main-instance';
 
 export type UseTanstackQueryPaginateReturn<T> = Omit<

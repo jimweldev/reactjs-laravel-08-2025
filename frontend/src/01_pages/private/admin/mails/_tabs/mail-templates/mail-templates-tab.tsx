@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaPenToSquare, FaTrash } from 'react-icons/fa6';
-import { type MailTemplate } from '@/04_types/mail-template';
-import useMailTemplateStore from '@/05_stores/mail-template-store';
+import { type MailTemplate } from '@/04_types/mail/mail-template';
+import useMailTemplateStore from '@/05_stores/mail/mail-template-store';
 import DataTable, {
   type DataTableColumn,
 } from '@/components/data-table/data-table';

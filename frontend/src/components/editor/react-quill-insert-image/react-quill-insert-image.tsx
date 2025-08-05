@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { FaImages } from 'react-icons/fa6';
 import type ReactQuill from 'react-quill-new';
 import { z } from 'zod';
-import useAuthUserStore from '@/05_stores/common/auth-user-store';
+import useAuthUserStore from '@/05_stores/_common/auth-user-store';
 import InputGroup from '@/components/input-group/input-group';
 import Tooltip from '@/components/tooltip/tooltip';
 import { Button } from '@/components/ui/button';
@@ -32,7 +32,15 @@ const FormSchema = z.object({
   img_url: z.url({
     message: 'Invalid URL',
   }),
-  img_width: z.string(),
+  img_width: z
+    .union(
+      [
+        z.string().regex(/^\d+(px|%)$/, { message: 'Invalid width format' }),
+        z.literal(''),
+      ],
+      { message: 'Invalid width format' },
+    )
+    .optional(),
 });
 
 type ReactQuillInsertImageProps = {
@@ -97,7 +105,7 @@ const ReactQuillInsertImage = ({
             >
               {/* Dialog header */}
               <DialogHeader>
-                <DialogTitle>Create Task</DialogTitle>
+                <DialogTitle>Insert Image</DialogTitle>
               </DialogHeader>
 
               {/* Dialog body */}
@@ -156,7 +164,7 @@ const ReactQuillInsertImage = ({
               {/* Dialog footer */}
               <DialogFooter className="flex justify-end gap-2">
                 <Button variant="outline" onClick={() => setOpen(false)}>
-                  Close
+                  Cancel
                 </Button>
                 <Button type="submit">Submit</Button>
               </DialogFooter>

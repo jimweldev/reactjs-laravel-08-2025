@@ -1,4 +1,4 @@
-import { type User } from '@/04_types/user';
+import { type User } from '@/04_types/user/user';
 
 export const formatName = (
   name?: User | null,

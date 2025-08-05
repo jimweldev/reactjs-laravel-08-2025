@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios';
 import { AsyncPaginate, type LoadOptions } from 'react-select-async-paginate';
 import { toast } from 'sonner';
-import type { ReactSelectOption } from '@/04_types/common/react-select-option';
-import { type RbacRole } from '@/04_types/rbac-role';
+import type { ReactSelectOption } from '@/04_types/_common/react-select-option';
+import { type RbacRole } from '@/04_types/rbac/rbac-role';
 import { mainInstance } from '@/07_instances/main-instance';
 
 const RoleSelect = ({ ...props }) => {

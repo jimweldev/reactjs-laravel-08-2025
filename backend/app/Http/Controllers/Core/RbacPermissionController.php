@@ -114,13 +114,13 @@ class RbacPermissionController extends Controller {
         }
 
         try {
-            // Check if the role already exists
-            $roleExists = RbacPermission::where('value', $request->input('value'))->exists();
+            // Check if the record already exists
+            $recordExists = RbacPermission::where('value', $request->input('value'))->exists();
 
-            if ($roleExists) {
-                // Return a 400 response if the role already exists
+            if ($recordExists) {
+                // Return a 400 response if the record already exists
                 return response()->json([
-                    'message' => 'Rbac Role already exists.',
+                    'message' => 'Rbac Record already exists.',
                 ], 400);
             }
 
@@ -153,20 +153,20 @@ class RbacPermissionController extends Controller {
 
         try {
             // Find the role by ID
-            $role = RbacPermission::find($id);
+            $record = RbacPermission::find($id);
 
-            if (!$role) {
-                // Return a 404 response if the role is not found
+            if (!$record) {
+                // Return a 404 response if the record is not found
                 return response()->json([
-                    'message' => 'Role not found.',
+                    'message' => 'Record not found.',
                 ], 404);
             }
 
-            // Update the role
-            $role->update($request->all());
+            // Update the record
+            $record->update($request->all());
 
-            // Return the updated role
-            return response()->json($role);
+            // Return the updated record
+            return response()->json($record);
         } catch (\Exception $e) {
             // Handle exceptions and return an error response
             return response()->json([
@@ -191,20 +191,20 @@ class RbacPermissionController extends Controller {
 
         try {
             // Find the role by ID
-            $role = RbacPermission::find($id);
+            $record = RbacPermission::find($id);
 
-            if (!$role) {
-                // Return a 404 response if the role is not found
+            if (!$record) {
+                // Return a 404 response if the record is not found
                 return response()->json([
-                    'message' => 'Role not found.',
+                    'message' => 'Record not found.',
                 ], 404);
             }
 
-            // Delete the role
-            $role->delete();
+            // Delete the record
+            $record->delete();
 
-            // Return the deleted role
-            return response()->json($role, 200);
+            // Return the deleted record
+            return response()->json($record, 200);
         } catch (\Exception $e) {
             // Handle exceptions and return an error response
             return response()->json([

@@ -157,3 +157,7 @@
     scrollbar-color: var(--sidebar-ring) transparent;
   }
 }
+
+html {
+  font-size: var(--font-size, 1rem);
+}

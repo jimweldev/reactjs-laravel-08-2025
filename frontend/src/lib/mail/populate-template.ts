@@ -1,5 +1,5 @@
 import { toast } from 'sonner';
-import { type MailLog } from '@/04_types/mail-log';
+import { type MailLog } from '@/04_types/mail/mail-log';
 
 export const populateTemplate = (data: MailLog | null | undefined): string => {
   if (!data || !data.mail_template || !data.content_data) {

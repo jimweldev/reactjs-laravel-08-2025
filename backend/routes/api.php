@@ -76,11 +76,28 @@ Route::middleware('auth.middleware')->group(function () {
 
     // mail logs
     Route::resource('/mails/logs', MailLogController::class);
+
+    // ==============
+    // === SYSTEM
+    // system settings
+    Route::resource('/system/settings', SystemSettingController::class);
+
+    // global dropdowns
+    Route::resource('/system/global-dropdowns', SystemGlobalDropdownController::class);
     
     // ==============
     // === SELECTS
     Route::get('/select/roles', [SelectController::class, 'getSelectRoles']);
     Route::get('/select/permissions', [SelectController::class, 'getSelectPermissions']);
+    Route::get('/select/global-dropdowns', [SelectController::class, 'getSelectSystemGlobalDropdowns']);
+
+    // ==============
+    // === SETTINGS
+    // general
+    Route::patch('/settings', [UserController::class, 'updateUserSettings']);
+    Route::patch('/settings/profile', [UserController::class, 'updateProfile']);
+    Route::post('/settings/profile/avatar', [UserController::class, 'updateProfileAvatar']);
+    Route::patch('/settings/change-password', [UserController::class, 'changePassword']);
 });
 
 // ===================================================================

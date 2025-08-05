@@ -5,7 +5,7 @@ import fallbackImage from '/images/image-not-found.png';
 
 type ReactImageProps = {
   className?: string;
-  src: string;
+  src: string | undefined;
   alt?: string;
   fallback?: string;
 };
@@ -27,7 +27,7 @@ const ReactImage = ({
   return (
     <Img
       className={className}
-      src={src}
+      src={src || fallback}
       alt={alt}
       loader={
         <div

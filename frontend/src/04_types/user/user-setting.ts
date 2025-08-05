@@ -1,4 +1,4 @@
-import type { Theme } from '@/05_stores/theme-store';
+import type { Theme } from '@/05_stores/_common/theme-store';
 
 export type UserSetting = {
   id?: number;

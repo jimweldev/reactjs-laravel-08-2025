@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaPenToSquare, FaTrash } from 'react-icons/fa6';
-import { type RbacRole } from '@/04_types/rbac-role';
-import useRoleStore from '@/05_stores/role-store';
+import { type RbacRole } from '@/04_types/rbac/rbac-role';
+import useRoleStore from '@/05_stores/rbac/rbac-role-store';
 import DataTable, {
   type DataTableColumn,
 } from '@/components/data-table/data-table';

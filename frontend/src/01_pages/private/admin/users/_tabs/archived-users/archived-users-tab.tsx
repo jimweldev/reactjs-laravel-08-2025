@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { FaHistory } from 'react-icons/fa';
-import { type User } from '@/04_types/user';
-import useUserStore from '@/05_stores/user-store';
+import { type User } from '@/04_types/user/user';
+import useUserStore from '@/05_stores/user/user-store';
 import DataTable, {
   type DataTableColumn,
 } from '@/components/data-table/data-table';

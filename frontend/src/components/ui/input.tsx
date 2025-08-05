@@ -40,7 +40,12 @@ function Input({
         'placeholder:text-muted-foreground', // placeholder
         'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50', // disabled
         'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive', // invalid
-        'read-only:pointer-events-none read-only:cursor-not-allowed read-only:opacity-50', // readonly
+        type !== 'file' &&
+          'read-only:text-muted-foreground read-only:pointer-events-none read-only:cursor-not-allowed', // readonly
+        'file:text-foreground file:font-medium',
+        type === 'file' &&
+          inputSize === 'sm' &&
+          'file:mt-0.5 file:mr-1 file:items-center file:font-bold',
         cn(inputVariants({ inputSize, className })),
       )}
       {...props}

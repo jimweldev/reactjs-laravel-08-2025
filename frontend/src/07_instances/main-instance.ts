@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { toast } from 'sonner';
-import useAuthUserStore from '@/05_stores/common/auth-user-store';
+import useAuthUserStore from '@/05_stores/_common/auth-user-store';
 
 const mainInstance = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,

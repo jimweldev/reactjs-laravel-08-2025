@@ -96,4 +96,46 @@ class SelectController extends Controller {
             ], 400);
         }
     }
+
+    /**
+     * Display a paginated list of system global dropdowns with optional filtering and search.
+     */
+    public function getSelectSystemGlobalDropdowns(Request $request) {
+        $queryParams = $request->all();
+
+        try {
+            $query = SystemGlobalDropdown::query();
+
+            $type = 'paginate';
+            QueryHelper::apply($query, $queryParams, $type);
+
+            if ($request->has('search')) {
+                $search = $request->input('search');
+                $query->where(function ($query) use ($search) {
+                    $query->where('label', 'LIKE', '%'.$search.'%');
+                });
+            }
+
+            $total = $query->count();
+
+            $limit = $request->input('limit', 10);
+            $page = $request->input('page', 1);
+            QueryHelper::applyLimitAndOffset($query, $limit, $page);
+
+            $records = $query->get();
+
+            return response()->json([
+                'records' => $records,
+                'meta' => [
+                    'total_records' => $total,
+                    'total_pages' => ceil($total / $limit),
+                ],
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred.',
+                'error' => $e->getMessage(),
+            ], 400);
+        }
+    }
 }
