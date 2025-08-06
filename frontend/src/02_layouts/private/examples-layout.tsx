@@ -1,4 +1,16 @@
-import { FaChartArea } from 'react-icons/fa6';
+import {
+  FaChartArea,
+  FaCircleDot,
+  FaFileArrowUp,
+  FaKeyboard,
+  FaList,
+  FaQuoteRight,
+  FaRectangleList,
+  FaRegKeyboard,
+  FaSquareCheck,
+  FaTableCellsLarge,
+  FaTableList,
+} from 'react-icons/fa6';
 import { Outlet } from 'react-router';
 import { type SidebarGroup } from '@/03_templates/main-template/_components/sidebar/app-sidebar';
 import MainTemplate from '@/03_templates/main-template/main-template';
@@ -11,38 +23,38 @@ const ExamplesLayout = () => {
         {
           title: 'Input',
           url: '/examples/forms',
-          icon: FaChartArea,
+          icon: FaKeyboard,
           end: true,
         },
         {
           title: 'Textarea',
           url: '/examples/forms/textarea',
-          icon: FaChartArea,
+          icon: FaRegKeyboard,
         },
         {
           title: 'Checkbox',
           url: '/examples/forms/checkbox',
-          icon: FaChartArea,
+          icon: FaSquareCheck,
         },
         {
           title: 'Radio Group',
           url: '/examples/forms/radio-group',
-          icon: FaChartArea,
+          icon: FaCircleDot,
         },
         {
           title: 'React Dropzone',
           url: '/examples/forms/react-dropzone',
-          icon: FaChartArea,
+          icon: FaFileArrowUp,
         },
         {
           title: 'React Quill',
           url: '/examples/forms/react-quill',
-          icon: FaChartArea,
+          icon: FaQuoteRight,
         },
         {
           title: 'Global Dropdown',
           url: '/examples/forms/global-dropdown',
-          icon: FaChartArea,
+          icon: FaRectangleList,
         },
       ],
     },
@@ -52,18 +64,18 @@ const ExamplesLayout = () => {
         {
           title: 'List',
           url: '/examples/data-table',
-          icon: FaChartArea,
+          icon: FaList,
           end: true,
         },
         {
           title: 'Grid',
           url: '/examples/data-table/grid',
-          icon: FaChartArea,
+          icon: FaTableCellsLarge,
         },
         {
           title: 'List/Grid',
           url: '/examples/data-table/list-grid',
-          icon: FaChartArea,
+          icon: FaTableList,
         },
       ],
     },

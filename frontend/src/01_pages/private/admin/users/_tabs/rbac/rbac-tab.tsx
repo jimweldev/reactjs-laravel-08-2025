@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from 'react-router';
 import { Card, CardBody } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import PermissionsTab from './_tabs/permissions-tab/permissions-tab';
-import RolesTab from './_tabs/roles-tab/roles-tab';
+import PermissionsTab from './_tabs/permissions/permissions-tab';
+import RolesTab from './_tabs/roles/roles-tab';
 
 // RBAC (Role-Based Access Control) management tab component
 const RbacTab = () => {

@@ -50,7 +50,7 @@ const ReactQuillUserImages = ({
     {
       endpoint: '/user-images',
       defaultSort: '-is_pinned,file_name',
-      defaultLimit: '24',
+      defaultLimit: '18',
     },
     {
       enabled: open,
@@ -117,9 +117,12 @@ const ReactQuillUserImages = ({
           <DialogBody>
             <DataTable
               actions={actions}
+              limits={['18', '24', '30', '36']}
               defaultView="grid"
               pagination={userImagesPagination}
-              skeleton={<UserImagesSkeleton inputCount={24} />}
+              skeleton={
+                <UserImagesSkeleton inputCount={userImagesPagination.limit} />
+              }
             >
               <div className="grid grid-cols-[repeat(auto-fill,minmax(140px,1fr))] gap-2">
                 {userImagesPagination.data?.records?.map(image => (

@@ -7,6 +7,7 @@ import DataTable, {
 } from '@/components/data-table/data-table';
 import InputGroup from '@/components/input-group/input-group';
 import Tooltip from '@/components/tooltip/tooltip';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
@@ -35,6 +36,7 @@ const RolesTab = () => {
     { label: 'ID', column: 'id', className: 'w-[80px]' },
     { label: 'Label', column: 'label' },
     { label: 'Value', column: 'value' },
+    { label: 'Permissions' },
     { label: 'Created At', column: 'created_at', className: 'w-[200px]' },
     { label: 'Actions', className: 'w-[100px]' },
   ];
@@ -66,6 +68,13 @@ const RolesTab = () => {
                 <TableCell>{role.id}</TableCell>
                 <TableCell>{role.label}</TableCell>
                 <TableCell>{role.value}</TableCell>
+                <TableCell className="flex flex-wrap gap-1">
+                  {role.rbac_role_permissions?.map(rolePermission => (
+                    <Badge key={rolePermission.id}>
+                      {rolePermission.rbac_permission?.label}
+                    </Badge>
+                  ))}
+                </TableCell>
                 <TableCell>
                   {getDateTimezone(role.created_at, 'date_time')}
                 </TableCell>

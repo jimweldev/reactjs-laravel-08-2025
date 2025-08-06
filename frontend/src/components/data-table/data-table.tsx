@@ -15,6 +15,14 @@ import SearchInput from '../input/search-input';
 import Tooltip from '../tooltip/tooltip';
 import { Button } from '../ui/button';
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '../ui/select';
+import {
   Table,
   TableBody,
   TableCell,
@@ -36,6 +44,7 @@ type DataTableProps<T> = {
   actions?: ReactNode;
   showViewToggle?: boolean;
   showHeader?: boolean;
+  limits?: string[];
   defaultView?: 'list' | 'grid';
   list?: ReactNode;
   grid?: ReactNode;
@@ -49,6 +58,7 @@ const DataTable = <T,>({
   actions,
   showViewToggle,
   showHeader = true,
+  limits = ['10', '25', '50', '100'],
   defaultView = 'list',
   list,
   grid,
@@ -83,6 +93,29 @@ const DataTable = <T,>({
                 setSearch(e.target.value)
               }
             />
+            <Select
+              value={pagination.limit}
+              onValueChange={value => {
+                pagination.setLimit(value);
+                pagination.setPage(1);
+              }}
+            >
+              <SelectTrigger
+                size="sm"
+                className="@lg/main:w-[75px] @lg/main:min-w-[75px]"
+              >
+                <SelectValue placeholder="Select entry" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {limits.map((limit: any) => (
+                    <SelectItem key={limit} value={limit}>
+                      {limit}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
             <Tooltip content="Refresh">
               <Button
                 size="icon-sm"

@@ -52,7 +52,12 @@ const DeleteUserImage = ({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent>
-        <form onSubmit={onSubmit}>
+        <form
+          onSubmit={e => {
+            e.stopPropagation();
+            onSubmit(e);
+          }}
+        >
           <DialogBody>
             <CircleAlert className="text-destructive mx-auto mb-4" size={64} />
 

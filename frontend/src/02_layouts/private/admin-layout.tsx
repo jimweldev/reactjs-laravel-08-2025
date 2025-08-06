@@ -1,4 +1,4 @@
-import { FaChartArea } from 'react-icons/fa6';
+import { FaChartArea, FaEnvelope, FaGears, FaUsers } from 'react-icons/fa6';
 import { Outlet } from 'react-router';
 import { type SidebarGroup } from '@/03_templates/main-template/_components/sidebar/app-sidebar';
 import MainTemplate from '@/03_templates/main-template/main-template';
@@ -17,17 +17,17 @@ const AdminLayout = () => {
         {
           title: 'Users',
           url: '/admin/users',
-          icon: FaChartArea,
+          icon: FaUsers,
         },
         {
           title: 'Systems',
           url: '/admin/systems',
-          icon: FaChartArea,
+          icon: FaGears,
         },
         {
           title: 'Mails',
           url: '/admin/mails',
-          icon: FaChartArea,
+          icon: FaEnvelope,
         },
       ],
     },
