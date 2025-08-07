@@ -6,19 +6,25 @@ import useUserStore from '@/05_stores/user/user-store';
 import DataTable, {
   type DataTableColumn,
 } from '@/components/data-table/data-table';
+import FancyboxViewer from '@/components/fancybox/fancybox-viewer';
+import ReactImage from '@/components/image/react-image';
 import InputGroup from '@/components/input-group/input-group';
 import Tooltip from '@/components/tooltip/tooltip';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
 import { TableCell, TableRow } from '@/components/ui/table';
+import useFancybox from '@/hooks/fancybox/use-fancybox';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
+import { formatName } from '@/lib/user/format-name';
 import RestoreUser from './_components/restore-user';
 
 const ArchivedUsersTab = () => {
   // Store
   const { setSelectedUser } = useUserStore();
+
+  const [fancyboxRef] = useFancybox();
 
   // Dialog States
   const [openRestoreUserDialog, setOpenRestoreUserDialog] = useState(false);
@@ -42,7 +48,7 @@ const ArchivedUsersTab = () => {
   return (
     <>
       {/* Card */}
-      <Card>
+      <Card ref={fancyboxRef}>
         <CardBody>
           {/* Data Table */}
           <DataTable pagination={usersPagination} columns={columns}>
@@ -51,7 +57,32 @@ const ArchivedUsersTab = () => {
               ? usersPagination.data.records.map(user => (
                   <TableRow key={user.id}>
                     <TableCell>{user.id}</TableCell>
-                    <TableCell>{user.email}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <FancyboxViewer
+                          baseUrl={import.meta.env.VITE_STORAGE_BASE_URL}
+                          filePath={user.avatar_path}
+                          data-fancybox={`${user.id}`}
+                          data-caption={formatName(user)}
+                          fallback="/images/default-avatar.jpg"
+                        >
+                          <ReactImage
+                            className="outline-primary border-card flex size-7 items-center justify-center overflow-hidden rounded-full border-1 outline-2"
+                            src={`${import.meta.env.VITE_STORAGE_BASE_URL}/${user?.avatar_path}`}
+                            fallback="/images/default-avatar.jpg"
+                          />
+                        </FancyboxViewer>
+
+                        <div>
+                          <h6 className="text-xs font-semibold">
+                            {formatName(user)}
+                          </h6>
+                          <p className="text-muted-foreground text-xs">
+                            {user.email}
+                          </p>
+                        </div>
+                      </div>
+                    </TableCell>
                     <TableCell>
                       <Badge variant={user.is_admin ? 'default' : 'secondary'}>
                         {user.is_admin ? 'Admin' : 'User'}

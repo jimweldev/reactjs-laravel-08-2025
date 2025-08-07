@@ -1,4 +1,4 @@
-import { FaHouse } from 'react-icons/fa6';
+import { FaLock, FaSliders, FaUser } from 'react-icons/fa6';
 import { Outlet } from 'react-router';
 import { type SidebarGroup } from '@/03_templates/main-template/_components/sidebar/app-sidebar';
 import MainTemplate from '@/03_templates/main-template/main-template';
@@ -11,17 +11,17 @@ const SettingsLayout = () => {
         {
           title: 'Profile',
           url: '/settings/profile',
-          icon: FaHouse,
+          icon: FaUser,
         },
         {
           title: 'Password',
           url: '/settings/password',
-          icon: FaHouse,
+          icon: FaLock,
         },
         {
           title: 'General',
           url: '/settings/general',
-          icon: FaHouse,
+          icon: FaSliders,
         },
       ],
     },
