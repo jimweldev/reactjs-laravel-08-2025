@@ -31,21 +31,21 @@ import {
 } from '@/components/ui/dropdown-menu';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { cn } from '@/lib/utils';
-import DeleteUserImage from './_components/delete-user-image';
-import RenameUserImage from './_components/rename-user-image';
-import UploadUserImage from './_components/upload-user-image';
+import DeleteUserImageDialog from './_dialogs/delete-user-image-dialog';
+import RenameUserImageDialog from './_dialogs/rename-user-image-dialog';
+import UploadUserImageDialog from './_dialogs/upload-user-image-dialog';
 
-type ReactQuillEditorProps = {
+type ReactQuillUserImagesDialogProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
   onSelectImage: (url: string) => void;
 };
 
-const ReactQuillUserImages = ({
+const ReactQuillUserImagesDialog = ({
   open,
   setOpen,
   onSelectImage: onSelectImageHandler,
-}: ReactQuillEditorProps) => {
+}: ReactQuillUserImagesDialogProps) => {
   const userImagesPagination = useTanstackQueryPaginate<UserImage>(
     {
       endpoint: '/user-images',
@@ -58,11 +58,11 @@ const ReactQuillUserImages = ({
   );
 
   const [selectedImage, setSelectedImage] = useState<UserImage | null>(null);
-  const [openUploadUserImage, setOpenUploadUserImage] =
+  const [openUploadUserImageDialog, setOpenUploadUserImageDialog] =
     useState<boolean>(false);
-  const [openRenameUserImage, setOpenRenameUserImage] =
+  const [openRenameUserImageDialog, setOpenRenameUserImageDialog] =
     useState<boolean>(false);
-  const [openDeleteUserImage, setOpenDeleteUserImage] =
+  const [openDeleteUserImageDialog, setOpenDeleteUserImageDialog] =
     useState<boolean>(false);
 
   const onSubmit = (image: UserImage) => {
@@ -102,7 +102,7 @@ const ReactQuillUserImages = ({
   };
 
   const actions = (
-    <Button size="sm" onClick={() => setOpenUploadUserImage(true)}>
+    <Button size="sm" onClick={() => setOpenUploadUserImageDialog(true)}>
       Create
     </Button>
   );
@@ -152,7 +152,7 @@ const ReactQuillUserImages = ({
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
                           <DropdownMenuItem
-                            onClick={() => setOpenRenameUserImage(true)}
+                            onClick={() => setOpenRenameUserImageDialog(true)}
                           >
                             <FaPenToSquare className="size-3.5" />
                             Rename
@@ -163,7 +163,7 @@ const ReactQuillUserImages = ({
                           </DropdownMenuItem>
                           <DropdownMenuItem
                             variant="destructive"
-                            onClick={() => setOpenDeleteUserImage(true)}
+                            onClick={() => setOpenDeleteUserImageDialog(true)}
                           >
                             <FaTrash className="size-3.5" />
                             Delete
@@ -195,20 +195,20 @@ const ReactQuillUserImages = ({
         </DialogContent>
       </Dialog>
 
-      <UploadUserImage
-        open={openUploadUserImage}
-        setOpen={setOpenUploadUserImage}
+      <UploadUserImageDialog
+        open={openUploadUserImageDialog}
+        setOpen={setOpenUploadUserImageDialog}
         refetch={userImagesPagination.refetch}
       />
-      <RenameUserImage
-        open={openRenameUserImage}
-        setOpen={setOpenRenameUserImage}
+      <RenameUserImageDialog
+        open={openRenameUserImageDialog}
+        setOpen={setOpenRenameUserImageDialog}
         selectedItem={selectedImage!}
         refetch={userImagesPagination.refetch}
       />
-      <DeleteUserImage
-        open={openDeleteUserImage}
-        setOpen={setOpenDeleteUserImage}
+      <DeleteUserImageDialog
+        open={openDeleteUserImageDialog}
+        setOpen={setOpenDeleteUserImageDialog}
         selectedItem={selectedImage!}
         refetch={userImagesPagination.refetch}
       />
@@ -216,4 +216,4 @@ const ReactQuillUserImages = ({
   );
 };
 
-export default ReactQuillUserImages;
+export default ReactQuillUserImagesDialog;

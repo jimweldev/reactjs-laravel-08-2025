@@ -25,7 +25,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import ReactQuillUserImages from './_components/react-quill-user-images';
+import ReactQuillUserImagesDialog from './_dialogs/react-quill-user-images-dialog';
 
 // Zod schema to validate the form input
 const FormSchema = z.object({
@@ -43,19 +43,19 @@ const FormSchema = z.object({
     .optional(),
 });
 
-type ReactQuillInsertImageProps = {
+type ReactQuillInsertImageDialogProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
   ref: React.RefObject<ReactQuill | null>;
   selection: { index: number; length: number } | null;
 };
 
-const ReactQuillInsertImage = ({
+const ReactQuillInsertImageDialog = ({
   open,
   setOpen,
   ref: quillRef,
   selection,
-}: ReactQuillInsertImageProps) => {
+}: ReactQuillInsertImageDialogProps) => {
   // Access store values
   const { user } = useAuthUserStore();
 
@@ -173,7 +173,7 @@ const ReactQuillInsertImage = ({
         </DialogContent>
       </Dialog>
 
-      <ReactQuillUserImages
+      <ReactQuillUserImagesDialog
         open={openMyDrive}
         setOpen={setOpenMyDrive}
         onSelectImage={onSelectImage}
@@ -182,4 +182,4 @@ const ReactQuillInsertImage = ({
   );
 };
 
-export default ReactQuillInsertImage;
+export default ReactQuillInsertImageDialog;

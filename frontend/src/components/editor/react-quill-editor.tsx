@@ -2,7 +2,7 @@ import { useMemo, useRef, useState } from 'react';
 import ReactQuill from 'react-quill-new';
 import { defaultModules, simpleModules } from '@/08_configs/react-quill.config';
 import 'react-quill-new/dist/quill.snow.css';
-import ReactQuillInsertImage from './react-quill-insert-image/react-quill-insert-image';
+import ReactQuillInsertImageDialog from './_dialogs/react-quill-insert-image-dialog';
 
 // Define type for Quill instance
 type QuillEditor = ReactQuill & {
@@ -26,7 +26,8 @@ const ReactQuillEditor = ({
 }: ReactQuillEditorProps) => {
   const quillRef = useRef<QuillEditor | null>(null);
 
-  const [showImageDialog, setShowImageDialog] = useState(false);
+  const [openReactQuillImageDialog, setOpenReactQuillImageDialog] =
+    useState(false);
   const [selection, setSelection] = useState<ReactQuill.Range | null>(null);
 
   const modules = useMemo(
@@ -40,7 +41,7 @@ const ReactQuillEditor = ({
               const quill = quillRef.current.getEditor();
               const range = quill.getSelection();
               if (range) setSelection(range);
-              setShowImageDialog(true);
+              setOpenReactQuillImageDialog(true);
             }
           },
         },
@@ -61,9 +62,9 @@ const ReactQuillEditor = ({
         placeholder={placeholder}
       />
 
-      <ReactQuillInsertImage
-        open={showImageDialog}
-        setOpen={setShowImageDialog}
+      <ReactQuillInsertImageDialog
+        open={openReactQuillImageDialog}
+        setOpen={setOpenReactQuillImageDialog}
         ref={quillRef}
         selection={selection}
       />

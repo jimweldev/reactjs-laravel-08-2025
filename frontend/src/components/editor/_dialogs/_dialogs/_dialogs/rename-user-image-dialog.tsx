@@ -33,19 +33,19 @@ const FormSchema = z.object({
   }),
 });
 
-type RenameUserImageProps = {
+type RenameUserImageDialogProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
   refetch: () => void;
   selectedItem: UserImage;
 };
 
-const RenameUserImage = ({
+const RenameUserImageDialog = ({
   open,
   setOpen,
   refetch,
   selectedItem,
-}: RenameUserImageProps) => {
+}: RenameUserImageDialogProps) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -157,4 +157,4 @@ const RenameUserImage = ({
   );
 };
 
-export default RenameUserImage;
+export default RenameUserImageDialog;

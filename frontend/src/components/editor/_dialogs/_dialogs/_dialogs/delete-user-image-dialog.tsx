@@ -11,19 +11,19 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 
-type DeleteUserImageProps = {
+type DeleteUserImageDialogProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   selectedItem: UserImage | null;
   refetch: () => void;
 };
 
-const DeleteUserImage = ({
+const DeleteUserImageDialog = ({
   open,
   setOpen,
   selectedItem,
   refetch,
-}: DeleteUserImageProps) => {
+}: DeleteUserImageDialogProps) => {
   const [isLoadingDeleteItem, setIsLoadingDeleteItem] = useState(false);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -90,4 +90,4 @@ const DeleteUserImage = ({
   );
 };
 
-export default DeleteUserImage;
+export default DeleteUserImageDialog;

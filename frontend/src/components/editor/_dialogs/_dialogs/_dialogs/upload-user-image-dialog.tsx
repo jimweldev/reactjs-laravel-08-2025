@@ -52,13 +52,17 @@ const FormSchema = z.object({
 });
 
 // Component Props
-type UploadUserImageProps = {
+type UploadUserImageDialogProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
   refetch: () => void;
 };
 
-const UploadUserImage = ({ open, setOpen, refetch }: UploadUserImageProps) => {
+const UploadUserImageDialog = ({
+  open,
+  setOpen,
+  refetch,
+}: UploadUserImageDialogProps) => {
   // Access store values
 
   // Initialize form with Zod resolver and default values
@@ -171,4 +175,4 @@ const UploadUserImage = ({ open, setOpen, refetch }: UploadUserImageProps) => {
   );
 };
 
-export default UploadUserImage;
+export default UploadUserImageDialog;
