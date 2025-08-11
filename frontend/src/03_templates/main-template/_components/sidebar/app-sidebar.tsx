@@ -1,13 +1,5 @@
-import { ChevronsUpDown } from 'lucide-react';
-import { FaCode, FaHouse, FaUserGear } from 'react-icons/fa6';
-import { Link, NavLink, useLocation } from 'react-router';
+import { Link, NavLink } from 'react-router';
 import ReactImage from '@/components/image/react-image';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import {
   Sidebar,
   SidebarContent,
@@ -48,39 +40,6 @@ type AppSidebarProps = {
 };
 
 const AppSidebar = ({ sidebarGroups = [], ...props }: AppSidebarProps) => {
-  const location = useLocation();
-
-  const excludedMainMenuPaths = ['/admin', '/examples', '/settings'];
-  const isExcluded = excludedMainMenuPaths.some(path =>
-    location.pathname.startsWith(path),
-  );
-
-  const mainMenuPaths = [
-    {
-      path: '/admin',
-      icon: <FaUserGear className="text-inherit" />,
-      label: 'Admin',
-    },
-    {
-      path: '/',
-      icon: <FaHouse className="text-inherit" />,
-      label: 'Home',
-    },
-    {
-      path: '/examples',
-      icon: <FaCode className="text-inherit" />,
-      label: 'Examples',
-    },
-  ];
-
-  // Find the active menu item (fallback to Home if no match)
-  const activeMenu =
-    mainMenuPaths.find(menu =>
-      menu.path === '/'
-        ? location.pathname === '/' || !isExcluded
-        : location.pathname.startsWith(menu.path),
-    ) || mainMenuPaths[1]; // default to Home
-
   return (
     <Sidebar {...props}>
       <SidebarHeader className="flex flex-col items-center justify-between">
