@@ -83,11 +83,12 @@ const ReactQuillInsertImageDialog = ({
     setOpen(false);
   };
 
-  const [openMyDrive, setOpenMyDrive] = useState<boolean>(false);
+  const [openReactQuillUserImagesDialog, setOpenReactQuillUserImagesDialog] =
+    useState<boolean>(false);
 
   const onSelectImage = (url: string) => {
     form.setValue('img_url', url);
-    setOpenMyDrive(false);
+    setOpenReactQuillUserImagesDialog(false);
   };
 
   return (
@@ -134,7 +135,11 @@ const ReactQuillInsertImageDialog = ({
                             />
                             {user ? (
                               <Tooltip content="Choose from my images">
-                                <Button onClick={() => setOpenMyDrive(true)}>
+                                <Button
+                                  onClick={() =>
+                                    setOpenReactQuillUserImagesDialog(true)
+                                  }
+                                >
                                   <FaImages />
                                 </Button>
                               </Tooltip>
@@ -174,8 +179,8 @@ const ReactQuillInsertImageDialog = ({
       </Dialog>
 
       <ReactQuillUserImagesDialog
-        open={openMyDrive}
-        setOpen={setOpenMyDrive}
+        open={openReactQuillUserImagesDialog}
+        setOpen={setOpenReactQuillUserImagesDialog}
         onSelectImage={onSelectImage}
       />
     </>
