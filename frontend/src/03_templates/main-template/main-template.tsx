@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { SidebarProvider } from '@/components/ui/sidebar';
 import AppHeader from './_components/header/app-header';
 import AppSidebar, {
@@ -9,9 +10,16 @@ type MainTemplateProps = {
   children?: React.ReactNode;
 };
 const MainTemplate = ({ sidebarGroups, children }: MainTemplateProps) => {
+  const hasRun = useRef(false);
+
+  if (!hasRun.current) {
+    document.body.style.pointerEvents = 'auto';
+    hasRun.current = true;
+  }
+
   return (
     <SidebarProvider>
-      <AppSidebar collapsible="icon" sidebarGroups={sidebarGroups} />
+      <AppSidebar sidebarGroups={sidebarGroups} />
       <main className="flex-1 overflow-hidden">
         <AppHeader />
 

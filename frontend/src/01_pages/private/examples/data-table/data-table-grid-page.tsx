@@ -12,9 +12,9 @@ import PageHeader from '@/components/typography/page-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
-import CreateTask from './_components/create-task';
-import DeleteTask from './_components/delete-task';
-import UpdateTask from './_components/update-task';
+import CreateTaskDialog from './_components/create-task-dialog';
+import DeleteTaskDialog from './_components/delete-task-dialog';
+import UpdateTaskDialog from './_components/update-task-dialog';
 
 const DataTableGridPage = () => {
   // Store
@@ -52,7 +52,7 @@ const DataTableGridPage = () => {
 
   return (
     <>
-      <PageHeader className="mb-layout">Data Table Grid</PageHeader>
+      <PageHeader className="mb-3">Data Table Grid</PageHeader>
 
       {/* Card */}
       <Card>
@@ -108,18 +108,18 @@ const DataTableGridPage = () => {
         </CardBody>
       </Card>
 
-      {/* Modals */}
-      <CreateTask
+      {/* Dialogs */}
+      <CreateTaskDialog
         open={openCreateTaskDialog}
         setOpen={setOpenCreateTaskDialog}
         refetch={tasksPagination.refetch}
       />
-      <UpdateTask
+      <UpdateTaskDialog
         open={openUpdateTaskDialog}
         setOpen={setOpenUpdateTaskDialog}
         refetch={tasksPagination.refetch}
       />
-      <DeleteTask
+      <DeleteTaskDialog
         open={openDeleteTaskDialog}
         setOpen={setOpenDeleteTaskDialog}
         refetch={tasksPagination.refetch}

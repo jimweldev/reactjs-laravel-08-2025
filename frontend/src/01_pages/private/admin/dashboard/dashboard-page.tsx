@@ -1,25 +1,25 @@
 import PageHeader from '@/components/typography/page-header';
-import DashboardAccountTypesChart from './_components/dashboard-account-types-chart';
-import DashboardStatistics from './_components/dashboard-statistics';
-import DashboardUserRegistrationStats from './_components/dashboard-user-registration-stats';
+import DashboardAccountTypesChartComponent from './_components/dashboard-account-types-chart-component';
+import DashboardStatisticsComponent from './_components/dashboard-statistics-component';
+import DashboardUserRegistrationStatisticsComponent from './_components/dashboard-user-registration-statistics-component';
 
 const DashboardPage = () => {
   return (
     <>
-      <PageHeader className="mb-layout">Dashboard</PageHeader>
+      <PageHeader className="mb-3">Dashboard</PageHeader>
 
       {/* Dashboard content area */}
       <div className="space-y-layout">
         {/* Statistics overview cards */}
-        <DashboardStatistics />
+        <DashboardStatisticsComponent />
 
         {/* Grid layout for charts */}
         <div className="gap-layout grid grid-cols-12">
           {/* User registration statistics chart */}
-          <DashboardUserRegistrationStats />
+          <DashboardUserRegistrationStatisticsComponent />
 
           {/* Account types distribution chart */}
-          <DashboardAccountTypesChart />
+          <DashboardAccountTypesChartComponent />
         </div>
       </div>
     </>

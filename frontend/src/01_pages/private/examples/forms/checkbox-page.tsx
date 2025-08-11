@@ -35,7 +35,7 @@ const CheckboxPage = () => {
 
   return (
     <>
-      <PageHeader className="mb-layout">Checkbox</PageHeader>
+      <PageHeader className="mb-3">Checkbox</PageHeader>
 
       <CodePreview
         code={codeString}

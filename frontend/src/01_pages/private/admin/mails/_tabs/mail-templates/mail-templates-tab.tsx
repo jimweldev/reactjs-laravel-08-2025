@@ -11,9 +11,9 @@ import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
-import CreateMailTemplate from './_components/create-mail-template';
-import DeleteMailTemplate from './_components/delete-mail-template';
-import UpdateMailTemplate from './_components/update-mail-template';
+import CreateMailTemplateDialog from './_dialogs/create-mail-template-dialog';
+import DeleteMailTemplateDialog from './_dialogs/delete-mail-template-dialog';
+import UpdateMailTemplateDialog from './_dialogs/update-mail-template-dialog';
 
 const MailTemplatesTab = () => {
   // Store
@@ -104,18 +104,18 @@ const MailTemplatesTab = () => {
           : null}
       </DataTable>
 
-      {/* Modals */}
-      <CreateMailTemplate
+      {/* Dialogs */}
+      <CreateMailTemplateDialog
         open={openCreateMailTemplateDialog}
         setOpen={setOpenCreateMailTemplateDialog}
         refetch={mailTemplatesPagination.refetch}
       />
-      <UpdateMailTemplate
+      <UpdateMailTemplateDialog
         open={openUpdateMailTemplateDialog}
         setOpen={setOpenUpdateMailTemplateDialog}
         refetch={mailTemplatesPagination.refetch}
       />
-      <DeleteMailTemplate
+      <DeleteMailTemplateDialog
         open={openDeleteMailTemplateDialog}
         setOpen={setOpenDeleteMailTemplateDialog}
         refetch={mailTemplatesPagination.refetch}

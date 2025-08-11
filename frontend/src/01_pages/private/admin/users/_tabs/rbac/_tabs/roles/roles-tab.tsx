@@ -12,9 +12,9 @@ import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
-import CreateRole from './_components/create-role';
-import DeleteRole from './_components/delete-role';
-import UpdateRole from './_components/update-role';
+import CreateRoleDialog from './_dialogs/create-role-dialog';
+import DeleteRoleDialog from './_dialogs/delete-role-dialog';
+import UpdateRoleDialog from './_dialogs/update-role-dialog';
 
 const RolesTab = () => {
   // Store
@@ -114,18 +114,18 @@ const RolesTab = () => {
           : null}
       </DataTable>
 
-      {/* Modals */}
-      <CreateRole
+      {/* Dialogs */}
+      <CreateRoleDialog
         open={openCreateRoleDialog}
         setOpen={setOpenCreateRoleDialog}
         refetch={rolesPagination.refetch}
       />
-      <UpdateRole
+      <UpdateRoleDialog
         open={openUpdateRoleDialog}
         setOpen={setOpenUpdateRoleDialog}
         refetch={rolesPagination.refetch}
       />
-      <DeleteRole
+      <DeleteRoleDialog
         open={openDeleteRoleDialog}
         setOpen={setOpenDeleteRoleDialog}
         refetch={rolesPagination.refetch}

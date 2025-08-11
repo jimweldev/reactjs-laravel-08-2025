@@ -75,7 +75,7 @@ const PasswordPage = () => {
 
   return (
     <>
-      <PageHeader className="mb-layout">Password</PageHeader>
+      <PageHeader className="mb-3">Password</PageHeader>
 
       <Card className="max-w-md">
         <Form {...form}>

@@ -18,7 +18,7 @@ import useFancybox from '@/hooks/fancybox/use-fancybox';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
 import { formatName } from '@/lib/user/format-name';
-import RestoreUser from './_components/restore-user';
+import RestoreUserDialog from './_dialogs/restore-user-dialog';
 
 const ArchivedUsersTab = () => {
   // Store
@@ -133,8 +133,8 @@ const ArchivedUsersTab = () => {
         </CardBody>
       </Card>
 
-      {/* Modals */}
-      <RestoreUser
+      {/* Dialogs */}
+      <RestoreUserDialog
         open={openRestoreUserDialog}
         setOpen={setOpenRestoreUserDialog}
         refetch={usersPagination.refetch}

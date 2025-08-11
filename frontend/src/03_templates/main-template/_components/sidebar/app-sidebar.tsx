@@ -1,6 +1,6 @@
 import { ChevronsUpDown } from 'lucide-react';
-import { FaHouse } from 'react-icons/fa6';
-import { Link, NavLink } from 'react-router';
+import { FaCode, FaHouse, FaUserGear } from 'react-icons/fa6';
+import { Link, NavLink, useLocation } from 'react-router';
 import ReactImage from '@/components/image/react-image';
 import {
   DropdownMenu,
@@ -48,6 +48,39 @@ type AppSidebarProps = {
 };
 
 const AppSidebar = ({ sidebarGroups = [], ...props }: AppSidebarProps) => {
+  const location = useLocation();
+
+  const excludedMainMenuPaths = ['/admin', '/examples', '/settings'];
+  const isExcluded = excludedMainMenuPaths.some(path =>
+    location.pathname.startsWith(path),
+  );
+
+  const mainMenuPaths = [
+    {
+      path: '/admin',
+      icon: <FaUserGear className="text-inherit" />,
+      label: 'Admin',
+    },
+    {
+      path: '/',
+      icon: <FaHouse className="text-inherit" />,
+      label: 'Home',
+    },
+    {
+      path: '/examples',
+      icon: <FaCode className="text-inherit" />,
+      label: 'Examples',
+    },
+  ];
+
+  // Find the active menu item (fallback to Home if no match)
+  const activeMenu =
+    mainMenuPaths.find(menu =>
+      menu.path === '/'
+        ? location.pathname === '/' || !isExcluded
+        : location.pathname.startsWith(menu.path),
+    ) || mainMenuPaths[1]; // default to Home
+
   return (
     <Sidebar {...props}>
       <SidebarHeader className="flex flex-col items-center justify-between">
@@ -59,38 +92,7 @@ const AppSidebar = ({ sidebarGroups = [], ...props }: AppSidebarProps) => {
         </h1>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup className="flex sm:hidden">
-          <SidebarGroupLabel>Main Menu</SidebarGroupLabel>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <SidebarMenuButton isActive>
-                    <FaHouse />
-                    Name
-                    <ChevronsUpDown className="ml-auto" />
-                  </SidebarMenuButton>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  className="w-(--radix-dropdown-menu-trigger-width) rounded-lg"
-                  align="start"
-                  side="bottom"
-                  sideOffset={4}
-                >
-                  <DropdownMenuItem>
-                    <FaHouse />
-                    Name
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <FaHouse />
-                    Name 2
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarGroup>
-
+        {/* Desktop Sidebar */}
         {sidebarGroups.map(group => (
           <SidebarGroup key={group.sidebarLabel}>
             <SidebarGroupLabel>{group.sidebarLabel}</SidebarGroupLabel>

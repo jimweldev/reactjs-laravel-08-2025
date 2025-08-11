@@ -35,7 +35,7 @@ const InputPage = () => {
 
   return (
     <>
-      <PageHeader className="mb-layout">Input</PageHeader>
+      <PageHeader className="mb-3">Input</PageHeader>
 
       <CodePreview
         code={codeString}

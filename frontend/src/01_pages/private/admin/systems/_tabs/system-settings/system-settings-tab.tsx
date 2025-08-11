@@ -12,9 +12,9 @@ import { Card, CardBody } from '@/components/ui/card';
 import { TableCell, TableRow } from '@/components/ui/table';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
-import CreateSystemSetting from './_components/create-system-setting';
-import DeleteSystemSetting from './_components/delete-system-setting';
-import UpdateSystemSetting from './_components/update-system-setting';
+import CreateSystemSettingDialog from './_dialogs/create-system-setting-dialog';
+import DeleteSystemSettingDialog from './_dialogs/delete-system-setting-dialog';
+import UpdateSystemSettingDialog from './_dialogs/update-system-setting-dialog';
 
 const SystemSettingsTab = () => {
   // Store
@@ -114,18 +114,18 @@ const SystemSettingsTab = () => {
         </CardBody>
       </Card>
 
-      {/* Modals */}
-      <CreateSystemSetting
+      {/* Dialogs */}
+      <CreateSystemSettingDialog
         open={openCreateSystemSettingDialog}
         setOpen={setOpenCreateSystemSettingDialog}
         refetch={systemSettingsPagination.refetch}
       />
-      <UpdateSystemSetting
+      <UpdateSystemSettingDialog
         open={openUpdateSystemSettingDialog}
         setOpen={setOpenUpdateSystemSettingDialog}
         refetch={systemSettingsPagination.refetch}
       />
-      <DeleteSystemSetting
+      <DeleteSystemSettingDialog
         open={openDeleteSystemSettingDialog}
         setOpen={setOpenDeleteSystemSettingDialog}
         refetch={systemSettingsPagination.refetch}

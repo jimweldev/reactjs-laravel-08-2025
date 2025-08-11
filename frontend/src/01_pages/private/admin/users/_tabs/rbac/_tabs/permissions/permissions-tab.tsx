@@ -11,9 +11,9 @@ import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
-import CreatePermission from './_components/create-permission';
-import DeletePermission from './_components/delete-permission';
-import UpdatePermission from './_components/update-permission';
+import CreatePermissionDialog from './_dialogs/create-permission-dialog';
+import DeletePermissionDialog from './_dialogs/delete-permission-dialog';
+import UpdatePermissionDialog from './_dialogs/update-permission-dialog';
 
 const PermissionsTab = () => {
   // Store
@@ -108,18 +108,18 @@ const PermissionsTab = () => {
           : null}
       </DataTable>
 
-      {/* Modals */}
-      <CreatePermission
+      {/* Dialogs */}
+      <CreatePermissionDialog
         open={openCreatePermissionDialog}
         setOpen={setOpenCreatePermissionDialog}
         refetch={permissionsPagination.refetch}
       />
-      <UpdatePermission
+      <UpdatePermissionDialog
         open={openUpdatePermissionDialog}
         setOpen={setOpenUpdatePermissionDialog}
         refetch={permissionsPagination.refetch}
       />
-      <DeletePermission
+      <DeletePermissionDialog
         open={openDeletePermissionDialog}
         setOpen={setOpenDeletePermissionDialog}
         refetch={permissionsPagination.refetch}

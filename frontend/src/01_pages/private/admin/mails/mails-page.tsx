@@ -25,7 +25,7 @@ const MailsPage = () => {
     // Tabs component handles switching between Logs and Templates
     <Tabs value={currentTab} onValueChange={handleTabChange}>
       {/* Header section with page title and tab navigation */}
-      <div className="mb-layout flex items-center justify-between">
+      <div className="mb-3 flex items-center justify-between">
         <PageHeader>Mails</PageHeader>
 
         {/* Tab triggers for Logs and Templates */}

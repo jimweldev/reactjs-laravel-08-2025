@@ -123,7 +123,7 @@ export default GlobalDropdownPage;
 
   return (
     <div>
-      <PageHeader className="mb-layout">Global Dropdown</PageHeader>
+      <PageHeader className="mb-3">Global Dropdown</PageHeader>
 
       <CodePreview
         className="mb-6"

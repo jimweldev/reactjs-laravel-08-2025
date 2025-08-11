@@ -85,7 +85,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <PageHeader className="mb-layout">Profile</PageHeader>
+      <PageHeader className="mb-3">Profile</PageHeader>
 
       <Card className="max-w-xl">
         <Form {...form}>

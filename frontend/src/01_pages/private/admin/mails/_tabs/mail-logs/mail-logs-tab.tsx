@@ -14,8 +14,8 @@ import { TableCell, TableRow } from '@/components/ui/table';
 import useFancybox from '@/hooks/fancybox/use-fancybox';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
-import CreateMailLog from './_components/create-mail-log';
-import ViewMailLog from './_components/view-mail-log';
+import CreateMailLogDialog from './_dialogs/create-mail-log-dialog';
+import ViewMailLogDialog from './_dialogs/view-mail-log-dialog';
 
 const MailLogsTab = () => {
   const [fancyboxRef] = useFancybox();
@@ -128,13 +128,13 @@ const MailLogsTab = () => {
         </DataTable>
       </div>
 
-      {/* Modals */}
-      <CreateMailLog
+      {/* Dialogs */}
+      <CreateMailLogDialog
         open={openCreateMailLogDialog}
         setOpen={setOpenCreateMailLogDialog}
         refetch={mailLogsPagination.refetch}
       />
-      <ViewMailLog
+      <ViewMailLogDialog
         open={openViewMailLogDialog}
         setOpen={setOpenViewMailLogDialog}
       />

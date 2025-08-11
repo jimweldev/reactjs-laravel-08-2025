@@ -35,7 +35,7 @@ const TextareaPage = () => {
 
   return (
     <>
-      <PageHeader className="mb-layout">Textarea</PageHeader>
+      <PageHeader className="mb-3">Textarea</PageHeader>
 
       <CodePreview
         code={codeString}

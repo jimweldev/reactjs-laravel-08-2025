@@ -12,9 +12,9 @@ import { Card, CardBody } from '@/components/ui/card';
 import { TableCell, TableRow } from '@/components/ui/table';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
-import CreateGlobalDropdown from './_components/create-global-dropdown';
-import DeleteGlobalDropdown from './_components/delete-global-dropdown';
-import UpdateGlobalDropdown from './_components/update-global-dropdown';
+import CreateGlobalDropdownDialog from './_dialogs/create-global-dropdown-dialog';
+import DeleteGlobalDropdownDialog from './_dialogs/delete-global-dropdown-dialog';
+import UpdateGlobalDropdownDialog from './_dialogs/update-global-dropdown-dialog';
 
 const GlobalDropdownsTab = () => {
   // Store
@@ -124,18 +124,18 @@ const GlobalDropdownsTab = () => {
         </CardBody>
       </Card>
 
-      {/* Modals */}
-      <CreateGlobalDropdown
+      {/* Dialogs */}
+      <CreateGlobalDropdownDialog
         open={openCreateGlobalDropdownDialog}
         setOpen={setOpenCreateGlobalDropdownDialog}
         refetch={systemGlobalDropdownsPagination.refetch}
       />
-      <UpdateGlobalDropdown
+      <UpdateGlobalDropdownDialog
         open={openUpdateGlobalDropdownDialog}
         setOpen={setOpenUpdateGlobalDropdownDialog}
         refetch={systemGlobalDropdownsPagination.refetch}
       />
-      <DeleteGlobalDropdown
+      <DeleteGlobalDropdownDialog
         open={openDeleteGlobalDropdownDialog}
         setOpen={setOpenDeleteGlobalDropdownDialog}
         refetch={systemGlobalDropdownsPagination.refetch}

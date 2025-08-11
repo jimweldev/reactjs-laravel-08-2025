@@ -4,18 +4,18 @@ import { NavLink, useLocation } from 'react-router';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import AppSidebarTrigger from '../sidebar/app-sidebar-trigger';
-import NotificationsSheet from './_components/notifications-sheet';
+import NotificationsSheet from './_sheets/notifications-sheet';
 import AppHeaderDropdown from './app-header-dropdown';
 
 const AppHeader = () => {
   const location = useLocation();
 
-  const excludedPaths = ['/admin', '/examples', '/settings'];
-  const isExcluded = excludedPaths.some(path =>
+  const excludedMainMenuPaths = ['/admin', '/examples', '/settings'];
+  const isExcluded = excludedMainMenuPaths.some(path =>
     location.pathname.startsWith(path),
   );
 
-  const paths = [
+  const mainMenuPaths = [
     {
       path: '/admin',
       icon: <FaUserGear className="text-inherit" />,
@@ -39,14 +39,14 @@ const AppHeader = () => {
   return (
     <>
       <header className="bg-card flex items-center justify-between border-b p-2">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <AppSidebarTrigger />
 
-          <div className="hidden items-center gap-4 sm:flex">
+          <div className="flex items-center gap-3">
             <Separator orientation="vertical" className="min-h-5" />
 
             <div className="flex items-center gap-2">
-              {paths.map(path =>
+              {mainMenuPaths.map(path =>
                 path.path === '/' ? (
                   <NavLink to={path.path} key={path.path} tabIndex={-1}>
                     {() => {

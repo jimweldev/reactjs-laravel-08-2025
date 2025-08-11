@@ -18,7 +18,7 @@ const SystemsPage = () => {
 
   return (
     <Tabs value={currentTab} onValueChange={handleTabChange}>
-      <div className="mb-layout flex items-center justify-between">
+      <div className="mb-3 flex items-center justify-between">
         <PageHeader>Systems</PageHeader>
 
         {/* Tab navigation controls */}

@@ -144,7 +144,7 @@ const GeneralPage = () => {
   return (
     <div className="relative">
       {/* Page header */}
-      <PageHeader className="mb-layout">General</PageHeader>
+      <PageHeader className="mb-3">General</PageHeader>
 
       {/* Form wrapper */}
       <Form {...form}>

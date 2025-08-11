@@ -22,10 +22,10 @@ import useFancybox from '@/hooks/fancybox/use-fancybox';
 import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
 import { formatName } from '@/lib/user/format-name';
-import CreateUser from './_components/create-user';
-import DeleteUser from './_components/delete-user';
-import UpdateUser from './_components/update-user';
-import UpdateUserRoles from './_components/update-user-roles';
+import CreateUserDialog from './_dialogs/create-user-dialog';
+import DeleteUserDialog from './_dialogs/delete-user-dialog';
+import UpdateUserDialog from './_dialogs/update-user-dialog';
+import UpdateUserRolesDialog from './_dialogs/update-user-roles-dialog';
 
 const ActiveUsersTab = () => {
   // Store
@@ -183,23 +183,23 @@ const ActiveUsersTab = () => {
         </CardBody>
       </Card>
 
-      {/* Modals */}
-      <CreateUser
+      {/* Dialogs */}
+      <CreateUserDialog
         open={openCreateUserDialog}
         setOpen={setOpenCreateUserDialog}
         refetch={usersPagination.refetch}
       />
-      <UpdateUser
+      <UpdateUserDialog
         open={openUpdateUserDialog}
         setOpen={setOpenUpdateUserDialog}
         refetch={usersPagination.refetch}
       />
-      <DeleteUser
+      <DeleteUserDialog
         open={openDeleteUserDialog}
         setOpen={setOpenDeleteUserDialog}
         refetch={usersPagination.refetch}
       />
-      <UpdateUserRoles
+      <UpdateUserRolesDialog
         open={openUpdateUserRolesDialog}
         setOpen={setOpenUpdateUserRolesDialog}
         refetch={usersPagination.refetch}
