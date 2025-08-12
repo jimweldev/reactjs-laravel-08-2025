@@ -55,7 +55,7 @@ function SheetContent({
       <SheetPrimitive.Content
         data-slot="sheet-content"
         className={cn(
-          'bg-card data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col gap-4 shadow-lg transition ease-in-out data-[state=closed]:duration-300 data-[state=open]:duration-500',
+          'bg-card data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50 flex flex-col shadow-lg transition ease-in-out data-[state=closed]:duration-200 data-[state=open]:duration-200',
           side === 'right' &&
             'data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm',
           side === 'left' &&
@@ -82,11 +82,13 @@ function SheetContent({
 
 function SheetHeader({ className, ...props }: React.ComponentProps<'div'>) {
   return (
-    <div
-      data-slot="sheet-header"
-      className={cn('flex flex-col gap-1.5 p-3', className)}
-      {...props}
-    />
+    <div data-slot="sheet-header" className={cn('p-3', className)} {...props} />
+  );
+}
+
+function SheetBody({ className, ...props }: React.ComponentProps<'div'>) {
+  return (
+    <div data-slot="sheet-body" className={cn('p-3', className)} {...props} />
   );
 }
 
@@ -94,7 +96,7 @@ function SheetFooter({ className, ...props }: React.ComponentProps<'div'>) {
   return (
     <div
       data-slot="sheet-footer"
-      className={cn('mt-auto flex flex-col gap-2 p-3', className)}
+      className={cn('mt-auto p-3', className)}
       {...props}
     />
   );
@@ -132,6 +134,7 @@ export {
   SheetClose,
   SheetContent,
   SheetHeader,
+  SheetBody,
   SheetFooter,
   SheetTitle,
   SheetDescription,

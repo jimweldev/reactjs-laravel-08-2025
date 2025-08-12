@@ -68,29 +68,32 @@ function TabsList({
 }
 
 // === Tabs Trigger ===
-const tabsTriggerVariants = cva('inline-flex gap-2 items-center', {
-  variants: {
-    variant: {
-      default:
-        'border border-transparent data-[state=active]:bg-card data-[state=active]:text-card-foreground data-[state=active]:border-border rounded-md',
-      outline:
-        'data-[state=active]:bg-card data-[state=active]:text-card-foreground border border-transparent data-[state=active]:border-border border-b-0 rounded-t-md mb-[-1px]',
-      pills:
-        'data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground rounded-full',
-      underline:
-        'data-[state=active]:border-b-2 data-[state=active]:border-secondary data-[state=active]:text-secondary mb-[-2px]',
+const tabsTriggerVariants = cva(
+  'inline-flex gap-2 items-center justify-center',
+  {
+    variants: {
+      variant: {
+        default:
+          'border border-transparent data-[state=active]:bg-card data-[state=active]:text-card-foreground data-[state=active]:border-border rounded-md',
+        outline:
+          'data-[state=active]:bg-card data-[state=active]:text-card-foreground border border-transparent data-[state=active]:border-border border-b-0 rounded-t-md mb-[-1px]',
+        pills:
+          'data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground rounded-full',
+        underline:
+          'data-[state=active]:border-b-2 data-[state=active]:border-secondary data-[state=active]:text-secondary mb-[-2px]',
+      },
+      size: {
+        default: 'px-3 py-1',
+        sm: 'px-3 py-1 -m-0.5',
+        lg: 'px-5 py-2',
+      },
     },
-    size: {
-      default: 'px-3 py-1',
-      sm: 'px-3 py-1 -m-0.5',
-      lg: 'px-5 py-2',
+    defaultVariants: {
+      variant: 'default',
+      size: 'default',
     },
   },
-  defaultVariants: {
-    variant: 'default',
-    size: 'default',
-  },
-});
+);
 
 function TabsTrigger({
   className,
