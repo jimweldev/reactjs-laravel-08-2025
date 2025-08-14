@@ -5,13 +5,13 @@ use App\Http\Controllers\Core\AuthController;
 use App\Http\Controllers\Core\RbacPermissionController;
 use App\Http\Controllers\Core\RbacRoleController;
 use App\Http\Controllers\Core\UserController;
+use App\Http\Controllers\Example\TaskController;
 use App\Http\Controllers\Mail\MailLogController;
 use App\Http\Controllers\Mail\MailTemplateController;
 use App\Http\Controllers\Select\SelectController;
 use App\Http\Controllers\System\SystemGlobalDropdownController;
 use App\Http\Controllers\System\SystemSettingController;
 use App\Http\Controllers\User\UserImageController;
-use App\Http\Controllers\Example\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('', function () {
@@ -33,7 +33,7 @@ Route::middleware('auth.middleware')->group(function () {
     // user roles
     Route::get('/users/{id}/user-roles', [UserController::class, 'getUserRoles']);
     Route::patch('/users/{id}/user-roles', [UserController::class, 'updateUserRoles']);
-    
+
     // archived users
     Route::get('/users/archived', [UserController::class, 'getAllArchivedUsers']);
     Route::get('/users/{id}/archived', [UserController::class, 'getArchivedUser']);
@@ -84,7 +84,7 @@ Route::middleware('auth.middleware')->group(function () {
 
     // global dropdowns
     Route::resource('/system/global-dropdowns', SystemGlobalDropdownController::class);
-    
+
     // ==============
     // === SELECTS
     Route::get('/select/roles', [SelectController::class, 'getSelectRoles']);
@@ -98,6 +98,11 @@ Route::middleware('auth.middleware')->group(function () {
     Route::patch('/settings/profile', [UserController::class, 'updateProfile']);
     Route::post('/settings/profile/avatar', [UserController::class, 'updateProfileAvatar']);
     Route::patch('/settings/change-password', [UserController::class, 'changePassword']);
+
+    // ==============
+    // === NOTIFICATIONS
+    // general
+    Route::get('/notifications', [UserController::class, 'getAllNotifications']);
 });
 
 // ===================================================================

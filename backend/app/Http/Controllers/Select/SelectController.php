@@ -6,7 +6,6 @@ use App\Helpers\QueryHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Core\RbacPermission;
 use App\Models\Core\RbacRole;
-use App\Models\Core\User;
 use App\Models\System\SystemGlobalDropdown;
 use Illuminate\Http\Request;
 

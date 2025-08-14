@@ -1,5 +1,4 @@
 import {
-  FaChartArea,
   FaCircleDot,
   FaFileArrowUp,
   FaKeyboard,

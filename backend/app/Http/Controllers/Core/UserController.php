@@ -8,6 +8,7 @@ use App\Helpers\UserHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Core\User;
 use App\Models\Core\UserSetting;
+use App\Models\Notification\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -535,6 +536,43 @@ class UserController extends Controller {
             return response()->json($authUser);
         } catch (\Exception $e) {
             return response()->json(['message' => 'An error occurred.', 'error' => $e->getMessage()], 400);
+        }
+    }
+
+    /**
+     * Get notifications for the authenticated user.
+     */
+    public function getAllNotifications(Request $request) {
+        $authUser = $request->user();
+
+        $queryParams = $request->all();
+
+        try {
+            $query = Notification::query();
+
+            $type = 'paginate';
+            QueryHelper::apply($query, $queryParams, $type);
+
+            // sort by id desc
+            $query->orderBy('id', 'desc');
+
+            $total = $query->count();
+            $limit = $request->input('limit', 10);
+            $page = $request->input('page', 1);
+            QueryHelper::applyLimitAndOffset($query, $limit, $page);
+            $records = $query->get();
+
+            return response()->json([
+                'records' => $records,
+                'meta' => [
+                    'total_records' => $total,
+                    'total_pages' => ceil($total / $limit),
+                ],
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'An error occurred. Kindly check all the parameters provided. '.$e->getMessage(),
+            ], 400);
         }
     }
 

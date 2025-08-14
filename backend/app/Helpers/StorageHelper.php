@@ -21,7 +21,7 @@ class StorageHelper {
         $fileName = Str::uuid().'.'.$extension;
 
         try {
-            return '/' . $file->storeAs($path, $fileName, $disk);
+            return '/'.$file->storeAs($path, $fileName, $disk);
         } catch (\Exception $e) {
             return null;
         }

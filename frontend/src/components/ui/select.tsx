@@ -2,7 +2,6 @@ import * as React from 'react';
 import * as SelectPrimitive from '@radix-ui/react-select';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from 'lucide-react';
-import { FaChevronDown } from 'react-icons/fa6';
 import { cn } from '@/lib/utils';
 import SelectCaret from '../icons/SelectCaret';
 

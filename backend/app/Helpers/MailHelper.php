@@ -2,13 +2,13 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Facades\Mail;
 use App\Models\Mails\MailLog;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class MailHelper {
     public static function sendMail($mailLog) {
-        Log::info('Sending mail...' . $mailLog->id);
+        Log::info('Sending mail...'.$mailLog->id);
         // Get the storage base URL
         $storageBaseUrl = env('STORAGE_BASE_URL');
 
