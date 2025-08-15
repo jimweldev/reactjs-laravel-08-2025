@@ -19,7 +19,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
 import { TableCell, TableRow } from '@/components/ui/table';
 import useFancybox from '@/hooks/fancybox/use-fancybox';
-import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
+import useTanstackPaginateQuery from '@/hooks/tanstack/use-tanstack-paginate-query';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
 import { formatName } from '@/lib/user/format-name';
 import CreateUserDialog from './_dialogs/create-user-dialog';
@@ -41,7 +41,7 @@ const ActiveUsersTab = () => {
     useState(false);
 
   // Tanstack query hook for pagination
-  const usersPagination = useTanstackQueryPaginate<User>({
+  const usersPagination = useTanstackPaginateQuery<User>({
     endpoint: '/users',
     defaultSort: 'first_name,last_name',
   });

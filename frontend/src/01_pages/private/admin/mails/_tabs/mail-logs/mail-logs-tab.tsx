@@ -12,7 +12,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
 import useFancybox from '@/hooks/fancybox/use-fancybox';
-import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
+import useTanstackPaginateQuery from '@/hooks/tanstack/use-tanstack-paginate-query';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
 import CreateMailLogDialog from './_dialogs/create-mail-log-dialog';
 import ViewMailLogDialog from './_dialogs/view-mail-log-dialog';
@@ -28,7 +28,7 @@ const MailLogsTab = () => {
   const [openViewMailLogDialog, setOpenViewMailLogDialog] = useState(false);
 
   // Tanstack query hook for pagination
-  const mailLogsPagination = useTanstackQueryPaginate<MailLog>({
+  const mailLogsPagination = useTanstackPaginateQuery<MailLog>({
     endpoint: '/mails/logs',
     defaultSort: '-id',
   });

@@ -9,7 +9,7 @@ import InputGroup from '@/components/input-group/input-group';
 import Tooltip from '@/components/tooltip/tooltip';
 import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
-import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
+import useTanstackPaginateQuery from '@/hooks/tanstack/use-tanstack-paginate-query';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
 import CreateMailTemplateDialog from './_dialogs/create-mail-template-dialog';
 import DeleteMailTemplateDialog from './_dialogs/delete-mail-template-dialog';
@@ -28,7 +28,7 @@ const MailTemplatesTab = () => {
     useState(false);
 
   // Tanstack query hook for pagination
-  const mailTemplatesPagination = useTanstackQueryPaginate<MailTemplate>({
+  const mailTemplatesPagination = useTanstackPaginateQuery<MailTemplate>({
     endpoint: '/mails/templates',
     defaultSort: '-id',
   });

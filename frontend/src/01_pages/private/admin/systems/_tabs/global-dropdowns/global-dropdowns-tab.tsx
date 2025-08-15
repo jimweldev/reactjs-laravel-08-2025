@@ -10,7 +10,7 @@ import Tooltip from '@/components/tooltip/tooltip';
 import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
 import { TableCell, TableRow } from '@/components/ui/table';
-import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
+import useTanstackPaginateQuery from '@/hooks/tanstack/use-tanstack-paginate-query';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
 import CreateGlobalDropdownDialog from './_dialogs/create-global-dropdown-dialog';
 import DeleteGlobalDropdownDialog from './_dialogs/delete-global-dropdown-dialog';
@@ -30,7 +30,7 @@ const GlobalDropdownsTab = () => {
 
   // Tanstack query hook for pagination
   const systemGlobalDropdownsPagination =
-    useTanstackQueryPaginate<SystemGlobalDropdown>({
+    useTanstackPaginateQuery<SystemGlobalDropdown>({
       endpoint: '/system/global-dropdowns',
       defaultSort: 'label',
     });

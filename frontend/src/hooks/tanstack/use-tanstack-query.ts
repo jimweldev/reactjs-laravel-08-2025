@@ -4,7 +4,7 @@ import { mainInstance } from '@/07_instances/main-instance';
 
 type Url = {
   endpoint: string;
-  extendedParams?: string;
+  params?: string;
 };
 
 const useTanstackQuery = <T>(
@@ -14,8 +14,8 @@ const useTanstackQuery = <T>(
   const queryString = useMemo(() => {
     const params = new URLSearchParams();
 
-    if (url.extendedParams) {
-      url.extendedParams.split('&').forEach(param => {
+    if (url.params) {
+      url.params.split('&').forEach(param => {
         const [key, value] = param.split('=');
         if (key && value) {
           params.append(key, value);
@@ -24,10 +24,10 @@ const useTanstackQuery = <T>(
     }
 
     return `${url.endpoint}?${params.toString()}`;
-  }, [url.endpoint, url.extendedParams]);
+  }, [url.endpoint, url.params]);
 
   const tanstackQuery = useQuery<T>({
-    queryKey: [url.endpoint, url.extendedParams],
+    queryKey: [url.endpoint, url.params],
     queryFn: async ({ signal }) => {
       const res = await mainInstance.get(queryString, { signal });
       return res.data;

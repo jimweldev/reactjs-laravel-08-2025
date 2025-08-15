@@ -49,7 +49,7 @@ const DashboardUserRegistrationStatisticsComponent = () => {
   >(
     {
       endpoint: `/dashboard/user-registration-stats`,
-      extendedParams: `mode=${chartMode}&group_by=${group}&start_date=${moment(date?.from).format('YYYY-MM-DD')}&end_date=${moment(date?.to).format('YYYY-MM-DD')}`,
+      params: `mode=${chartMode}&group_by=${group}&start_date=${moment(date?.from).format('YYYY-MM-DD')}&end_date=${moment(date?.to).format('YYYY-MM-DD')}`,
     },
     {
       enabled: !!date?.from && !!date?.to,

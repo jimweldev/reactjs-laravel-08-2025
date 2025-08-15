@@ -10,7 +10,7 @@ import Tooltip from '@/components/tooltip/tooltip';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
-import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
+import useTanstackPaginateQuery from '@/hooks/tanstack/use-tanstack-paginate-query';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
 import CreateRoleDialog from './_dialogs/create-role-dialog';
 import DeleteRoleDialog from './_dialogs/delete-role-dialog';
@@ -26,7 +26,7 @@ const RolesTab = () => {
   const [openDeleteRoleDialog, setOpenDeleteRoleDialog] = useState(false);
 
   // Tanstack query hook for pagination
-  const rolesPagination = useTanstackQueryPaginate<RbacRole>({
+  const rolesPagination = useTanstackPaginateQuery<RbacRole>({
     endpoint: '/rbac/roles',
     defaultSort: 'id',
   });

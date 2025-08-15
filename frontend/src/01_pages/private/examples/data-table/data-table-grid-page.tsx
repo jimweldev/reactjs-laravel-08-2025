@@ -11,7 +11,7 @@ import Tooltip from '@/components/tooltip/tooltip';
 import PageHeader from '@/components/typography/page-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
-import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
+import useTanstackPaginateQuery from '@/hooks/tanstack/use-tanstack-paginate-query';
 import CreateTaskDialog from './_components/create-task-dialog';
 import DeleteTaskDialog from './_components/delete-task-dialog';
 import UpdateTaskDialog from './_components/update-task-dialog';
@@ -26,7 +26,7 @@ const DataTableGridPage = () => {
   const [openDeleteTaskDialog, setOpenDeleteTaskDialog] = useState(false);
 
   // Tanstack query hook for pagination
-  const tasksPagination = useTanstackQueryPaginate<Task>({
+  const tasksPagination = useTanstackPaginateQuery<Task>({
     endpoint: '/tasks',
     defaultSort: 'name',
   });

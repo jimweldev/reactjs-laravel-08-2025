@@ -9,7 +9,7 @@ import {
 import { type PaginatedRecord } from '@/04_types/_common/paginated-record';
 import { mainInstance } from '@/07_instances/main-instance';
 
-export type UseTanstackQueryPaginateReturn<T> = Omit<
+export type useTanstackPaginateQueryReturn<T> = Omit<
   UseQueryResult<PaginatedRecord<T>>,
   'refetch'
 > & {
@@ -33,12 +33,12 @@ type PaginationState = {
 
 type Url = {
   endpoint: string;
-  extendedParams?: string;
+  params?: string;
   defaultSort?: string;
   defaultLimit?: string;
 };
 
-const useTanstackQueryPaginate = <T>(
+const useTanstackPaginateQuery = <T>(
   url: Url,
   options?: Omit<UseQueryOptions<PaginatedRecord<T>>, 'queryKey' | 'queryFn'>,
 ) => {
@@ -61,8 +61,8 @@ const useTanstackQueryPaginate = <T>(
       search: searchTerm,
     });
 
-    if (url.extendedParams) {
-      url.extendedParams.split('&').forEach(param => {
+    if (url.params) {
+      url.params.split('&').forEach(param => {
         const [key, value] = param.split('=');
         if (key && value) {
           params.append(key, value);
@@ -71,10 +71,10 @@ const useTanstackQueryPaginate = <T>(
     }
 
     return `${url.endpoint}?${params.toString()}`;
-  }, [url.endpoint, url.extendedParams, limit, page, sort, searchTerm]);
+  }, [url.endpoint, url.params, limit, page, sort, searchTerm]);
 
   const tanstackQuery = useQuery<PaginatedRecord<T>>({
-    queryKey: [url.endpoint, limit, page, sort, searchTerm, url.extendedParams],
+    queryKey: [url.endpoint, limit, page, sort, searchTerm, url.params],
     queryFn: async ({ signal }) => {
       const res = await mainInstance.get(queryString, { signal });
       return res.data;
@@ -90,7 +90,7 @@ const useTanstackQueryPaginate = <T>(
             page,
             sort,
             searchTerm,
-            url.extendedParams,
+            url.params,
           ])
         : options?.enabled &&
           !queryClient.getQueryData([
@@ -99,7 +99,7 @@ const useTanstackQueryPaginate = <T>(
             page,
             sort,
             searchTerm,
-            url.extendedParams,
+            url.params,
           ]),
     ...options,
   });
@@ -122,4 +122,4 @@ const useTanstackQueryPaginate = <T>(
   };
 };
 
-export default useTanstackQueryPaginate;
+export default useTanstackPaginateQuery;

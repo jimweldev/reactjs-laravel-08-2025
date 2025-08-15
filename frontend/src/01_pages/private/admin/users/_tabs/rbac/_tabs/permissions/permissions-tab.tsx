@@ -9,7 +9,7 @@ import InputGroup from '@/components/input-group/input-group';
 import Tooltip from '@/components/tooltip/tooltip';
 import { Button } from '@/components/ui/button';
 import { TableCell, TableRow } from '@/components/ui/table';
-import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
+import useTanstackPaginateQuery from '@/hooks/tanstack/use-tanstack-paginate-query';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
 import CreatePermissionDialog from './_dialogs/create-permission-dialog';
 import DeletePermissionDialog from './_dialogs/delete-permission-dialog';
@@ -28,7 +28,7 @@ const PermissionsTab = () => {
     useState(false);
 
   // Tanstack query hook for pagination
-  const permissionsPagination = useTanstackQueryPaginate<RbacPermission>({
+  const permissionsPagination = useTanstackPaginateQuery<RbacPermission>({
     endpoint: '/rbac/permissions',
     defaultSort: 'id',
   });

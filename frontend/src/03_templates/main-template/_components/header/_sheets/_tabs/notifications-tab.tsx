@@ -2,60 +2,52 @@ import { useEffect, useRef } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
 import { FaRegBell } from 'react-icons/fa6';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import type { PaginatedRecord } from '@/04_types/_common/paginated-record';
 import type { Notification } from '@/04_types/user/notification';
 import useNotificationStore from '@/05_stores/user/notification-store';
 import NotificationsSkeleton from '@/components/skeleton/notifications-skeleton';
 import { Button } from '@/components/ui/button';
-import useTanstackQuery from '@/hooks/tanstack/use-tanstack-query';
+import useTanstackInfiniteQuery from '@/hooks/tanstack/use-tanstack-infinite-query';
+import { cn } from '@/lib/utils';
 
-type NotificationsTabProps = {
-  open: boolean;
-};
-
-const NotificationsTab = ({ open }: NotificationsTabProps) => {
-  const {
-    notifications,
-    page,
-    hasNextPage,
-    setNotifications,
-    appendNotifications,
-    setPage,
-    setHasNextPage,
-  } = useNotificationStore();
+const NotificationsTab = () => {
+  const { notifications, setNotifications } = useNotificationStore();
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const { data, isLoading, isFetching } = useTanstackQuery<
-    PaginatedRecord<Notification>
-  >(
+  const type = 'notification';
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    handlePullToRefresh,
+  } = useTanstackInfiniteQuery<Notification>(
     {
-      endpoint: '/notifications',
-      extendedParams: `page=${page}&type=notification`,
+      endpoint: 'notifications',
+      params: `type=${type}`,
     },
     {
-      enabled: open && notifications.length === 0,
+      enabled: notifications.length === 0,
     },
   );
 
   useEffect(() => {
-    if (data) {
-      appendNotifications(data.records);
+    setNotifications(data?.pages.flatMap(page => page.records) ?? []);
+  }, [data, setNotifications]);
 
-      setHasNextPage(page < data.meta.total_pages);
+  // Auto-load if container has no scrollbar
+  useEffect(() => {
+    if (
+      containerRef.current &&
+      hasNextPage &&
+      !isFetchingNextPage &&
+      containerRef.current.scrollHeight <= containerRef.current.clientHeight
+    ) {
+      fetchNextPage();
     }
-  }, [data]);
-
-  const fetchNextPage = () => {
-    if (isFetching) return;
-
-    setPage(page + 1);
-  };
-
-  const handlePullToRefresh = () => {
-    setNotifications([]);
-    setPage(1);
-  };
+  }, [notifications, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
     <div
@@ -66,7 +58,7 @@ const NotificationsTab = ({ open }: NotificationsTabProps) => {
       <div className="bg-card sticky top-0 z-10 flex items-center justify-between border-t border-b p-2">
         <h4 className="text-muted-foreground flex items-center gap-2 text-sm font-semibold">
           <FaRegBell />
-          Notifications {hasNextPage ? 't' : 'f'}
+          Notifications
         </h4>
         <Button variant="ghost" size="icon-xs">
           <FaEllipsisV />
@@ -79,7 +71,7 @@ const NotificationsTab = ({ open }: NotificationsTabProps) => {
         className="select-none"
         dataLength={notifications.length}
         next={fetchNextPage}
-        hasMore={hasNextPage}
+        hasMore={!!hasNextPage}
         loader={<NotificationsSkeleton count={3} />}
         scrollableTarget="notifications-scrollable"
         pullDownToRefresh
@@ -95,25 +87,34 @@ const NotificationsTab = ({ open }: NotificationsTabProps) => {
             ↑ Release to refresh
           </h4>
         }
+        endMessage={
+          <p
+            className={cn(
+              'text-muted-foreground p-2 text-center text-sm',
+              (isLoading || notifications.length === 0) && 'hidden',
+            )}
+          >
+            No more notifications
+          </p>
+        }
       >
-        {notifications &&
-          notifications.map(notif => (
-            <div
-              className="hover:bg-muted flex items-center gap-2 p-2"
-              key={notif.id}
-            >
-              <div className="border-primary flex size-8 items-center justify-center rounded-full border-2">
-                <FaRegBell />
-              </div>
-
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold">{notif.title}</p>
-                <p className="text-muted-foreground truncate text-xs">
-                  {notif.message}
-                </p>
-              </div>
+        {notifications.map(notif => (
+          <div
+            className="hover:bg-muted flex items-center gap-2 p-2"
+            key={notif.id}
+          >
+            <div className="border-primary flex size-8 items-center justify-center rounded-full border-2">
+              <FaRegBell />
             </div>
-          ))}
+
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold">{notif.title}</p>
+              <p className="text-muted-foreground truncate text-xs">
+                {notif.message}
+              </p>
+            </div>
+          </div>
+        ))}
       </InfiniteScroll>
     </div>
   );

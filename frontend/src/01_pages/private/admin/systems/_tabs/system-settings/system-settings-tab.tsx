@@ -10,7 +10,7 @@ import Tooltip from '@/components/tooltip/tooltip';
 import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
 import { TableCell, TableRow } from '@/components/ui/table';
-import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
+import useTanstackPaginateQuery from '@/hooks/tanstack/use-tanstack-paginate-query';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
 import CreateSystemSettingDialog from './_dialogs/create-system-setting-dialog';
 import DeleteSystemSettingDialog from './_dialogs/delete-system-setting-dialog';
@@ -29,7 +29,7 @@ const SystemSettingsTab = () => {
     useState(false);
 
   // Tanstack query hook for pagination
-  const systemSettingsPagination = useTanstackQueryPaginate<SystemSetting>({
+  const systemSettingsPagination = useTanstackPaginateQuery<SystemSetting>({
     endpoint: '/system/settings',
     defaultSort: 'label',
   });

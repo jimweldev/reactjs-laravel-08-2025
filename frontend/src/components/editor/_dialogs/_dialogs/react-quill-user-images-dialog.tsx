@@ -29,7 +29,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import useTanstackQueryPaginate from '@/hooks/tanstack/use-tanstack-query-paginate';
+import useTanstackPaginateQuery from '@/hooks/tanstack/use-tanstack-paginate-query';
 import { cn } from '@/lib/utils';
 import DeleteUserImageDialog from './_dialogs/delete-user-image-dialog';
 import RenameUserImageDialog from './_dialogs/rename-user-image-dialog';
@@ -46,7 +46,7 @@ const ReactQuillUserImagesDialog = ({
   setOpen,
   onSelectImage: onSelectImageHandler,
 }: ReactQuillUserImagesDialogProps) => {
-  const userImagesPagination = useTanstackQueryPaginate<UserImage>(
+  const userImagesPagination = useTanstackPaginateQuery<UserImage>(
     {
       endpoint: '/user-images',
       defaultSort: '-is_pinned,file_name',

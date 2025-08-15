@@ -8,7 +8,7 @@ import {
   FaTableCellsLarge,
 } from 'react-icons/fa6';
 import ReactPaginate from 'react-paginate';
-import { type UseTanstackQueryPaginateReturn } from '@/hooks/tanstack/use-tanstack-query-paginate';
+import { type useTanstackPaginateQueryReturn } from '@/hooks/tanstack/use-tanstack-paginate-query';
 import { cn } from '@/lib/utils';
 import InputGroup from '../input-group/input-group';
 import SearchInput from '../input/search-input';
@@ -39,7 +39,7 @@ export type DataTableColumn = {
 };
 
 type DataTableProps<T> = {
-  pagination: UseTanstackQueryPaginateReturn<T>;
+  pagination: useTanstackPaginateQueryReturn<T>;
   columns?: DataTableColumn[];
   actions?: ReactNode;
   showViewToggle?: boolean;
