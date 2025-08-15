@@ -25,7 +25,7 @@ const AnnouncementsTab = () => {
     handlePullToRefresh,
   } = useTanstackInfiniteQuery<Notification>(
     {
-      endpoint: 'announcements',
+      endpoint: 'notifications',
       params: `type=${type}`,
     },
     {
