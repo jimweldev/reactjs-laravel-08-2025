@@ -29,9 +29,9 @@ const RadioGroupPage = () => {
     },
   });
 
-  function onSubmit(_data: z.infer<typeof FormSchema>) {
+  const onSubmit = (_data: z.infer<typeof FormSchema>) => {
     toast.success('Success!');
-  }
+  };
 
   return (
     <>

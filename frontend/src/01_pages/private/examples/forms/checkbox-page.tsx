@@ -29,9 +29,9 @@ const CheckboxPage = () => {
     },
   });
 
-  function onSubmit(_data: z.infer<typeof FormSchema>) {
+  const onSubmit = (_data: z.infer<typeof FormSchema>) => {
     toast.success('Success!');
-  }
+  };
 
   return (
     <>
@@ -70,13 +70,15 @@ const CheckboxPage = () => {
                                   checked={field.value.includes('react')}
                                   onCheckedChange={checked => {
                                     const item = 'react';
-                                    checked
-                                      ? field.onChange([...field.value, item])
-                                      : field.onChange(
-                                          field.value.filter(
-                                            value => value !== item,
-                                          ),
-                                        );
+                                    if (checked) {
+                                      field.onChange([...field.value, item]);
+                                    } else {
+                                      field.onChange(
+                                        field.value.filter(
+                                          value => value !== item,
+                                        ),
+                                      );
+                                    }
                                   }}
                                 />
                               </FormControl>
@@ -98,13 +100,15 @@ const CheckboxPage = () => {
                                   checked={field.value.includes('angular')}
                                   onCheckedChange={checked => {
                                     const item = 'angular';
-                                    checked
-                                      ? field.onChange([...field.value, item])
-                                      : field.onChange(
-                                          field.value.filter(
-                                            value => value !== item,
-                                          ),
-                                        );
+                                    if (checked) {
+                                      field.onChange([...field.value, item]);
+                                    } else {
+                                      field.onChange(
+                                        field.value.filter(
+                                          value => value !== item,
+                                        ),
+                                      );
+                                    }
                                   }}
                                 />
                               </FormControl>
@@ -126,13 +130,15 @@ const CheckboxPage = () => {
                                   checked={field.value.includes('vue')}
                                   onCheckedChange={checked => {
                                     const item = 'vue';
-                                    checked
-                                      ? field.onChange([...field.value, item])
-                                      : field.onChange(
-                                          field.value.filter(
-                                            value => value !== item,
-                                          ),
-                                        );
+                                    if (checked) {
+                                      field.onChange([...field.value, item]);
+                                    } else {
+                                      field.onChange(
+                                        field.value.filter(
+                                          value => value !== item,
+                                        ),
+                                      );
+                                    }
                                   }}
                                 />
                               </FormControl>
@@ -222,13 +228,11 @@ const CheckboxPage = () => {
                                 checked={field.value.includes('react')}
                                 onCheckedChange={checked => {
                                   const item = 'react';
-                                  checked
-                                    ? field.onChange([...field.value, item])
-                                    : field.onChange(
-                                        field.value.filter(
-                                          value => value !== item,
-                                        ),
-                                      );
+                                  if (checked) {
+                                    field.onChange([...field.value, item]);
+                                  } else {
+                                    field.onChange(field.value.filter(value => value !== item));
+                                  }
                                 }}
                               />
                             </FormControl>
@@ -250,13 +254,11 @@ const CheckboxPage = () => {
                                 checked={field.value.includes('angular')}
                                 onCheckedChange={checked => {
                                   const item = 'angular';
-                                  checked
-                                    ? field.onChange([...field.value, item])
-                                    : field.onChange(
-                                        field.value.filter(
-                                          value => value !== item,
-                                        ),
-                                      );
+                                  if (checked) {
+                                    field.onChange([...field.value, item]);
+                                  } else {
+                                    field.onChange(field.value.filter(value => value !== item));
+                                  }
                                 }}
                               />
                             </FormControl>
@@ -278,13 +280,11 @@ const CheckboxPage = () => {
                                 checked={field.value.includes('vue')}
                                 onCheckedChange={checked => {
                                   const item = 'vue';
-                                  checked
-                                    ? field.onChange([...field.value, item])
-                                    : field.onChange(
-                                        field.value.filter(
-                                          value => value !== item,
-                                        ),
-                                      );
+                                  if (checked) {
+                                    field.onChange([...field.value, item]);
+                                  } else {
+                                    field.onChange(field.value.filter(value => value !== item));
+                                  }
                                 }}
                               />
                             </FormControl>

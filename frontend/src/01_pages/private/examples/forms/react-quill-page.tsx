@@ -43,13 +43,13 @@ const ReactQuillPage = () => {
     },
   });
 
-  function onSubmit(_data: z.infer<typeof FormSchema>) {
+  const onSubmit = (_data: z.infer<typeof FormSchema>) => {
     toast.success('Success!');
-  }
+  };
 
-  function onSubmitSimple(_data: z.infer<typeof FormSchemaSimple>) {
+  const onSubmitSimple = (_data: z.infer<typeof FormSchemaSimple>) => {
     toast.success('Success!');
-  }
+  };
 
   return (
     <>
@@ -75,7 +75,7 @@ const ReactQuillPage = () => {
                     <FormLabel>Text</FormLabel>
                     <FormControl>
                       <ReactQuillEditor
-                        className={`${fieldState.invalid ? 'invalid' : ''}`}
+                        className={fieldState.invalid ? 'invalid' : ''}
                         value={field.value}
                         onChange={field.onChange}
                       />
@@ -114,7 +114,7 @@ const ReactQuillPage = () => {
                     <FormControl>
                       <ReactQuillEditor
                         type="simple"
-                        className={`${fieldState.invalid ? 'invalid' : ''}`}
+                        className={fieldState.invalid ? 'invalid' : ''}
                         value={field.value}
                         onChange={field.onChange}
                       />
@@ -187,7 +187,7 @@ const ReactQuillPage = () => {
                   <FormLabel>Text</FormLabel>
                   <FormControl>
                     <ReactQuillEditor
-                      className={\`\${fieldState.invalid ? 'invalid' : ''}\`\}
+                      className={fieldState.invalid ? 'invalid' : ''}
                       value={field.value}
                       onChange={field.onChange}
                     />
@@ -261,7 +261,7 @@ const ReactQuillPage = () => {
                   <FormControl>
                     <ReactQuillEditor
                       type="simple"
-                      className={\`\${fieldState.invalid ? 'invalid' : ''}\`\}
+                      className={fieldState.invalid ? 'invalid' : ''}
                       value={field.value}
                       onChange={field.onChange}
                     />

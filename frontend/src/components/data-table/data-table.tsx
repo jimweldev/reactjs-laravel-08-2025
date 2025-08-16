@@ -72,7 +72,7 @@ const DataTable = <T,>({
   useEffect(() => {
     pagination.setSearchTerm(search);
     pagination.setPage(1);
-  }, [search]);
+  }, [pagination, search]);
 
   const handlePageChange = ({ selected }: { selected: number }) => {
     pagination.setPage(selected + 1);
@@ -108,7 +108,7 @@ const DataTable = <T,>({
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
-                  {limits.map((limit: any) => (
+                  {limits.map((limit: string) => (
                     <SelectItem key={limit} value={limit}>
                       {limit}
                     </SelectItem>
@@ -209,7 +209,7 @@ const DataTable = <T,>({
 
             {/* No data found */}
             {!pagination.isFetching &&
-            !!!pagination.error &&
+            !pagination.error &&
             pagination.data?.records?.length === 0 ? (
               <TableRow>
                 <TableCell className="text-center" colSpan={columns?.length}>
@@ -262,7 +262,7 @@ const DataTable = <T,>({
 
           {/* No data found */}
           {!pagination.isFetching &&
-          !!!pagination.error &&
+          !pagination.error &&
           pagination.data?.records?.length === 0 ? (
             <div className="p-layout flex flex-col items-center gap-3">
               <FaFaceGrinBeamSweat className="text-muted-foreground text-5xl" />

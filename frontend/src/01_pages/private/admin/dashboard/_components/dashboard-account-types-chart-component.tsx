@@ -30,7 +30,7 @@ const DashboardAccountTypesChartComponent = () => {
   useEffect(() => {
     if (data) {
       setChartData(
-        data.map((item: any, index: number) => ({
+        data.map((item: AccountType, index: number) => ({
           ...item,
           fill: chartColors[index % chartColors.length],
         })),

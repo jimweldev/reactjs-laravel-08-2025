@@ -34,13 +34,13 @@ const useNotificationStore = create<NotificationStoreProps>(set => ({
 }));
 
 // Helper to remove duplicates by `id`
-function dedupeNotifications(notifications: Notification[]) {
+const dedupeNotifications = (notifications: Notification[]) => {
   const seen = new Set<number>();
   return notifications.filter(notification => {
     if (seen.has(notification.id!)) return false;
     seen.add(notification.id!);
     return true;
   });
-}
+};
 
 export default useNotificationStore;

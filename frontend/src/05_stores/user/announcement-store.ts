@@ -34,13 +34,13 @@ const useAnnouncementStore = create<AnnouncementStoreProps>(set => ({
 }));
 
 // Helper to remove duplicates by `id`
-function dedupeAnnouncements(announcements: Notification[]) {
+const dedupeAnnouncements = (announcements: Notification[]) => {
   const seen = new Set<number>();
   return announcements.filter(announcement => {
     if (seen.has(announcement.id!)) return false;
     seen.add(announcement.id!);
     return true;
   });
-}
+};
 
 export default useAnnouncementStore;

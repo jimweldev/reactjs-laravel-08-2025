@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
-import { FaBullhorn } from 'react-icons/fa6';
+import { FaBullhorn, FaRegBellSlash } from 'react-icons/fa6';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import type { Notification } from '@/04_types/user/notification';
 import useAnnouncementStore from '@/05_stores/user/announcement-store';
@@ -65,8 +65,6 @@ const AnnouncementsTab = () => {
         </Button>
       </div>
 
-      {isLoading && <NotificationsSkeleton count={10} />}
-
       <InfiniteScroll
         className="select-none"
         dataLength={announcements.length}
@@ -115,6 +113,17 @@ const AnnouncementsTab = () => {
             </div>
           </div>
         ))}
+
+        {isLoading && <NotificationsSkeleton count={10} />}
+
+        {!isLoading && announcements.length === 0 && (
+          <div className="text-muted-foreground p-layout flex flex-col items-center justify-center">
+            <div className="p-layout">
+              <FaRegBellSlash className="size-12" />
+            </div>
+            <p className="text-center text-sm">No announcements found</p>
+          </div>
+        )}
       </InfiniteScroll>
     </div>
   );

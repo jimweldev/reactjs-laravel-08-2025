@@ -45,13 +45,13 @@ const ReactDropzonePage = () => {
     },
   });
 
-  function onSubmitMultiple(_data: z.infer<typeof FormSchemaMultiple>) {
+  const onSubmitMultiple = (_data: z.infer<typeof FormSchemaMultiple>) => {
     toast.success('Success!');
-  }
+  };
 
-  function onSubmitSingle(_data: z.infer<typeof FormSchemaSingle>) {
+  const onSubmitSingle = (_data: z.infer<typeof FormSchemaSingle>) => {
     toast.success('Success!');
-  }
+  };
 
   return (
     <>
