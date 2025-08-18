@@ -3,8 +3,8 @@ import { useDebouncedState } from '@mantine/hooks';
 import { isAxiosError } from 'axios';
 import {
   FaArrowsRotate,
-  FaFaceGrinBeamSweat,
   FaListUl,
+  FaRegFaceGrinBeamSweat,
   FaTableCellsLarge,
 } from 'react-icons/fa6';
 import ReactPaginate from 'react-paginate';
@@ -12,6 +12,8 @@ import { type useTanstackPaginateQueryReturn } from '@/hooks/tanstack/use-tansta
 import { cn } from '@/lib/utils';
 import InputGroup from '../input-group/input-group';
 import SearchInput from '../input/search-input';
+import DataTableGridSkeleton from '../skeleton/data-table-grid-skeleton';
+import DataTableListSkeleton from '../skeleton/data-table-list-skeleton';
 import Tooltip from '../tooltip/tooltip';
 import { Button } from '../ui/button';
 import {
@@ -48,7 +50,8 @@ type DataTableProps<T> = {
   defaultView?: 'list' | 'grid';
   list?: ReactNode;
   grid?: ReactNode;
-  skeleton?: ReactNode;
+  listSkeleton?: ReactNode;
+  gridSkeleton?: ReactNode;
   children?: ReactNode;
 };
 
@@ -62,7 +65,8 @@ const DataTable = <T,>({
   defaultView = 'list',
   list,
   grid,
-  skeleton,
+  listSkeleton = <DataTableListSkeleton />,
+  gridSkeleton = <DataTableGridSkeleton count={Number(pagination.limit)} />,
   children,
 }: DataTableProps<T>) => {
   const [view, setView] = useState<'list' | 'grid'>(defaultView);
@@ -72,7 +76,8 @@ const DataTable = <T,>({
   useEffect(() => {
     pagination.setSearchTerm(search);
     pagination.setPage(1);
-  }, [pagination, search]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [search]);
 
   const handlePageChange = ({ selected }: { selected: number }) => {
     pagination.setPage(selected + 1);
@@ -154,143 +159,135 @@ const DataTable = <T,>({
         </div>
       </div>
 
-      {/* List */}
-      {view === 'list' ? (
-        <Table
-          className={cn(
-            'border-t',
-            pagination.isFetching ? 'border-primary' : '',
-          )}
-        >
-          {showHeader && columns ? (
-            <TableHeader>
-              <TableRow>
-                {columns?.map((column, index) =>
-                  column.column ? (
-                    <DataTableHead
-                      key={index}
-                      sort={pagination.sort}
-                      setSort={pagination.setSort}
-                      setCurrentPage={pagination.setPage}
-                      label={column.label}
-                      column={column.column}
-                      className={column.className}
-                    />
-                  ) : (
-                    <TableHead key={index} className={column.className}>
-                      {column.label}
-                    </TableHead>
-                  ),
-                )}
-              </TableRow>
-            </TableHeader>
-          ) : null}
-          <TableBody className="border-b">
-            {/* List or Children */}
-            {list || children}
+      <div className="relative">
+        {/* List */}
+        {view === 'list' ? (
+          <Table
+            className={cn(
+              'border-t',
+              pagination.isFetching ? 'border-primary' : '',
+            )}
+          >
+            {showHeader && columns ? (
+              <TableHeader>
+                <TableRow>
+                  {columns?.map((column, index) =>
+                    column.column ? (
+                      <DataTableHead
+                        key={index}
+                        sort={pagination.sort}
+                        setSort={pagination.setSort}
+                        setCurrentPage={pagination.setPage}
+                        label={column.label}
+                        column={column.column}
+                        className={column.className}
+                      />
+                    ) : (
+                      <TableHead key={index} className={column.className}>
+                        {column.label}
+                      </TableHead>
+                    ),
+                  )}
+                </TableRow>
+              </TableHeader>
+            ) : null}
+            <TableBody className="border-b">
+              {/* List or Children */}
+              {!pagination.isFetching ? list || children : null}
+
+              {/* Loading */}
+              {pagination.isFetching
+                ? [...Array(Number(pagination.limit))].map((_, index) => (
+                    <TableRow className="pointer-events-none" key={index}>
+                      <TableCell colSpan={columns?.length}>
+                        {listSkeleton}
+                      </TableCell>
+                    </TableRow>
+                  ))
+                : null}
+
+              {/* No data found */}
+              {!pagination.isFetching &&
+              !pagination.error &&
+              pagination.data?.records?.length === 0 ? (
+                <TableRow>
+                  <TableCell className="text-center" colSpan={columns?.length}>
+                    No records found
+                  </TableCell>
+                </TableRow>
+              ) : null}
+
+              {/* Error */}
+              {pagination.error ? (
+                <TableRow className="">
+                  <TableCell
+                    className="text-center whitespace-pre-wrap"
+                    colSpan={columns?.length}
+                  >
+                    <div className="flex flex-col">
+                      <p className="font-semibold">
+                        {isAxiosError(pagination.error) &&
+                        pagination.error.response?.data?.message
+                          ? pagination.error.response.data.message
+                          : 'An error occurred'}
+                      </p>
+                      <p>
+                        {isAxiosError(pagination.error) &&
+                        pagination.error.response?.data?.error
+                          ? pagination.error.response.data.error
+                          : 'Unknown error occurred'}
+                      </p>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ) : null}
+            </TableBody>
+          </Table>
+        ) : null}
+
+        {/* Grid */}
+        {view === 'grid' ? (
+          <div
+            className={`pt-layout border-t ${pagination.isFetching ? 'border-primary' : ''} `}
+          >
+            {/* Grid or Children */}
+            {!pagination.isFetching ? grid || children : null}
 
             {/* Loading */}
-            {pagination.isLoading ? (
-              <TableRow>
-                <TableCell className="text-center" colSpan={columns?.length}>
-                  Loading...
-                </TableCell>
-              </TableRow>
-            ) : null}
-
-            {/* Loading */}
-            {pagination.isFetching && pagination.data?.records?.length === 0 ? (
-              <TableRow>
-                <TableCell className="text-center" colSpan={columns?.length}>
-                  Loading...
-                </TableCell>
-              </TableRow>
-            ) : null}
+            {pagination.isFetching ? gridSkeleton : null}
 
             {/* No data found */}
             {!pagination.isFetching &&
             !pagination.error &&
             pagination.data?.records?.length === 0 ? (
-              <TableRow>
-                <TableCell className="text-center" colSpan={columns?.length}>
-                  No records found
-                </TableCell>
-              </TableRow>
+              <div className="text-muted-foreground p-layout flex flex-col items-center">
+                <div className="p-layout">
+                  <FaRegFaceGrinBeamSweat className="size-12" />
+                </div>
+                <h4 className="text-center text-sm">No records found</h4>
+              </div>
             ) : null}
 
             {/* Error */}
             {pagination.error ? (
-              <TableRow className="">
-                <TableCell
-                  className="text-center whitespace-pre-wrap"
-                  colSpan={columns?.length}
-                >
-                  <div className="flex flex-col">
-                    <p className="font-semibold">
-                      {isAxiosError(pagination.error) &&
-                      pagination.error.response?.data?.message
-                        ? pagination.error.response.data.message
-                        : 'An error occurred'}
-                    </p>
-                    <p>
-                      {isAxiosError(pagination.error) &&
-                      pagination.error.response?.data?.error
-                        ? pagination.error.response.data.error
-                        : 'Unknown error occurred'}
-                    </p>
-                  </div>
-                </TableCell>
-              </TableRow>
+              <div className="p-layout flex flex-col items-center gap-3">
+                <p className="font-semibold">
+                  {isAxiosError(pagination.error) &&
+                  pagination.error.response?.data?.message
+                    ? pagination.error.response.data.message
+                    : 'An error occurred'}
+                </p>
+                <p>
+                  {isAxiosError(pagination.error) &&
+                  pagination.error.response?.data?.error
+                    ? pagination.error.response.data.error
+                    : 'Unknown error occurred'}
+                </p>
+              </div>
             ) : null}
-          </TableBody>
-        </Table>
-      ) : null}
-
-      {/* Grid */}
-      {view === 'grid' ? (
-        <div
-          className={`pt-layout border-t ${pagination.isFetching ? 'border-primary' : ''} `}
-        >
-          {grid || children}
-          {/* Loading */}
-          {pagination.isLoading ? skeleton : null}
-
-          {/* Loading */}
-          {pagination.isFetching && pagination.data?.records?.length === 0
-            ? skeleton
-            : null}
-
-          {/* No data found */}
-          {!pagination.isFetching &&
-          !pagination.error &&
-          pagination.data?.records?.length === 0 ? (
-            <div className="p-layout flex flex-col items-center gap-3">
-              <FaFaceGrinBeamSweat className="text-muted-foreground text-5xl" />
-              <h4 className="text-muted-foreground text-center text-lg">
-                No records found
-              </h4>
-            </div>
-          ) : null}
-
-          {/* Error */}
-          {pagination.error ? (
-            <div className="p-layout flex flex-col items-center gap-3">
-              <p className="font-semibold">
-                {isAxiosError(pagination.error) &&
-                pagination.error.response?.data?.message
-                  ? pagination.error.response.data.message
-                  : 'An error occurred'}
-              </p>
-              <p>
-                {isAxiosError(pagination.error) &&
-                pagination.error.response?.data?.error
-                  ? pagination.error.response.data.error
-                  : 'Unknown error occurred'}
-              </p>
-            </div>
-          ) : null}
-        </div>
-      ) : null}
+          </div>
+        ) : null}
+      </div>
 
       <div className="mt-layout flew-wrap flex items-center justify-between gap-4">
         <span className="text-muted-foreground text-xs">

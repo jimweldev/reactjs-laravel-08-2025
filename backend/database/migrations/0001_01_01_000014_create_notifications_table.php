@@ -15,6 +15,7 @@ return new class extends Migration {
             $table->string('type');
             $table->string('title');
             $table->string('message');
+            $table->text('content')->nullable();
             $table->string('link')->nullable();
             $table->boolean('is_read')->default(false);
             $table->timestamp('created_at')->useCurrent();

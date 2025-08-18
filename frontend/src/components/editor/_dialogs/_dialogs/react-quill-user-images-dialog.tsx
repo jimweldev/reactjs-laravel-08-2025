@@ -120,7 +120,7 @@ const ReactQuillUserImagesDialog = ({
               limits={['18', '24', '30', '36']}
               defaultView="grid"
               pagination={userImagesPagination}
-              skeleton={
+              gridSkeleton={
                 <UserImagesSkeleton inputCount={userImagesPagination.limit} />
               }
             >

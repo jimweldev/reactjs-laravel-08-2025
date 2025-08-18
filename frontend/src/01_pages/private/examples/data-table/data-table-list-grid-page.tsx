@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaPenToSquare, FaTrash } from 'react-icons/fa6';
+import { useSearchParams } from 'react-router';
 import { type Task } from '@/04_types/task';
 import useTaskStore from '@/05_stores/task-store';
 import DataTable, {
@@ -26,6 +27,16 @@ const DataTableListGridPage = () => {
   const [openCreateTaskDialog, setOpenCreateTaskDialog] = useState(false);
   const [openUpdateTaskDialog, setOpenUpdateTaskDialog] = useState(false);
   const [openDeleteTaskDialog, setOpenDeleteTaskDialog] = useState(false);
+
+  // EXAMPLE FOR OPENING A DIALOG ON NOTIFICATION LINK
+  const [searchParams] = useSearchParams();
+  useEffect(() => {
+    const dialog = searchParams.get('dialog');
+
+    if (dialog === 'create') {
+      setOpenCreateTaskDialog(true);
+    }
+  }, [searchParams]);
 
   // Tanstack query hook for pagination
   const tasksPagination = useTanstackPaginateQuery<Task>({

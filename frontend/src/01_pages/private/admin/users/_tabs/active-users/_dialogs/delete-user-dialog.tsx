@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { CircleAlert } from 'lucide-react';
 import { toast } from 'sonner';
+import type { User } from '@/04_types/user/user';
 import useUserStore from '@/05_stores/user/user-store';
 import { mainInstance } from '@/07_instances/main-instance';
 import { Button } from '@/components/ui/button';
@@ -10,6 +11,7 @@ import {
   DialogContent,
   DialogFooter,
 } from '@/components/ui/dialog';
+import useTanstackPaginateQuery from '@/hooks/tanstack/use-tanstack-paginate-query';
 import { formatName } from '@/lib/user/format-name';
 
 // Component Props
@@ -27,6 +29,17 @@ const DeleteUserDialog = ({
   // Access store values
   const { selectedUser } = useUserStore();
 
+  // Tanstack query hook for pagination
+  const { refetch: refetchArchivedUsers } = useTanstackPaginateQuery<User>(
+    {
+      endpoint: '/users/archived',
+      defaultSort: 'id',
+    },
+    {
+      enabled: false,
+    },
+  );
+
   // Track loading state for submit button
   const [isLoadingDeleteItem, setIsLoadingDeleteItem] =
     useState<boolean>(false);
@@ -41,6 +54,7 @@ const DeleteUserDialog = ({
       loading: 'Loading...',
       success: () => {
         refetch();
+        refetchArchivedUsers();
         setOpen(false);
         return 'Success!';
       },

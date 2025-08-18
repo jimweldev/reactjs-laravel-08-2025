@@ -1,14 +1,13 @@
 import moment from 'moment-timezone';
+import type { Timezone } from '@/04_types/_common/timezone';
 import useTimezoneStore from '@/05_stores/_common/timezone-store';
 
 export const getDateTimezone = (
-  date: Date | string | undefined,
-  type: 'date' | 'date_time',
-  timezone?: string,
+  date?: Date | string,
+  type: 'date' | 'date_time' = 'date_time',
+  timezone?: Timezone,
 ): string => {
-  if (!date) {
-    return '';
-  }
+  if (!date) return '';
 
   const {
     timezone: userTz,
@@ -21,23 +20,13 @@ export const getDateTimezone = (
     time: 'hh:mm:ss A',
   };
 
-  let format = '';
   const dateFormat = date_format || defaultFormats.date;
   const timeFormat = time_format || defaultFormats.time;
 
-  if (type === 'date') {
-    format = dateFormat;
-  }
+  const format =
+    type === 'date_time' ? `${dateFormat} ${timeFormat}` : dateFormat;
 
-  if (type === 'date_time') {
-    format = `${dateFormat} ${timeFormat}`;
-  }
+  const resolvedTimezone = timezone || userTz || moment.tz.guess();
 
-  if (timezone) {
-    return moment(date).tz(timezone).format(format);
-  }
-
-  const userTimezone = userTz || moment.tz.guess();
-
-  return moment(date).tz(userTimezone).format(format);
+  return moment(date).tz(resolvedTimezone).format(format);
 };

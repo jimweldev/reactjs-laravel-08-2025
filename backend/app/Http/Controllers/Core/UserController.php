@@ -284,7 +284,12 @@ class UserController extends Controller {
         $queryParams = $request->all();
 
         try {
-            $query = User::onlyTrashed();
+            $query = User::onlyTrashed()->with(['rbac_user_roles' => function ($query) {
+                $query->select('id', 'user_id', 'rbac_role_id')
+                    ->with(['rbac_role' => function ($query) {
+                        $query->select('id', 'label');
+                    }]);
+            }]);;
 
             QueryHelper::apply($query, $queryParams, 'paginate');
 

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaEye, FaSquareCheck, FaSquareXmark } from 'react-icons/fa6';
+import { FaEye, FaRegCircleCheck, FaRegCircleXmark } from 'react-icons/fa6';
 import { type MailLog } from '@/04_types/mail/mail-log';
 import useMailLogStore from '@/05_stores/mail/mail-log-store';
 import DataTable, {
@@ -39,7 +39,7 @@ const MailLogsTab = () => {
     { label: 'Subject', column: 'subject' },
     { label: 'Recipient', column: 'recipient' },
     { label: 'Attachments' },
-    { label: 'Sent', className: 'w-[50px]' },
+    { label: 'Status', className: 'w-[100px]' },
     { label: 'Created At', column: 'created_at', className: 'w-[200px]' },
     { label: 'Actions', className: 'w-[100px]' },
   ];
@@ -96,11 +96,21 @@ const MailLogsTab = () => {
                     </div>
                   </TableCell>
                   <TableCell>
-                    {mailLog.is_sent ? (
-                      <FaSquareCheck className="text-success size-4" />
-                    ) : (
-                      <FaSquareXmark className="text-destructive size-4" />
-                    )}
+                    <Badge
+                      variant={mailLog.is_sent ? 'success' : 'destructive'}
+                    >
+                      {mailLog.is_sent ? (
+                        <>
+                          <FaRegCircleCheck />
+                          Success
+                        </>
+                      ) : (
+                        <>
+                          <FaRegCircleXmark />
+                          Failed
+                        </>
+                      )}
+                    </Badge>
                   </TableCell>
                   <TableCell>
                     {getDateTimezone(mailLog.created_at, 'date_time')}

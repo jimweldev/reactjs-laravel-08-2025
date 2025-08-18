@@ -22,7 +22,7 @@ const AppHeaderDropdown = () => {
           <ReactImage
             className="outline-primary border-card flex size-7 items-center justify-center overflow-hidden rounded-full border-1 outline-2"
             src={`${import.meta.env.VITE_STORAGE_BASE_URL}${user?.avatar_path}`}
-            fallback="/images/default-avatar.jpg"
+            fallback="/images/default-avatar.png"
           />
         </button>
       </DropdownMenuTrigger>

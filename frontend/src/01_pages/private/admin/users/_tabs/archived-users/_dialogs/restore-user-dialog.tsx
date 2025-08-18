@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogFooter,
 } from '@/components/ui/dialog';
+import useTanstackPaginateQuery from '@/hooks/tanstack/use-tanstack-paginate-query';
 import { formatName } from '@/lib/user/format-name';
 
 // Component Props
@@ -27,6 +28,17 @@ const RestoreUserDialog = ({
   // Access store values
   const { selectedUser } = useUserStore();
 
+  // Tanstack query hook for pagination
+  const { refetch: refetchActiveUsers } = useTanstackPaginateQuery(
+    {
+      endpoint: '/users',
+      defaultSort: 'id',
+    },
+    {
+      enabled: false,
+    },
+  );
+
   // Track loading state for submit button
   const [isLoadingDeleteItem, setIsLoadingDeleteItem] =
     useState<boolean>(false);
@@ -43,6 +55,7 @@ const RestoreUserDialog = ({
         loading: 'Loading...',
         success: () => {
           refetch();
+          refetchActiveUsers();
           setOpen(false);
           return 'Success!';
         },

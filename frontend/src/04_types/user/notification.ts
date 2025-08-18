@@ -4,6 +4,7 @@ export type Notification = {
   type?: string;
   title?: string;
   message?: string;
+  content?: string;
   link?: string;
   is_read?: boolean;
   created_at?: Date;

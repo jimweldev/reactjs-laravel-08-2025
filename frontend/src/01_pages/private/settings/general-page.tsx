@@ -9,6 +9,7 @@ import useFontSizeStore from '@/05_stores/_common/font-size-store';
 import useThemeStore from '@/05_stores/_common/theme-store';
 import useTimezoneStore from '@/05_stores/_common/timezone-store';
 import { mainInstance } from '@/07_instances/main-instance';
+import TimezoneSelect from '@/components/react-select/timezone-select';
 import PageHeader from '@/components/typography/page-header';
 import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
@@ -25,8 +26,6 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { dateFormats } from '@/data/date-formats';
 import { fontSizes } from '@/data/font-sizes';
 import { timeFormats } from '@/data/time-formats';
-import { timezones } from '@/data/timezones';
-import { convertToGroupedSelectOptions } from '@/lib/react-select/convert-to-grouped-select-options';
 import { convertToSelectOptions } from '@/lib/react-select/convert-to-select-options';
 import { cn } from '@/lib/utils';
 
@@ -209,13 +208,8 @@ const GeneralPage = () => {
                   render={({ field, fieldState }) => (
                     <FormItem className="col-span-12">
                       <FormLabel>Timezone</FormLabel>
-                      <ReactSelect
-                        className={cn(
-                          'react-select-container',
-                          fieldState.invalid ? 'invalid' : '',
-                        )}
-                        classNamePrefix="react-select"
-                        options={convertToGroupedSelectOptions(timezones)}
+                      <TimezoneSelect
+                        className={fieldState.invalid ? 'invalid' : ''}
                         value={field.value}
                         onChange={field.onChange}
                       />

@@ -44,6 +44,7 @@ const ReactQuillPage = () => {
   });
 
   const onSubmit = (_data: z.infer<typeof FormSchema>) => {
+    console.log(_data.text);
     toast.success('Success!');
   };
 

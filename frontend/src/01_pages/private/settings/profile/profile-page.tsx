@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import UploadAvatar from './_components/upload-avatar';
-import fallbackImage from '/images/default-avatar.jpg';
+import fallbackImage from '/images/default-avatar.png';
 
 // Define validation schema using Zod
 const FormSchema = z.object({

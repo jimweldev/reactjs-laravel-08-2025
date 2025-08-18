@@ -23,7 +23,7 @@
 }
 
 .react-select__control--is-focused {
-  @apply !border-primary !ring-ring/50 !ring-[3px];
+  @apply !border-ring !ring-ring/50 !ring-[3px];
   outline: none !important;
 }
 

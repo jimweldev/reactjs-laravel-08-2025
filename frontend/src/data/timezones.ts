@@ -428,4 +428,4 @@ export const timezones = [
   'Pacific/Tongatapu',
   'Pacific/Wake',
   'Pacific/Wallis',
-];
+] as const;

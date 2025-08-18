@@ -34,7 +34,7 @@ const FancyboxViewer = ({
       case 'xls':
       case 'xlsx':
         setUrl(
-          `https://docs.google.com/gview?url=${encodeURIComponent(`${baseUrl}/${filePath}`)}&embedded=true`,
+          `https://docs.google.com/gview?url=${encodeURIComponent(`${baseUrl}${filePath}`)}&embedded=true`,
         );
         setType('iframe');
         break;
@@ -47,7 +47,7 @@ const FancyboxViewer = ({
       case 'png':
       case 'gif':
       case 'svg':
-        setUrl(`${baseUrl}/${filePath}`);
+        setUrl(`${baseUrl}${filePath}`);
         setType('image');
         break;
       default: // not viewable files (e.g. .txt, .zip)

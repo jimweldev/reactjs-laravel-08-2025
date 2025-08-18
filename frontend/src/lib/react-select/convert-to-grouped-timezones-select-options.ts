@@ -8,8 +8,8 @@ type GroupedSelectOption = {
   options: SelectOption[];
 };
 
-export const convertToGroupedSelectOptions = (
-  timezones: string[],
+export const convertToGroupedTimezonesSelectOptions = (
+  timezones: readonly string[],
 ): GroupedSelectOption[] => {
   const grouped = timezones.reduce<Record<string, SelectOption[]>>(
     (acc, tz) => {

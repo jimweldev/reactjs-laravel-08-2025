@@ -21,6 +21,7 @@ import LoginPage from './01_pages/public/login-page';
 import AdminLayout from './02_layouts/private/admin-layout';
 import ExamplesLayout from './02_layouts/private/examples-layout';
 import HomeLayout from './02_layouts/private/home-layout';
+import NotificationLayout from './02_layouts/private/notification-layout';
 import PrivateLayout from './02_layouts/private/private-layout';
 import SettingsLayout from './02_layouts/private/settings-layout';
 import PublicLayout from './02_layouts/public/public-layout';
@@ -182,6 +183,12 @@ const App = () => {
               },
             ]
           : []),
+
+        // NOTIFICATIONS
+        {
+          path: 'notifications',
+          element: <NotificationLayout />,
+        },
       ],
     },
     {

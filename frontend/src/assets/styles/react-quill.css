@@ -16,7 +16,7 @@
 
 .quill:focus-within .ql-toolbar,
 .quill:focus-within .ql-container {
-  @apply !border-primary;
+  @apply !border-ring;
 }
 
 .quill.invalid:focus-within {

@@ -17,6 +17,7 @@ import Tooltip from '@/components/tooltip/tooltip';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardBody } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 import { TableCell, TableRow } from '@/components/ui/table';
 import useFancybox from '@/hooks/fancybox/use-fancybox';
 import useTanstackPaginateQuery from '@/hooks/tanstack/use-tanstack-paginate-query';
@@ -73,6 +74,7 @@ const ActiveUsersTab = () => {
             pagination={usersPagination}
             columns={columns}
             actions={actions}
+            listSkeleton={<Skeleton className="h-8 w-full" />}
           >
             {/* Render rows only if data is present */}
             {usersPagination.data?.records
@@ -86,12 +88,12 @@ const ActiveUsersTab = () => {
                           filePath={user.avatar_path}
                           data-fancybox={`${user.id}`}
                           data-caption={formatName(user)}
-                          fallback="/images/default-avatar.jpg"
+                          fallback="/images/default-avatar.png"
                         >
                           <ReactImage
                             className="outline-primary border-card flex size-7 items-center justify-center overflow-hidden rounded-full border-1 outline-2"
-                            src={`${import.meta.env.VITE_STORAGE_BASE_URL}/${user?.avatar_path}`}
-                            fallback="/images/default-avatar.jpg"
+                            src={`${import.meta.env.VITE_STORAGE_BASE_URL}${user?.avatar_path}`}
+                            fallback="/images/default-avatar.png"
                           />
                         </FancyboxViewer>
 

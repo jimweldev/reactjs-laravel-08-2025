@@ -44,7 +44,7 @@ const AppSidebar = ({ sidebarGroups = [], ...props }: AppSidebarProps) => {
     <Sidebar {...props}>
       <SidebarHeader className="flex flex-col items-center justify-between">
         <Link className="max-w-[80px] overflow-hidden rounded-md" to="/">
-          <ReactImage src="asd" fallback="/images/default-avatar.jpg" />
+          <ReactImage src="asd" fallback="/images/default-avatar.png" />
         </Link>
         <h1 className="transition-[margin,opacity,hidden] group-data-[collapsible=icon]:hidden group-data-[collapsible=icon]:opacity-0">
           {import.meta.env.VITE_APP_NAME}
