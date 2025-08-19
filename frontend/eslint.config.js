@@ -97,6 +97,9 @@ export default tseslint.config([
           endOfLine: 'auto',
         },
       ],
+
+      // Allow @ts-nocheck / @ts-ignore / @ts-expect-error
+      '@typescript-eslint/ban-ts-comment': 'off',
     },
   },
   eslintConfigPrettier,

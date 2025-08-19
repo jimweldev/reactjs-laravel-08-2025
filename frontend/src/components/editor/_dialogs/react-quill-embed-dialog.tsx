@@ -100,8 +100,8 @@ const ReactQuillEmbedDialog = ({
       } else {
         toast.error('Invalid embed URL');
       }
-    } catch (err) {
-      console.error('Clipboard read failed', err);
+    } catch (_err) {
+      toast.error('Failed to paste embed URL');
     }
   };
 

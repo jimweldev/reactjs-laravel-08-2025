@@ -20,7 +20,7 @@ import { cn } from '@/lib/utils';
 import ViewTicketDialog from './_dialogs.tsx/view-notification-dialog';
 
 const TicketsTab = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const { tickets, setTickets, viewTicket } = useNotificationStore();
 

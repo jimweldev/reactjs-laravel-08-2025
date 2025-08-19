@@ -6,11 +6,13 @@ import ReactQuillEmbedDialog from './_dialogs/react-quill-embed-dialog';
 import ReactQuillInsertImageDialog from './_dialogs/react-quill-insert-image-dialog';
 
 // ===== Add the IframeBlot definition here =====
+/* eslint-disable @typescript-eslint/no-explicit-any */
 interface EmbedBlotClass {
   new (...args: any[]): any;
   create(value?: any): HTMLElement;
   value(node: HTMLElement): any;
 }
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 const BlockEmbed = ReactQuill.Quill.import(
   'blots/block/embed',

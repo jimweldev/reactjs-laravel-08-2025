@@ -20,7 +20,7 @@ import { cn } from '@/lib/utils';
 import ViewAnnouncementDialog from './_dialogs.tsx/view-notification-dialog';
 
 const AnnouncementsTab = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const { announcements, setAnnouncements, viewAnnouncement } =
     useNotificationStore();

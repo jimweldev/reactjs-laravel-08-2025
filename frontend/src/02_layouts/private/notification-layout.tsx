@@ -7,7 +7,6 @@ const NotificationLayout = () => {
 
   useEffect(() => {
     const link = searchParams.get('link');
-    console.log(link);
     if (link) {
       navigate(link, { replace: true });
     }
