@@ -63,7 +63,9 @@ const DataTableGridPage = () => {
             columns={columns}
             actions={actions}
             defaultView="grid"
-            skeleton={<DataTableGridSkeleton count={tasksPagination.limit} />}
+            gridSkeleton={
+              <DataTableGridSkeleton count={tasksPagination.limit} />
+            }
           >
             {/* Render rows only if data is present */}
             {tasksPagination.data?.records ? (

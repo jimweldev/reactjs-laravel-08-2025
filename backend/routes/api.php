@@ -101,8 +101,12 @@ Route::middleware('auth.middleware')->group(function () {
 
     // ==============
     // === NOTIFICATIONS
-    // general
     Route::get('/notifications', [UserController::class, 'getAllNotifications']);
+    Route::patch('/notifications/{id}', [UserController::class, 'viewNotification'])->whereNumber('id');
+    Route::patch('/notifications/mark-all-as-read', [UserController::class, 'markAllAsReadNotifications']);
+
+    // unread notifications count
+    Route::get('/notifications/unread-count', [UserController::class, 'getUnreadNotificationsCount']);
 });
 
 // ===================================================================

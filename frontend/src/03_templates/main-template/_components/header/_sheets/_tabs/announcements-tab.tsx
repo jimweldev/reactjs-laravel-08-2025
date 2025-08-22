@@ -17,7 +17,7 @@ import useTanstackInfiniteQuery from '@/hooks/tanstack/use-tanstack-infinite-que
 import { getTimeAgoTimezone } from '@/lib/date/get-time-ago-timezone';
 import { getNotificationLink } from '@/lib/react-router/get-notification-link';
 import { cn } from '@/lib/utils';
-import ViewAnnouncementDialog from './_dialogs.tsx/view-notification-dialog';
+import ViewAnnouncementDialog from './notifications/_dialogs.tsx/view-notification-dialog';
 
 const AnnouncementsTab = () => {
   const navigate = useNavigate();

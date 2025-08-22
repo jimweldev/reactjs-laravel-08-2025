@@ -3,7 +3,7 @@ import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader } from '@/components/ui/sheet';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AnnouncementsTab from './_tabs/announcements-tab';
-import NotificationsTab from './_tabs/notifications-tab';
+import NotificationsTab from './_tabs/notifications/notifications-tab';
 import TicketsTab from './_tabs/tickets-tab';
 
 type NotificationsSheetProps = {

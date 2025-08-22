@@ -169,7 +169,7 @@ const DataTableListGridPage = () => {
             showViewToggle
             list={list}
             grid={grid}
-            skeleton={<DataTableGridSkeleton />}
+            gridSkeleton={<DataTableGridSkeleton />}
           ></DataTable>
         </CardBody>
       </Card>

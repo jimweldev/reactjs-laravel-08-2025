@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import type { Notification } from '@/04_types/user/notification';
+import { mainInstance } from '@/07_instances/main-instance';
 
 type NotificationStoreProps = {
   // VARIABLES
@@ -77,6 +78,10 @@ const useNotificationStore = create<NotificationStoreProps>((set, get) => ({
     set({ notifications: updated });
   },
   viewNotification: notification => {
+    if (notification.is_read) return;
+
+    mainInstance.patch(`/notifications/${notification.id}`);
+
     set(state => ({
       notifications: state.notifications.map(n =>
         n.id === notification.id ? { ...n, is_read: true } : n,

@@ -23,6 +23,7 @@ const PasswordInput = ({ ...props }) => {
           (props.inputSize === 'default' || props.inputSize === undefined) &&
             'right-2.5 text-sm',
         )}
+        tabIndex={-1}
       >
         {isTypePassword ? <FaEyeSlash /> : <FaEye />}
       </button>

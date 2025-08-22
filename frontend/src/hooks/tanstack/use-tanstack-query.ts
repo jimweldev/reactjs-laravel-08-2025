@@ -23,7 +23,7 @@ const useTanstackQuery = <T>(
       });
     }
 
-    return `${url.endpoint}?${params.toString()}`;
+    return `${url.endpoint}${params.toString() ? `?${params.toString()}` : ''}`;
   }, [url.endpoint, url.params]);
 
   const tanstackQuery = useQuery<T>({

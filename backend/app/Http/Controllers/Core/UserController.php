@@ -545,6 +545,17 @@ class UserController extends Controller {
     }
 
     /**
+     * Get unread notifications count for the authenticated user.
+     */
+    public function getUnreadNotificationsCount(Request $request) {
+        $authUser = $request->user();
+
+        return response()->json([
+            'unreadNotificationsCount' => Notification::where('user_id', $authUser->id)->where('is_read', false)->count(),
+        ]);
+    }
+
+    /**
      * Get notifications for the authenticated user.
      */
     public function getAllNotifications(Request $request) {
@@ -578,6 +589,44 @@ class UserController extends Controller {
             return response()->json([
                 'message' => 'An error occurred. Kindly check all the parameters provided. '.$e->getMessage(),
             ], 400);
+        }
+    }
+
+    /**
+     * View a specific notification.
+     */
+    public function viewNotification(Request $request, $id) {
+        $authUser = $request->user();
+
+        try {
+            $notification = Notification::find($id);
+
+            if (!$notification) {
+                return response()->json(['message' => 'Notification not found'], 404);
+            }
+
+            $notification->is_read = true;
+            $notification->save();
+
+            return response()->json($notification);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred.', 'error' => $e->getMessage()], 400);
+        }
+    }
+
+    /**
+     * Mark all notifications as read.
+     */
+    public function markAllAsReadNotifications(Request $request) {
+        $authUser = $request->user();
+
+        try {
+            Notification::where('user_id', $authUser->id)
+                ->update(['is_read' => true]);
+
+            return response()->json(['message' => 'Notifications marked as read']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'An error occurred.', 'error' => $e->getMessage()], 400);
         }
     }
 
