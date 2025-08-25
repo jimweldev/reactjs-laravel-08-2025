@@ -41,7 +41,6 @@ const NotificationsTab = () => {
   } = useTanstackInfiniteQuery<Notification>(
     {
       endpoint: 'notifications',
-      params: `type=notification`,
     },
     {
       enabled: notifications.length === 0,
