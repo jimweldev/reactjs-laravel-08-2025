@@ -64,19 +64,21 @@ const ArchivedUsersTab = () => {
                     <TableCell>{user.id}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
-                        <FancyboxViewer
-                          baseUrl={import.meta.env.VITE_STORAGE_BASE_URL}
-                          filePath={user.avatar_path}
-                          data-fancybox={`${user.id}`}
-                          data-caption={formatName(user)}
-                          fallback="/images/default-avatar.png"
-                        >
-                          <ReactImage
-                            className="outline-primary border-card flex size-7 items-center justify-center overflow-hidden rounded-full border-1 outline-2"
-                            src={`${import.meta.env.VITE_STORAGE_BASE_URL}${user?.avatar_path}`}
+                        <div className="shrink-0">
+                          <FancyboxViewer
+                            baseUrl={import.meta.env.VITE_STORAGE_BASE_URL}
+                            filePath={user.avatar_path}
+                            data-fancybox={`${user.id}`}
+                            data-caption={formatName(user)}
                             fallback="/images/default-avatar.png"
-                          />
-                        </FancyboxViewer>
+                          >
+                            <ReactImage
+                              className="outline-primary border-card flex size-7 items-center justify-center overflow-hidden rounded-full border-1 outline-2"
+                              src={`${import.meta.env.VITE_STORAGE_BASE_URL}${user?.avatar_path}`}
+                              fallback="/images/default-avatar.png"
+                            />
+                          </FancyboxViewer>
+                        </div>
 
                         <div>
                           <h6 className="text-xs font-semibold">

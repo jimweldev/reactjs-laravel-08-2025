@@ -8,6 +8,7 @@ import DataTable, {
 import InputGroup from '@/components/input-group/input-group';
 import Tooltip from '@/components/tooltip/tooltip';
 import { Button } from '@/components/ui/button';
+import { Card, CardBody } from '@/components/ui/card';
 import { TableCell, TableRow } from '@/components/ui/table';
 import useTanstackPaginateQuery from '@/hooks/tanstack/use-tanstack-paginate-query';
 import { getDateTimezone } from '@/lib/date/get-date-timezone';
@@ -54,55 +55,59 @@ const MailTemplatesTab = () => {
 
   return (
     <>
-      {/* Data Table */}
-      <DataTable
-        pagination={mailTemplatesPagination}
-        columns={columns}
-        actions={actions}
-      >
-        {/* Render rows only if data is present */}
-        {mailTemplatesPagination.data?.records
-          ? mailTemplatesPagination.data.records.map(mailTemplate => (
-              <TableRow key={mailTemplate.id}>
-                <TableCell>{mailTemplate.label}</TableCell>
-                <TableCell>
-                  {getDateTimezone(mailTemplate.created_at, 'date_time')}
-                </TableCell>
-                <TableCell>
-                  <InputGroup size="sm">
-                    {/* Update button */}
-                    <Tooltip content="Update">
-                      <Button
-                        variant="info"
-                        size="icon-xs"
-                        onClick={() => {
-                          setSelectedMailTemplate(mailTemplate);
-                          setOpenUpdateMailTemplateDialog(true);
-                        }}
-                      >
-                        <FaPenToSquare />
-                      </Button>
-                    </Tooltip>
+      <Card>
+        <CardBody>
+          {/* Data Table */}
+          <DataTable
+            pagination={mailTemplatesPagination}
+            columns={columns}
+            actions={actions}
+          >
+            {/* Render rows only if data is present */}
+            {mailTemplatesPagination.data?.records
+              ? mailTemplatesPagination.data.records.map(mailTemplate => (
+                  <TableRow key={mailTemplate.id}>
+                    <TableCell>{mailTemplate.label}</TableCell>
+                    <TableCell>
+                      {getDateTimezone(mailTemplate.created_at, 'date_time')}
+                    </TableCell>
+                    <TableCell>
+                      <InputGroup size="sm">
+                        {/* Update button */}
+                        <Tooltip content="Update">
+                          <Button
+                            variant="info"
+                            size="icon-xs"
+                            onClick={() => {
+                              setSelectedMailTemplate(mailTemplate);
+                              setOpenUpdateMailTemplateDialog(true);
+                            }}
+                          >
+                            <FaPenToSquare />
+                          </Button>
+                        </Tooltip>
 
-                    {/* Delete button */}
-                    <Tooltip content="Delete">
-                      <Button
-                        variant="destructive"
-                        size="icon-xs"
-                        onClick={() => {
-                          setSelectedMailTemplate(mailTemplate);
-                          setOpenDeleteMailTemplateDialog(true);
-                        }}
-                      >
-                        <FaTrash />
-                      </Button>
-                    </Tooltip>
-                  </InputGroup>
-                </TableCell>
-              </TableRow>
-            ))
-          : null}
-      </DataTable>
+                        {/* Delete button */}
+                        <Tooltip content="Delete">
+                          <Button
+                            variant="destructive"
+                            size="icon-xs"
+                            onClick={() => {
+                              setSelectedMailTemplate(mailTemplate);
+                              setOpenDeleteMailTemplateDialog(true);
+                            }}
+                          >
+                            <FaTrash />
+                          </Button>
+                        </Tooltip>
+                      </InputGroup>
+                    </TableCell>
+                  </TableRow>
+                ))
+              : null}
+          </DataTable>
+        </CardBody>
+      </Card>
 
       {/* Dialogs */}
       <CreateMailTemplateDialog

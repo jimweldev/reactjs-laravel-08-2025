@@ -1,7 +1,16 @@
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router';
 import DashboardPage from './01_pages/private/admin/dashboard/dashboard-page';
+import MailLogsTab from './01_pages/private/admin/mails/_tabs/mail-logs/mail-logs-tab';
+import MailTemplatesTab from './01_pages/private/admin/mails/_tabs/mail-templates/mail-templates-tab';
 import MailsPage from './01_pages/private/admin/mails/mails-page';
+import GlobalDropdownsTab from './01_pages/private/admin/systems/_tabs/global-dropdowns/global-dropdowns-tab';
+import SystemSettingsTab from './01_pages/private/admin/systems/_tabs/system-settings/system-settings-tab';
 import SystemsPage from './01_pages/private/admin/systems/systems-page';
+import ActiveUsersTab from './01_pages/private/admin/users/_tabs/active-users/active-users-tab';
+import ArchivedUsersTab from './01_pages/private/admin/users/_tabs/archived-users/archived-users-tab';
+import PermissionsTab from './01_pages/private/admin/users/_tabs/rbac/_tabs/permissions/permissions-tab';
+import RolesTab from './01_pages/private/admin/users/_tabs/rbac/_tabs/roles/roles-tab';
+import RbacTab from './01_pages/private/admin/users/_tabs/rbac/rbac-tab';
 import UsersPage from './01_pages/private/admin/users/users-page';
 import DataTableGridPage from './01_pages/private/examples/data-table/data-table-grid-page';
 import DataTableListGridPage from './01_pages/private/examples/data-table/data-table-list-grid-page';
@@ -48,18 +57,35 @@ const App = () => {
                   },
                   {
                     path: 'users',
+                    element: <UsersPage />,
                     children: [
                       {
                         index: true,
-                        element: <UsersPage />,
+                        element: <Navigate to="active-users" replace />,
                       },
                       {
-                        path: ':userTab',
-                        element: <UsersPage />,
+                        path: 'active-users',
+                        element: <ActiveUsersTab />,
+                      },
+                      {
+                        path: 'archived-users',
+                        element: <ArchivedUsersTab />,
+                      },
+                      {
+                        path: 'rbac',
+                        element: <RbacTab />,
                         children: [
                           {
-                            path: ':rbacTab',
-                            element: <UsersPage />,
+                            index: true,
+                            element: <Navigate to="roles" replace />,
+                          },
+                          {
+                            path: 'roles',
+                            element: <RolesTab />,
+                          },
+                          {
+                            path: 'permissions',
+                            element: <PermissionsTab />,
                           },
                         ],
                       },
@@ -70,8 +96,16 @@ const App = () => {
                     element: <SystemsPage />,
                     children: [
                       {
-                        path: ':systemTab',
-                        element: <SystemsPage />,
+                        index: true,
+                        element: <Navigate to="system-settings" replace />,
+                      },
+                      {
+                        path: 'system-settings',
+                        element: <SystemSettingsTab />,
+                      },
+                      {
+                        path: 'global-dropdowns',
+                        element: <GlobalDropdownsTab />,
                       },
                     ],
                   },
@@ -80,8 +114,16 @@ const App = () => {
                     element: <MailsPage />,
                     children: [
                       {
-                        path: ':mailTab',
-                        element: <MailsPage />,
+                        index: true,
+                        element: <Navigate to="logs" replace />,
+                      },
+                      {
+                        path: 'logs',
+                        element: <MailLogsTab />,
+                      },
+                      {
+                        path: 'templates',
+                        element: <MailTemplatesTab />,
                       },
                     ],
                   },
