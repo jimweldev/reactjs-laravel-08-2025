@@ -2,46 +2,28 @@ import { create } from 'zustand';
 import type { Notification } from '@/04_types/user/notification';
 import { mainInstance } from '@/07_instances/main-instance';
 
+export type UnreadNotificationsCount = { unreadNotificationsCount: number };
+
 type NotificationStoreProps = {
   // VARIABLES
   // notifications
   selectedNotification: Notification | null;
+  unreadNotificationsCount: UnreadNotificationsCount | null;
   notifications: Notification[];
   notificationPage: number;
   notificationHasNextPage: boolean;
   notificationsViewed: number[];
 
-  // announcements
-  announcements: Notification[];
-  announcementPage: number;
-  announcementHasNextPage: boolean;
-  announcementsViewed: number[];
-
-  // tickets
-  tickets: Notification[];
-  ticketPage: number;
-  ticketHasNextPage: boolean;
-  ticketsViewed: number[];
-
   // FUNCTIONS
 
   // notifications
   setNotifications: (notifications: Notification[]) => void;
+  setUnreadNotificationsCount: (
+    unreadNotificationsCount: UnreadNotificationsCount,
+  ) => void;
   viewNotification: (notification: Notification) => void;
   notificationSetPage: (page: number) => void;
   notificationSetHasNextPage: (hasNextPage: boolean) => void;
-
-  // announcements
-  setAnnouncements: (announcements: Notification[]) => void;
-  viewAnnouncement: (announcement: Notification) => void;
-  announcementSetPage: (page: number) => void;
-  announcementSetHasNextPage: (hasNextPage: boolean) => void;
-
-  // tickets
-  setTickets: (tickets: Notification[]) => void;
-  viewTicket: (ticket: Notification) => void;
-  ticketSetPage: (page: number) => void;
-  ticketSetHasNextPage: (hasNextPage: boolean) => void;
 };
 
 const useNotificationStore = create<NotificationStoreProps>((set, get) => ({
@@ -50,21 +32,10 @@ const useNotificationStore = create<NotificationStoreProps>((set, get) => ({
 
   // notifications
   notifications: [],
+  unreadNotificationsCount: null,
   notificationPage: 1,
   notificationHasNextPage: true,
   notificationsViewed: [],
-
-  // announcements
-  announcements: [],
-  announcementPage: 1,
-  announcementHasNextPage: true,
-  announcementsViewed: [],
-
-  // tickets
-  tickets: [],
-  ticketPage: 1,
-  ticketHasNextPage: true,
-  ticketsViewed: [],
 
   // FUNCTIONS
   // notifications
@@ -76,6 +47,11 @@ const useNotificationStore = create<NotificationStoreProps>((set, get) => ({
     );
 
     set({ notifications: updated });
+  },
+  setUnreadNotificationsCount: (
+    unreadNotificationsCount: UnreadNotificationsCount,
+  ) => {
+    set({ unreadNotificationsCount });
   },
   viewNotification: notification => {
     if (notification.is_read) return;
@@ -97,62 +73,6 @@ const useNotificationStore = create<NotificationStoreProps>((set, get) => ({
   },
   notificationSetHasNextPage: notificationHasNextPage => {
     set({ notificationHasNextPage });
-  },
-
-  // announcements
-  setAnnouncements: announcements => {
-    const { announcementsViewed } = get();
-
-    const updated = dedupeNotifications(announcements).map(n =>
-      announcementsViewed.includes(n.id!) ? { ...n, is_read: true } : n,
-    );
-
-    set({ announcements: updated });
-  },
-  viewAnnouncement: announcement => {
-    set(state => ({
-      announcements: state.announcements.map(n =>
-        n.id === announcement.id ? { ...n, is_read: true } : n,
-      ),
-      selectedNotification: announcement,
-      announcementsViewed: state.announcementsViewed.includes(announcement.id!)
-        ? state.announcementsViewed
-        : [...state.announcementsViewed, announcement.id!],
-    }));
-  },
-  announcementSetPage: announcementPage => {
-    set({ announcementPage });
-  },
-  announcementSetHasNextPage: announcementHasNextPage => {
-    set({ announcementHasNextPage });
-  },
-
-  // tickets
-  setTickets: tickets => {
-    const { ticketsViewed } = get();
-
-    const updated = dedupeNotifications(tickets).map(n =>
-      ticketsViewed.includes(n.id!) ? { ...n, is_read: true } : n,
-    );
-
-    set({ tickets: updated });
-  },
-  viewTicket: ticket => {
-    set(state => ({
-      tickets: state.tickets.map(n =>
-        n.id === ticket.id ? { ...n, is_read: true } : n,
-      ),
-      selectedNotification: ticket,
-      ticketsViewed: state.ticketsViewed.includes(ticket.id!)
-        ? state.ticketsViewed
-        : [...state.ticketsViewed, ticket.id!],
-    }));
-  },
-  ticketSetPage: ticketPage => {
-    set({ ticketPage });
-  },
-  ticketSetHasNextPage: ticketHasNextPage => {
-    set({ ticketHasNextPage });
   },
 }));
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
-import { FaRegBell, FaRegBellSlash, FaTicket } from 'react-icons/fa6';
+import { FaRegBell, FaRegBellSlash } from 'react-icons/fa6';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router';
 import type { Notification } from '@/04_types/user/notification';
@@ -17,15 +17,17 @@ import useTanstackInfiniteQuery from '@/hooks/tanstack/use-tanstack-infinite-que
 import { getTimeAgoTimezone } from '@/lib/date/get-time-ago-timezone';
 import { getNotificationLink } from '@/lib/react-router/get-notification-link';
 import { cn } from '@/lib/utils';
-import ViewTicketDialog from './notifications/_dialogs.tsx/view-notification-dialog';
+import ViewNotificationDialog from './notifications/_dialogs.tsx/view-notification-dialog';
 
-const TicketsTab = () => {
+const NotificationsTab = () => {
   const navigate = useNavigate();
 
-  const { tickets, setTickets, viewTicket } = useNotificationStore();
+  const { notifications, setNotifications, viewNotification } =
+    useNotificationStore();
 
   // Dialog States
-  const [openViewTicketDialog, setOpenViewTicketDialog] = useState(false);
+  const [openViewNotificationDialog, setOpenViewNotificationDialog] =
+    useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -39,16 +41,16 @@ const TicketsTab = () => {
   } = useTanstackInfiniteQuery<Notification>(
     {
       endpoint: 'notifications',
-      params: `type=ticket`,
+      params: `type=notification`,
     },
     {
-      enabled: tickets.length === 0,
+      enabled: notifications.length === 0,
     },
   );
 
   useEffect(() => {
-    setTickets(data?.pages.flatMap(page => page.records) ?? []);
-  }, [data, setTickets]);
+    setNotifications(data?.pages.flatMap(page => page.records) ?? []);
+  }, [data, setNotifications]);
 
   // Auto-load if container has no scrollbar
   useEffect(() => {
@@ -60,17 +62,17 @@ const TicketsTab = () => {
     ) {
       fetchNextPage();
     }
-  }, [tickets, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  }, [notifications, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const handleViewTicket = (ticket: Notification) => {
-    viewTicket(ticket);
+  const handleViewNotification = (notification: Notification) => {
+    viewNotification(notification);
 
-    if (!ticket.link) {
-      setOpenViewTicketDialog(true);
+    if (!notification.link) {
+      setOpenViewNotificationDialog(true);
     }
 
-    if (ticket.link) {
-      navigate(getNotificationLink(ticket.link));
+    if (notification.link) {
+      navigate(getNotificationLink(notification.link));
     }
   };
 
@@ -79,8 +81,8 @@ const TicketsTab = () => {
       <div className="flex h-full flex-col overflow-hidden">
         <div className="bg-card sticky top-0 z-10 flex items-center justify-between border-t border-b p-2">
           <h4 className="text-muted-foreground flex items-center gap-2 text-sm font-semibold">
-            <FaTicket />
-            Tickets
+            <FaRegBell />
+            Notifications
           </h4>
 
           <DropdownMenu>
@@ -97,16 +99,16 @@ const TicketsTab = () => {
 
         <div
           className="flex-1 overflow-y-auto"
-          id="tickets-scrollable"
+          id="notifications-scrollable"
           ref={containerRef}
         >
           <InfiniteScroll
             className="select-none"
-            dataLength={tickets.length}
+            dataLength={notifications.length}
             next={fetchNextPage}
             hasMore={!!hasNextPage}
             loader={<NotificationsSkeleton count={3} />}
-            scrollableTarget="tickets-scrollable"
+            scrollableTarget="notifications-scrollable"
             pullDownToRefresh
             pullDownToRefreshThreshold={80}
             refreshFunction={handlePullToRefresh}
@@ -124,20 +126,20 @@ const TicketsTab = () => {
               <p
                 className={cn(
                   'text-muted-foreground p-2 text-center text-xs',
-                  (isLoading || tickets.length === 0) && 'hidden',
+                  (isLoading || notifications.length === 0) && 'hidden',
                 )}
               >
-                No more tickets
+                No more notifications
               </p>
             }
           >
-            {tickets.map(notif => (
+            {notifications.map(notif => (
               <div
                 className={cn(
                   'hover:bg-primary/10 flex cursor-pointer items-start gap-2 border-b p-2',
                   !notif.is_read && 'bg-accent',
                 )}
-                onClick={() => handleViewTicket(notif)}
+                onClick={() => handleViewNotification(notif)}
                 key={notif.id}
               >
                 <div className="border-primary flex size-8 items-center justify-center rounded-full border-2">
@@ -160,24 +162,24 @@ const TicketsTab = () => {
 
             {isLoading && <NotificationsSkeleton count={10} />}
 
-            {!isLoading && tickets.length === 0 && (
+            {!isLoading && notifications.length === 0 && (
               <div className="text-muted-foreground p-layout flex flex-col items-center justify-center">
                 <div className="p-layout">
                   <FaRegBellSlash className="size-12" />
                 </div>
-                <p className="text-center text-sm">No tickets found</p>
+                <p className="text-center text-sm">No notifications found</p>
               </div>
             )}
           </InfiniteScroll>
         </div>
       </div>
 
-      <ViewTicketDialog
-        open={openViewTicketDialog}
-        setOpen={setOpenViewTicketDialog}
+      <ViewNotificationDialog
+        open={openViewNotificationDialog}
+        setOpen={setOpenViewNotificationDialog}
       />
     </>
   );
 };
 
-export default TicketsTab;
+export default NotificationsTab;

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { FaEllipsisV } from 'react-icons/fa';
-import { FaBullhorn, FaRegBell, FaRegBellSlash } from 'react-icons/fa6';
+import { FaRegBell, FaRegBellSlash } from 'react-icons/fa6';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router';
 import type { Notification } from '@/04_types/user/notification';
@@ -17,16 +17,16 @@ import useTanstackInfiniteQuery from '@/hooks/tanstack/use-tanstack-infinite-que
 import { getTimeAgoTimezone } from '@/lib/date/get-time-ago-timezone';
 import { getNotificationLink } from '@/lib/react-router/get-notification-link';
 import { cn } from '@/lib/utils';
-import ViewAnnouncementDialog from './notifications/_dialogs.tsx/view-notification-dialog';
+import ViewNotificationDialog from './notifications/_dialogs.tsx/view-notification-dialog';
 
-const AnnouncementsTab = () => {
+const NotificationsTab = () => {
   const navigate = useNavigate();
 
-  const { announcements, setAnnouncements, viewAnnouncement } =
+  const { notifications, setNotifications, viewNotification } =
     useNotificationStore();
 
   // Dialog States
-  const [openViewAnnouncementDialog, setOpenViewAnnouncementDialog] =
+  const [openViewNotificationDialog, setOpenViewNotificationDialog] =
     useState(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -41,16 +41,16 @@ const AnnouncementsTab = () => {
   } = useTanstackInfiniteQuery<Notification>(
     {
       endpoint: 'notifications',
-      params: `type=announcement`,
+      params: `type=notification`,
     },
     {
-      enabled: announcements.length === 0,
+      enabled: notifications.length === 0,
     },
   );
 
   useEffect(() => {
-    setAnnouncements(data?.pages.flatMap(page => page.records) ?? []);
-  }, [data, setAnnouncements]);
+    setNotifications(data?.pages.flatMap(page => page.records) ?? []);
+  }, [data, setNotifications]);
 
   // Auto-load if container has no scrollbar
   useEffect(() => {
@@ -62,17 +62,17 @@ const AnnouncementsTab = () => {
     ) {
       fetchNextPage();
     }
-  }, [announcements, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  }, [notifications, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
-  const handleViewAnnouncement = (announcement: Notification) => {
-    viewAnnouncement(announcement);
+  const handleViewNotification = (notification: Notification) => {
+    viewNotification(notification);
 
-    if (!announcement.link) {
-      setOpenViewAnnouncementDialog(true);
+    if (!notification.link) {
+      setOpenViewNotificationDialog(true);
     }
 
-    if (announcement.link) {
-      navigate(getNotificationLink(announcement.link));
+    if (notification.link) {
+      navigate(getNotificationLink(notification.link));
     }
   };
 
@@ -81,8 +81,8 @@ const AnnouncementsTab = () => {
       <div className="flex h-full flex-col overflow-hidden">
         <div className="bg-card sticky top-0 z-10 flex items-center justify-between border-t border-b p-2">
           <h4 className="text-muted-foreground flex items-center gap-2 text-sm font-semibold">
-            <FaBullhorn />
-            Announcements
+            <FaRegBell />
+            Notifications
           </h4>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -98,16 +98,16 @@ const AnnouncementsTab = () => {
 
         <div
           className="flex-1 overflow-y-auto"
-          id="announcements-scrollable"
+          id="notifications-scrollable"
           ref={containerRef}
         >
           <InfiniteScroll
             className="select-none"
-            dataLength={announcements.length}
+            dataLength={notifications.length}
             next={fetchNextPage}
             hasMore={!!hasNextPage}
             loader={<NotificationsSkeleton count={3} />}
-            scrollableTarget="announcements-scrollable"
+            scrollableTarget="notifications-scrollable"
             pullDownToRefresh
             pullDownToRefreshThreshold={80}
             refreshFunction={handlePullToRefresh}
@@ -125,20 +125,20 @@ const AnnouncementsTab = () => {
               <p
                 className={cn(
                   'text-muted-foreground p-2 text-center text-xs',
-                  (isLoading || announcements.length === 0) && 'hidden',
+                  (isLoading || notifications.length === 0) && 'hidden',
                 )}
               >
-                No more announcements
+                No more notifications
               </p>
             }
           >
-            {announcements.map(notif => (
+            {notifications.map(notif => (
               <div
                 className={cn(
                   'hover:bg-primary/10 flex cursor-pointer items-start gap-2 border-b p-2',
                   !notif.is_read && 'bg-accent',
                 )}
-                onClick={() => handleViewAnnouncement(notif)}
+                onClick={() => handleViewNotification(notif)}
                 key={notif.id}
               >
                 <div className="border-primary flex size-8 items-center justify-center rounded-full border-2">
@@ -161,24 +161,24 @@ const AnnouncementsTab = () => {
 
             {isLoading && <NotificationsSkeleton count={10} />}
 
-            {!isLoading && announcements.length === 0 && (
+            {!isLoading && notifications.length === 0 && (
               <div className="text-muted-foreground p-layout flex flex-col items-center justify-center">
                 <div className="p-layout">
                   <FaRegBellSlash className="size-12" />
                 </div>
-                <p className="text-center text-sm">No announcements found</p>
+                <p className="text-center text-sm">No notifications found</p>
               </div>
             )}
           </InfiniteScroll>
         </div>
       </div>
 
-      <ViewAnnouncementDialog
-        open={openViewAnnouncementDialog}
-        setOpen={setOpenViewAnnouncementDialog}
+      <ViewNotificationDialog
+        open={openViewNotificationDialog}
+        setOpen={setOpenViewNotificationDialog}
       />
     </>
   );
 };
 
-export default AnnouncementsTab;
+export default NotificationsTab;

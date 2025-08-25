@@ -1,4 +1,5 @@
 import { FaBullhorn, FaRegBell, FaTicket } from 'react-icons/fa6';
+import useNotificationStore from '@/05_stores/user/notification-store';
 import { Badge } from '@/components/ui/badge';
 import { Sheet, SheetContent, SheetHeader } from '@/components/ui/sheet';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -12,6 +13,8 @@ type NotificationsSheetProps = {
 };
 
 const NotificationsSheet = ({ open, setOpen }: NotificationsSheetProps) => {
+  const { unreadNotificationsCount } = useNotificationStore();
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <Tabs defaultValue="notifications">
@@ -20,12 +23,15 @@ const NotificationsSheet = ({ open, setOpen }: NotificationsSheetProps) => {
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger className="relative" value="notifications">
                 <FaRegBell />{' '}
-                <Badge
-                  className="absolute top-1/2 left-1/2 size-4 translate-x-2/3 -translate-y-1/2 rounded-full p-0 text-[0.6rem]"
-                  variant="destructive"
-                >
-                  2
-                </Badge>
+                {unreadNotificationsCount?.unreadNotificationsCount &&
+                unreadNotificationsCount?.unreadNotificationsCount > 0 ? (
+                  <Badge
+                    className="absolute top-1/2 left-1/2 size-4 translate-x-2/3 -translate-y-1/2 rounded-full p-0 text-[0.6rem]"
+                    variant="destructive"
+                  >
+                    {unreadNotificationsCount?.unreadNotificationsCount}
+                  </Badge>
+                ) : null}
               </TabsTrigger>
               <TabsTrigger value="announcements">
                 <FaBullhorn />

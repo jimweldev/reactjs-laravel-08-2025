@@ -3,9 +3,12 @@ import { FaRegBell, FaRegBellSlash } from 'react-icons/fa6';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router';
 import type { Notification } from '@/04_types/user/notification';
-import useNotificationStore from '@/05_stores/user/notification-store';
+import useNotificationStore, {
+  type UnreadNotificationsCount,
+} from '@/05_stores/user/notification-store';
 import NotificationsSkeleton from '@/components/skeleton/notifications-skeleton';
 import useTanstackInfiniteQuery from '@/hooks/tanstack/use-tanstack-infinite-query';
+import useTanstackQuery from '@/hooks/tanstack/use-tanstack-query';
 import { getTimeAgoTimezone } from '@/lib/date/get-time-ago-timezone';
 import { getNotificationLink } from '@/lib/react-router/get-notification-link';
 import { cn } from '@/lib/utils';
@@ -17,6 +20,16 @@ const NotificationsTab = () => {
 
   const { notifications, setNotifications, viewNotification } =
     useNotificationStore();
+
+  const { refetch: refetchUnreadNotificationsCount } =
+    useTanstackQuery<UnreadNotificationsCount>(
+      {
+        endpoint: '/notifications/unread-count',
+      },
+      {
+        enabled: false,
+      },
+    );
 
   // Dialog States
   const [openViewNotificationDialog, setOpenViewNotificationDialog] =
@@ -58,6 +71,7 @@ const NotificationsTab = () => {
 
   const handleViewNotification = (notification: Notification) => {
     viewNotification(notification);
+    refetchUnreadNotificationsCount();
 
     if (!notification.link) {
       setOpenViewNotificationDialog(true);
